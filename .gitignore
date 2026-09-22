@@ -1,0 +1,55 @@
+# ============================================================
+# .gitignore · Dépôt pédagogique OFPPT ISMO
+# Créateur : KELLOUCH Mahdi
+# ============================================================
+
+# Système
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.sublime-*
+
+# Dépendances
+node_modules/
+venv/
+__pycache__/
+*.pyc
+
+# Build
+dist/
+build/
+*.min.js
+*.min.css
+
+# Secrets
+.env
+.env.local
+*.key
+*.pem
+
+# Logs
+*.log
+logs/
+
+# Bases de données
+*.sqlite
+*.db
+
+# Temporaires
+*.tmp
+*.bak
+*.swp
+*~
+~$*.docx
+~$*.xlsx
+
+# Notes personnelles
+notes-perso/
+corrections-perso/
+brouillons/
