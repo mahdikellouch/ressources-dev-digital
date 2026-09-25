@@ -26,7 +26,7 @@ Ce dépôt regroupe l'ensemble des supports de cours, exercices, projets et éva
 
 Toutes les ressources sont accessibles en ligne via **GitHub Pages** :
 
-👉 **[https://ismO-ofppt.github.io/ressources-dev-digital](https://ismO-ofppt.github.io/ressources-dev-digital)**
+👉 **[https://ismO-ofppt.github.io/ressources-dev-digital](https://mahdikellouch.github.io/ressources-dev-digital/)**
 
 ---
 
