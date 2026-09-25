@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapitre 3 · Éléments basiques d'une page HTML</title>
+  <style>
+    /* ============ RESET & BASE ============ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Calibri, Roboto, system-ui, sans-serif;
+      background: #eaf3ec;
+      color: #143522;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* ============ EN-TÊTE ============ */
+    .page-header {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      border-left: 8px solid #2e8b57;
+      box-shadow: 0 10px 30px rgba(20, 50, 30, 0.08);
+    }
+    .chapter-badge {
+      display: inline-block;
+      background: #e6f5eb;
+      color: #1d5e36;
+      padding: 0.3rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+    .page-header h1 {
+      font-size: 2.4rem;
+      color: #144a26;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+    }
+    .page-header .sous-titre {
+      font-size: 1.1rem;
+      color: #3f6b4f;
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+    .meta-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .meta-info span {
+      background: #f1faf4;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      color: #1a5e33;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+
+    /* ============ SECTIONS ============ */
+    .section {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 6px 20px rgba(20, 50, 30, 0.06);
+      border-top: 4px solid #d4ecd9;
+    }
+    .section h2 {
+      font-size: 1.6rem;
+      color: #1d5e36;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #d4ecd9;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section h3 {
+      font-size: 1.2rem;
+      color: #1e6b3a;
+      margin: 1.5rem 0 0.6rem 0;
+    }
+    .section h4 {
+      font-size: 1.05rem;
+      color: #2e8b57;
+      margin: 1rem 0 0.4rem 0;
+      font-weight: 600;
+    }
+    .section p {
+      margin-bottom: 0.8rem;
+      color: #1a3322;
+    }
+    .section ul, .section ol {
+      padding-left: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+    .section li {
+      margin-bottom: 0.3rem;
+    }
+
+    /* ============ BLOCS DE CODE ============ */
+    .code-block {
+      background: #1e3a2e;
+      color: #e6f5eb;
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-left: 4px solid #2e8b57;
+      white-space: pre;
+    }
+    .code-block .tag { color: #7ac89c; }
+    .code-block .attr { color: #a4d4b3; }
+    .code-block .value { color: #ffd966; }
+    .code-block .comment { color: #7aae8b; font-style: italic; }
+    .code-block .text { color: #e6f5eb; }
+
+    /* Code inline */
+    code {
+      background: #f1faf4;
+      color: #1d5e36;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.9em;
+      font-weight: 600;
+      border: 1px solid #d4ecd9;
+    }
+
+    /* ============ ENCADRÉS ============ */
+    .info-box {
+      background: #f1faf4;
+      border-left: 4px solid #2e8b57;
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+    }
+    .info-box strong { color: #14562b; }
+
+    .warn-box {
+      background: #fff8e1;
+      border-left: 4px solid #e6b655;
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+      color: #7a5f00;
+    }
+    .warn-box strong { color: #92400e; }
+
+    .success-box {
+      background: #e6f5eb;
+      border-left: 4px solid #1d5e36;
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+      color: #0f4629;
+    }
+
+    /* ============ TABLEAUX ============ */
+    .section table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    .section table th {
+      background: #1d5e36;
+      color: white;
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .section table td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid #d4ecd9;
+    }
+    .section table tr:nth-child(even) td {
+      background: #f8fcf9;
+    }
+
+    /* ============ ACTIVITÉS COLLAPSIBLES ============ */
+    .collab-box {
+      background: #f1faf4;
+      border-radius: 16px;
+      margin: 1.5rem 0;
+      border: 1px solid #b3d9c0;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .collab-toggle {
+      background: transparent;
+      border: none;
+      color: #14562b;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      transition: background 0.15s;
+    }
+    .collab-toggle:hover { background: #e6f5eb; }
+    .collab-toggle .collab-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .collab-toggle .collab-meta {
+      background: #d4ecd9;
+      color: #1d5e36;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.7rem;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .collab-toggle .arrow {
+      transition: transform 0.25s;
+      font-size: 0.85rem;
+      color: #2e8b57;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .collab-toggle.open .arrow { transform: rotate(90deg); }
+
+    .collab-content {
+      display: none;
+      padding: 0 1.5rem 1.2rem 1.5rem;
+      border-top: 1px dashed #b3d9c0;
+    }
+    .collab-content.open { display: block; animation: fadeIn 0.25s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .collab-enonce {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #1a3322;
+      margin: 0.9rem 0;
+    }
+    .collab-enonce strong { color: #14562b; }
+
+    .solution-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      margin-top: 0.8rem;
+      padding-top: 0.6rem;
+      border-top: 1px dotted #b3d9c0;
+    }
+    .btn-solution {
+      background: #1d6e3f;
+      color: white;
+      border: none;
+      padding: 0.4rem 1.4rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.15s;
+      border: 1px solid #0f4629;
+    }
+    .btn-solution:hover { background: #0f542f; transform: scale(0.97); }
+    .btn-solution:disabled {
+      background: #b8d9c0;
+      color: #3f6b4f;
+      cursor: not-allowed;
+      border-color: #a4d4b3;
+    }
+
+    .timer-display {
+      font-size: 0.85rem;
+      color: #3f6b4f;
+      font-weight: 600;
+      background: #e6f5eb;
+      padding: 0.25rem 0.9rem;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .timer-display.counting { background: #fff3cd; color: #856404; }
+    .timer-display.done { background: #d4ecd9; color: #14562b; }
+
+    .solution-content {
+      display: none;
+      background: #e6f5eb;
+      padding: 1rem 1.3rem;
+      border-radius: 12px;
+      margin-top: 0.6rem;
+      border-left: 4px solid #1d5e36;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .solution-content.open { display: block; animation: fadeIn 0.25s ease; }
+    .solution-content strong { color: #0f4629; }
+
+    /* ============ QCM ============ */
+    .qcm-container {
+      background: #f1faf4;
+      border-radius: 20px;
+      padding: 1.5rem 1.8rem;
+      margin-top: 1.2rem;
+      border: 1px solid #b1d7bd;
+    }
+    .qcm-item {
+      background: white;
+      border-radius: 14px;
+      padding: 0.9rem 1.4rem;
+      margin-bottom: 0.9rem;
+      box-shadow: 0 2px 6px rgba(0,30,10,0.04);
+      border-left: 4px solid #2e8b57;
+    }
+    .qcm-item p {
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      font-size: 0.92rem;
+      color: #144a26;
+    }
+    .qcm-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.6rem;
+      padding-left: 0.3rem;
+    }
+    .qcm-options label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      background: #f2faf5;
+      padding: 0.15rem 0.9rem 0.15rem 0.55rem;
+      border-radius: 40px;
+      border: 1px solid transparent;
+      transition: 0.1s;
+      font-size: 0.87rem;
+    }
+    .qcm-options label.correct {
+      background: #b4e0c5;
+      border-color: #1a7a3b;
+      font-weight: 600;
+    }
+    .qcm-options label.wrong {
+      background: #f8d7da;
+      border-color: #b02a37;
+    }
+
+    .btn {
+      background: #1d6e3f;
+      border: none;
+      color: white;
+      padding: 0.5rem 2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.15s;
+      border: 1px solid #0f4629;
+    }
+    .btn:hover { background: #0f542f; transform: scale(0.97); }
+
+    .score-badge {
+      font-weight: 700;
+      background: #d4ecd9;
+      color: #14562b;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+    }
+
+    /* ============ QUIZ SOMMATIF ============ */
+    .quiz-final {
+      background: linear-gradient(135deg, #f1faf4 0%, #e6f5eb 100%);
+      border: 2px dashed #2e8b57;
+      border-radius: 20px;
+      padding: 2rem;
+      margin-top: 1.5rem;
+    }
+    .quiz-final h3 {
+      color: #144a26;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ============ PROJET FINAL ============ */
+    .projet-box {
+      background: #e5f3e9;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 2px solid #278a4e;
+      margin-top: 1.5rem;
+    }
+    .projet-box h3 {
+      color: #144a26;
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+    }
+    .projet-box .livrables {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem 1.3rem;
+      margin-top: 1rem;
+    }
+
+    /* ============ PIED DE PAGE ============ */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #cae0d0;
+      font-size: 0.85rem;
+      color: #3f6b4f;
+    }
+    footer a { color: #1d5e36; text-decoration: none; font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ============ BOUTON IMPRESSION ============ */
+    .print-bar {
+      max-width: 1100px;
+      margin: 1rem auto;
+      text-align: center;
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-print {
+      background: #1d6e3f;
+      color: white;
+      border: none;
+      padding: 0.6rem 2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: 0 4px 12px rgba(29, 110, 63, 0.25);
+    }
+    .btn-print:hover { background: #0f542f; transform: translateY(-2px); }
+    .btn-print.secondary {
+      background: #e6f5eb;
+      color: #1d5e36;
+      border: 1px solid #7aae8b;
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 700px) {
+      .section { padding: 1.3rem; }
+      .page-header { padding: 1.5rem; }
+      .page-header h1 { font-size: 1.6rem; }
+      .section h2 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barre d'action -->
+  <div class="print-bar">
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimer le support</button>
+    <button class="btn-print secondary" onclick="expandAll()">📖 Tout déplier</button>
+    <button class="btn-print secondary" onclick="collapseAll()">📕 Tout replier</button>
+  </div>
+
+  <div class="container">
+
+    <!-- ============================================================ -->
+    <!-- EN-TÊTE DU CHAPITRE                                          -->
+    <!-- ============================================================ -->
+    <div class="page-header">
+      <div class="chapter-badge">CHAPITRE 3</div>
+      <h1>Éléments basiques d'une page HTML</h1>
+      <p class="sous-titre">Structurer, organiser et donner du sens à votre contenu web</p>
+      <div class="meta-info">
+        <span>📘 Module M104</span>
+        <span>🎯 Développement Digital</span>
+        <span>⏱️ Durée estimée : 6 h</span>
+        <span>👨‍🏫 KELLOUCH Mahdi</span>
+        <span>🏛️ ISMO · OFPPT</span>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- OBJECTIFS PÉDAGOGIQUES                                       -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>🎯 Objectifs pédagogiques</h2>
+      <p>À l'issue de ce chapitre, vous serez capable de :</p>
+      <ul>
+        <li><strong>Connaître</strong> la structure d'une page HTML5 et le rôle de chaque balise.</li>
+        <li><strong>Utiliser</strong> les balises de base : titres, paragraphes, listes, liens, images.</li>
+        <li><strong>Maîtriser</strong> les attributs essentiels : <code>href</code>, <code>src</code>, <code>alt</code>, <code>title</code>, <code>id</code>, <code>class</code>.</li>
+        <li><strong>Comprendre</strong> et appliquer les normes du W3C.</li>
+        <li><strong>Distinguer</strong> les chemins d'accès absolus et relatifs.</li>
+        <li><strong>Structurer</strong> une page avec les balises sémantiques.</li>
+        <li><strong>Créer</strong> une page web complète présentant un CV.</li>
+      </ul>
+
+      <div class="info-box">
+        <strong>💡 Prérequis :</strong> avoir suivi le Chapitre 1 (Introduction au Web) et le Chapitre 2 (Environnement de travail).
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 1 : STRUCTURE D'UNE PAGE HTML5                       -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>1. Structure d'une page HTML5</h2>
+
+      <h3>1.1 Le squelette HTML5</h3>
+      <p>Toute page HTML5 respecte une structure minimale appelée <strong>squelette</strong>. Elle est composée de balises obligatoires que le navigateur interprète pour afficher correctement le contenu.</p>
+
+      <div class="code-block"><span class="comment">&lt;!-- Déclaration du type de document --&gt;</span>
+<span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="value">"fr"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="value">"UTF-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="value">"viewport"</span> <span class="attr">content</span>=<span class="value">"width=device-width, initial-scale=1.0"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span><span class="text">Ma première page</span><span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;/head&gt;</span>
+  <span class="tag">&lt;body&gt;</span>
+    <span class="comment">&lt;!-- Contenu visible de la page --&gt;</span>
+    <span class="tag">&lt;h1&gt;</span><span class="text">Bienvenue</span><span class="tag">&lt;/h1&gt;</span>
+  <span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></div>
+
+      <h4>Rôle de chaque balise</h4>
+      <table>
+        <thead>
+          <tr><th>Balise</th><th>Rôle</th><th>Obligatoire ?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Indique au navigateur qu'il s'agit de HTML5</td><td>✅ Oui</td></tr>
+          <tr><td><code>&lt;html&gt;</code></td><td>Racine du document</td><td>✅ Oui</td></tr>
+          <tr><td><code>&lt;head&gt;</code></td><td>Métadonnées (titre, encodage, styles)</td><td>✅ Oui</td></tr>
+          <tr><td><code>&lt;body&gt;</code></td><td>Contenu visible de la page</td><td>✅ Oui</td></tr>
+          <tr><td><code>&lt;title&gt;</code></td><td>Titre affiché dans l'onglet</td><td>✅ Oui</td></tr>
+          <tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>Encodage des caractères</td><td>✅ Recommandé</td></tr>
+        </tbody>
+      </table>
+
+      <div class="warn-box">
+        <strong>⚠️ Attention :</strong> la balise <code>&lt;title&gt;</code> ne doit <strong>jamais</strong> être vide. C'est elle qui apparaît dans l'onglet du navigateur et dans les résultats de recherche Google.
+      </div>
+
+      <!-- Activité 1 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 1 · Identifier les parties du squelette <span class="collab-meta">5 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Observez le code ci-dessous. Identifiez les 4 balises obligatoires du squelette HTML5 et indiquez leur rôle. <br><br>
+            <code>&lt;!DOCTYPE html&gt;<br>
+            &lt;html lang="fr"&gt;<br>
+            &lt;head&gt;&lt;title&gt;Test&lt;/title&gt;&lt;/head&gt;<br>
+            &lt;body&gt;&lt;h1&gt;Bonjour&lt;/h1&gt;&lt;/body&gt;<br>
+            &lt;/html&gt;</code>
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 30)">⏱️ Lancer le temps (30 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">30</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. <code>&lt;!DOCTYPE html&gt;</code> → déclare HTML5<br>
+            2. <code>&lt;html&gt;</code> → racine du document<br>
+            3. <code>&lt;head&gt;</code> → métadonnées (ici le titre)<br>
+            4. <code>&lt;body&gt;</code> → contenu visible (ici le h1)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 2 : BALISES DE BASE                                  -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>2. Balises de base</h2>
+
+      <h3>2.1 Les titres : &lt;h1&gt; à &lt;h6&gt;</h3>
+      <p>HTML propose <strong>6 niveaux de titres</strong>. Le <code>&lt;h1&gt;</code> est le plus important, le <code>&lt;h6&gt;</code> le moins important.</p>
+
+      <div class="code-block"><span class="tag">&lt;h1&gt;</span><span class="text">Titre principal</span><span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span><span class="text">Sous-titre</span><span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;h3&gt;</span><span class="text">Sous-sous-titre</span><span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;h4&gt;</span><span class="text">Niveau 4</span><span class="tag">&lt;/h4&gt;</span>
+<span class="tag">&lt;h5&gt;</span><span class="text">Niveau 5</span><span class="tag">&lt;/h5&gt;</span>
+<span class="tag">&lt;h6&gt;</span><span class="text">Niveau 6</span><span class="tag">&lt;/h6&gt;</span></div>
+
+      <div class="info-box">
+        <strong>📌 Règle W3C :</strong> une page ne doit contenir qu'<strong>un seul <code>&lt;h1&gt;</code></strong>. Les niveaux doivent être hiérarchisés (ne pas passer de h1 à h4).
+      </div>
+
+      <h3>2.2 Les paragraphes : &lt;p&gt;</h3>
+      <p>Le paragraphe <code>&lt;p&gt;</code> sert à regrouper du texte. Il crée automatiquement un espace avant et après le bloc.</p>
+
+      <div class="code-block"><span class="tag">&lt;p&gt;</span><span class="text">Ceci est un paragraphe de texte.</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p&gt;</span><span class="text">Ceci est un deuxième paragraphe.</span><span class="tag">&lt;/p&gt;</span></div>
+
+      <h3>2.3 Les listes : &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;</h3>
+      <p>Il existe <strong>deux types de listes</strong> :</p>
+      <ul>
+        <li><code>&lt;ul&gt;</code> : liste <strong>non ordonnée</strong> (puces)</li>
+        <li><code>&lt;ol&gt;</code> : liste <strong>ordonnée</strong> (numérotée)</li>
+        <li><code>&lt;li&gt;</code> : élément de liste (utilisé dans les deux cas)</li>
+      </ul>
+
+      <div class="code-block"><span class="comment">&lt;!-- Liste à puces --&gt;</span>
+<span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="text">HTML</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="text">CSS</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="text">JavaScript</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span>
+
+<span class="comment">&lt;!-- Liste numérotée --&gt;</span>
+<span class="tag">&lt;ol&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="text">Première étape</span><span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span><span class="text">Deuxième étape</span><span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span></div>
+
+      <h3>2.4 Les liens : &lt;a&gt;</h3>
+      <p>Le lien hypertexte <code>&lt;a&gt;</code> permet de naviguer vers une autre page, un site externe, un fichier, ou une ancre interne.</p>
+
+      <div class="code-block"><span class="comment">&lt;!-- Lien vers un site externe --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"https://www.ofppt.ma"</span><span class="tag">&gt;</span><span class="text">Site de l'OFPPT</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="comment">&lt;!-- Lien vers une page interne --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"contact.html"</span><span class="tag">&gt;</span><span class="text">Nous contacter</span><span class="tag">&lt;/a&gt;</span>
+
+<span class="comment">&lt;!-- Lien qui ouvre un nouvel onglet --&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"https://www.google.com"</span> <span class="attr">target</span>=<span class="value">"_blank"</span><span class="tag">&gt;</span><span class="text">Google</span><span class="tag">&lt;/a&gt;</span></div>
+
+      <div class="info-box">
+        <strong>💡 Attribut <code>target="_blank"</code> :</strong> ouvre le lien dans un <strong>nouvel onglet</strong>. À utiliser avec parcimonie.
+      </div>
+
+      <h3>2.5 Les images : &lt;img&gt;</h3>
+      <p>La balise <code>&lt;img&gt;</code> est <strong>auto-fermante</strong> (pas de balise de fermeture). Elle nécessite au minimum deux attributs : <code>src</code> et <code>alt</code>.</p>
+
+      <div class="code-block"><span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="value">"images/photo.jpg"</span>
+     <span class="attr">alt</span>=<span class="value">"Photo de profil"</span>
+     <span class="attr">width</span>=<span class="value">"200"</span>
+     <span class="attr">height</span>=<span class="value">"200"</span><span class="tag">&gt;</span></div>
+
+      <div class="warn-box">
+        <strong>⚠️ Important :</strong> l'attribut <code>alt</code> est <strong>obligatoire</strong> (norme W3C). Il décrit l'image pour les lecteurs d'écran et s'affiche si l'image ne charge pas.
+      </div>
+
+      <h3>2.6 Les tableaux : &lt;table&gt;, &lt;tr&gt;, &lt;th&gt;, &lt;td&gt;</h3>
+      <p>Un tableau HTML est composé de lignes et de cellules :</p>
+      <ul>
+        <li><code>&lt;table&gt;</code> : conteneur du tableau</li>
+        <li><code>&lt;tr&gt;</code> : ligne (table row)</li>
+        <li><code>&lt;th&gt;</code> : cellule d'en-tête (table header)</li>
+        <li><code>&lt;td&gt;</code> : cellule de données (table data)</li>
+      </ul>
+
+      <div class="code-block"><span class="tag">&lt;table&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;th&gt;</span><span class="text">Nom</span><span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;th&gt;</span><span class="text">Âge</span><span class="tag">&lt;/th&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;tr&gt;</span>
+    <span class="tag">&lt;td&gt;</span><span class="text">Alice</span><span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;td&gt;</span><span class="text">25</span><span class="tag">&lt;/td&gt;</span>
+  <span class="tag">&lt;/tr&gt;</span>
+<span class="tag">&lt;/table&gt;</span></div>
+
+      <!-- Activité 2 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 2 · Construire une liste de courses <span class="collab-meta">7 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Écrivez le code HTML pour créer une <strong>liste non ordonnée</strong> contenant 4 fruits, puis une <strong>liste ordonnée</strong> contenant 3 étapes pour préparer un thé.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 60)">⏱️ Lancer le temps (60 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">60</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            <pre style="background:#fff; padding:0.5rem; border-radius:6px; font-size:0.85rem;">&lt;ul&gt;
+  &lt;li&gt;Pomme&lt;/li&gt;
+  &lt;li&gt;Banane&lt;/li&gt;
+  &lt;li&gt;Orange&lt;/li&gt;
+  &lt;li&gt;Fraise&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Faire bouillir l'eau&lt;/li&gt;
+  &lt;li&gt;Ajouter le thé&lt;/li&gt;
+  &lt;li&gt;Laisser infuser 3 minutes&lt;/li&gt;
+&lt;/ol&gt;</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 3 : ATTRIBUTS ESSENTIELS                             -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>3. Attributs essentiels</h2>
+      <p>Les attributs enrichissent les balises en leur ajoutant des informations. Ils se placent toujours <strong>dans la balise ouvrante</strong> et sont suivis d'une valeur entre guillemets.</p>
+
+      <table>
+        <thead>
+          <tr><th>Attribut</th><th>Utilisation</th><th>Exemple</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>href</code></td><td>URL de destination (liens)</td><td><code>&lt;a href="page.html"&gt;</code></td></tr>
+          <tr><td><code>src</code></td><td>Chemin de la ressource (images, scripts)</td><td><code>&lt;img src="photo.jpg"&gt;</code></td></tr>
+          <tr><td><code>alt</code></td><td>Texte alternatif (images)</td><td><code>&lt;img alt="Photo"&gt;</code></td></tr>
+          <tr><td><code>title</code></td><td>Info-bulle au survol</td><td><code>&lt;p title="Astuce"&gt;</code></td></tr>
+          <tr><td><code>id</code></td><td>Identifiant unique dans la page</td><td><code>&lt;div id="header"&gt;</code></td></tr>
+          <tr><td><code>class</code></td><td>Groupe d'éléments (réutilisable)</td><td><code>&lt;p class="intro"&gt;</code></td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">
+        <strong>📌 Différence entre <code>id</code> et <code>class</code> :</strong><br>
+        • <code>id</code> est <strong>unique</strong> dans la page (une seule balise peut le porter).<br>
+        • <code>class</code> peut être <strong>réutilisée</strong> sur plusieurs balises.
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 3 · Différencier id et class <span class="collab-meta">5 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Pour chaque situation, indiquez s'il faut utiliser <code>id</code> ou <code>class</code> :<br>
+            1. Le titre principal d'une page unique.<br>
+            2. Tous les paragraphes d'introduction.<br>
+            3. Le pied de page commun à toutes les pages.<br>
+            4. Une section "actualités" présente sur chaque page.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 45)">⏱️ Lancer le temps (45 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">45</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. <code>id</code> (un seul titre principal)<br>
+            2. <code>class</code> (plusieurs paragraphes partagent le même style)<br>
+            3. <code>id</code> ou <code>class</code> selon qu'il est unique ou répété — en général <code>id="footer"</code> une seule fois par page<br>
+            4. <code>class</code> (réutilisable sur plusieurs pages)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 4 : NORMES W3C                                       -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>4. Normes du W3C</h2>
+      <p>Le <strong>W3C</strong> (World Wide Web Consortium) définit les standards du web. Respecter ces normes garantit que votre code fonctionne sur tous les navigateurs et reste accessible.</p>
+
+      <h3>4.1 Les règles fondamentales</h3>
+      <ul>
+        <li><strong>Balises en minuscules :</strong> écrivez <code>&lt;p&gt;</code> et non <code>&lt;P&gt;</code>.</li>
+        <li><strong>Fermeture des balises :</strong> toute balise ouvrante doit être fermée (<code>&lt;p&gt;...&lt;/p&gt;</code>).</li>
+        <li><strong>Imbrication correcte :</strong> les balises doivent être fermées dans l'ordre inverse de leur ouverture.</li>
+        <li><strong>Attributs entre guillemets :</strong> <code>href="page.html"</code> et non <code>href=page.html</code>.</li>
+        <li><strong>Un seul <code>&lt;h1&gt;</code> par page :</strong> hiérarchisez les titres.</li>
+        <li><strong>Attribut <code>alt</code> obligatoire</strong> sur toutes les images.</li>
+      </ul>
+
+      <h3>4.2 Exemples de bonnes et mauvaises pratiques</h3>
+
+      <h4>❌ Mauvaise pratique</h4>
+      <div class="code-block"><span class="tag">&lt;P&gt;</span><span class="text">Texte</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=photo.jpg<span class="tag">&gt;</span>
+<span class="tag">&lt;b&gt;&lt;i&gt;</span><span class="text">Gras et italique</span><span class="tag">&lt;b&gt;&lt;/i&gt;</span></div>
+
+      <h4>✅ Bonne pratique</h4>
+      <div class="code-block"><span class="tag">&lt;p&gt;</span><span class="text">Texte</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="value">"photo.jpg"</span> <span class="attr">alt</span>=<span class="value">"Description"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;b&gt;&lt;i&gt;</span><span class="text">Gras et italique</span><span class="tag">&lt;/i&gt;&lt;/b&gt;</span></div>
+
+      <div class="success-box">
+        <strong>✅ Vérification :</strong> utilisez le <a href="https://validator.w3.org/" target="_blank">validateur W3C</a> pour tester votre code HTML gratuitement.
+      </div>
+
+      <!-- Activité 4 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 4 · Détecter les erreurs W3C <span class="collab-meta">8 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Identifiez <strong>toutes les erreurs</strong> dans ce code HTML :<br><br>
+            <code>&lt;HTML&gt;<br>
+            &lt;head&gt;&lt;title&gt;Test&lt;/title&gt;<br>
+            &lt;body&gt;<br>
+            &lt;H1&gt;Bonjour&lt;/h1&gt;<br>
+            &lt;p&gt;Texte&lt;/P&gt;<br>
+            &lt;img src=photo.jpg&gt;<br>
+            &lt;b&gt;&lt;i&gt;Test&lt;/b&gt;&lt;/i&gt;<br>
+            &lt;/body&gt;<br>
+            &lt;/HTML&gt;</code>
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 90)">⏱️ Lancer le temps (90 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">90</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Erreurs détectées :</strong><br>
+            1. <code>&lt;HTML&gt;</code> et <code>&lt;/HTML&gt;</code> en majuscules → doivent être en minuscules.<br>
+            2. <code>&lt;head&gt;</code> non fermée.<br>
+            3. <code>&lt;H1&gt;</code> en majuscules, <code>&lt;/h1&gt;</code> en minuscules → incohérence.<br>
+            4. <code>&lt;/P&gt;</code> en majuscules.<br>
+            5. <code>src=photo.jpg</code> sans guillemets et sans <code>alt</code>.<br>
+            6. <code>&lt;b&gt;&lt;i&gt;...&lt;/b&gt;&lt;/i&gt;</code> → imbrication incorrecte (le <code>&lt;i&gt;</code> doit être fermé avant <code>&lt;/b&gt;</code>).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 5 : CHEMINS D'ACCÈS                                  -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>5. Chemins d'accès</h2>
+      <p>Un <strong>chemin d'accès</strong> indique où se trouve une ressource (image, fichier, page). Il existe deux types : <strong>absolu</strong> et <strong>relatif</strong>.</p>
+
+      <h3>5.1 Chemin absolu</h3>
+      <p>Il commence par un protocole (<code>http://</code>, <code>https://</code>) ou un slash initial <code>/</code>. Il pointe toujours vers la <strong>même ressource</strong>, indépendamment de l'emplacement du fichier HTML.</p>
+
+      <div class="code-block"><span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="value">"https://example.com/images/logo.png"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"https://www.ofppt.ma"</span><span class="tag">&gt;</span><span class="text">OFPPT</span><span class="tag">&lt;/a&gt;</span></div>
+
+      <h3>5.2 Chemin relatif</h3>
+      <p>Il est relatif à l'emplacement du fichier HTML qui le contient. C'est la méthode <strong>recommandée</strong> pour un site local.</p>
+
+      <table>
+        <thead>
+          <tr><th>Syntaxe</th><th>Signification</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>image.jpg</code></td><td>Même dossier</td></tr>
+          <tr><td><code>images/image.jpg</code></td><td>Sous-dossier <code>images/</code></td></tr>
+          <tr><td><code>../image.jpg</code></td><td>Dossier parent</td></tr>
+          <tr><td><code>../../image.jpg</code></td><td>Deux niveaux au-dessus</td></tr>
+          <tr><td><code>/image.jpg</code></td><td>Racine du site</td></tr>
+        </tbody>
+      </table>
+
+      <h3>5.3 Arborescence recommandée</h3>
+      <div class="code-block"><span class="text">📁 mon-site/</span>
+├── <span class="text">index.html</span>
+├── <span class="text">contact.html</span>
+├── 📁 images/
+│   ├── logo.png
+│   └── photo.jpg
+├── 📁 css/
+│   └── style.css
+└── 📁 js/
+    └── script.js</div>
+
+      <!-- Activité 5 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 5 · Choisir le bon chemin <span class="collab-meta">6 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Pour chaque situation, indiquez le chemin <strong>relatif</strong> correct :<br>
+            1. Depuis <code>index.html</code> (racine), accéder à <code>images/logo.png</code>.<br>
+            2. Depuis <code>pages/contact.html</code>, accéder à <code>images/logo.png</code>.<br>
+            3. Depuis <code>pages/blog/article.html</code>, accéder à <code>css/style.css</code>.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 60)">⏱️ Lancer le temps (60 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">60</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. <code>images/logo.png</code><br>
+            2. <code>../images/logo.png</code> (remonter d'un niveau)<br>
+            3. <code>../../css/style.css</code> (remonter de deux niveaux)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 6 : BALISES SÉMANTIQUES                              -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>6. Balises sémantiques HTML5</h2>
+      <p>Les balises sémantiques décrivent le <strong>rôle</strong> du contenu qu'elles contiennent. Elles améliorent l'accessibilité, le référencement (SEO) et la lisibilité du code.</p>
+
+      <table>
+        <thead>
+          <tr><th>Balise</th><th>Rôle</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>&lt;header&gt;</code></td><td>En-tête de page ou de section</td></tr>
+          <tr><td><code>&lt;nav&gt;</code></td><td>Menu de navigation</td></tr>
+          <tr><td><code>&lt;main&gt;</code></td><td>Contenu principal (unique par page)</td></tr>
+          <tr><td><code>&lt;section&gt;</code></td><td>Section thématique</td></tr>
+          <tr><td><code>&lt;article&gt;</code></td><td>Contenu autonome (article, actualité)</td></tr>
+          <tr><td><code>&lt;aside&gt;</code></td><td>Contenu complémentaire (encadré)</td></tr>
+          <tr><td><code>&lt;footer&gt;</code></td><td>Pied de page</td></tr>
+        </tbody>
+      </table>
+
+      <h3>6.1 Exemple de structure sémantique complète</h3>
+      <div class="code-block"><span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;header&gt;</span>
+    <span class="tag">&lt;h1&gt;</span><span class="text">Mon site</span><span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;nav&gt;</span>
+      <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"#accueil"</span><span class="tag">&gt;</span><span class="text">Accueil</span><span class="tag">&lt;/a&gt;</span>
+      <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"#contact"</span><span class="tag">&gt;</span><span class="text">Contact</span><span class="tag">&lt;/a&gt;</span>
+    <span class="tag">&lt;/nav&gt;</span>
+  <span class="tag">&lt;/header&gt;</span>
+
+  <span class="tag">&lt;main&gt;</span>
+    <span class="tag">&lt;section</span> <span class="attr">id</span>=<span class="value">"accueil"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h2&gt;</span><span class="text">Bienvenue</span><span class="tag">&lt;/h2&gt;</span>
+      <span class="tag">&lt;p&gt;</span><span class="text">Présentation du site.</span><span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/section&gt;</span>
+
+    <span class="tag">&lt;article&gt;</span>
+      <span class="tag">&lt;h2&gt;</span><span class="text">Dernière actualité</span><span class="tag">&lt;/h2&gt;</span>
+      <span class="tag">&lt;p&gt;</span><span class="text">Contenu de l'article.</span><span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/article&gt;</span>
+  <span class="tag">&lt;/main&gt;</span>
+
+  <span class="tag">&lt;footer&gt;</span>
+    <span class="tag">&lt;p&gt;</span><span class="text">© 2025 Mon site</span><span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/footer&gt;</span>
+<span class="tag">&lt;/body&gt;</span></div>
+
+      <div class="info-box">
+        <strong>💡 Pourquoi utiliser les balises sémantiques ?</strong><br>
+        • <strong>Accessibilité :</strong> les lecteurs d'écran comprennent mieux la structure.<br>
+        • <strong>SEO :</strong> Google identifie les zones importantes du contenu.<br>
+        <strong>Lisibilité :</strong> le code est plus clair pour les développeurs.
+      </div>
+
+      <!-- Activité 6 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 6 · Associer balises et contenus <span class="collab-meta">5 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Associez chaque contenu à la balise sémantique la plus appropriée :<br>
+            1. Le logo et le titre du site.<br>
+            2. Les liens vers les autres pages.<br>
+            3. Un article de blog.<br>
+            4. Les mentions de copyright en bas de page.<br>
+            5. Les coordonnées de contact dans une barre latérale.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 45)">⏱️ Lancer le temps (45 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">45</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. <code>&lt;header&gt;</code><br>
+            2. <code>&lt;nav&gt;</code><br>
+            3. <code>&lt;article&gt;</code><br>
+            4. <code>&lt;footer&gt;</code><br>
+            5. <code>&lt;aside&gt;</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 7 : EXERCICES PRATIQUES                              -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>7. Exercices pratiques</h2>
+
+      <h3>Exercice 1 · Ma première page</h3>
+      <p>Créez un fichier <code>index.html</code> qui contient :</p>
+      <ul>
+        <li>Un titre principal <code>&lt;h1&gt;</code> avec votre nom.</li>
+        <li>Un paragraphe de présentation.</li>
+        <li>Une liste non ordonnée de vos 3 centres d'intérêt.</li>
+        <li>Un lien vers le site de l'OFPPT.</li>
+      </ul>
+
+      <h3>Exercice 2 · Page de recettes</h3>
+      <p>Créez une page <code>recette.html</code> contenant :</p>
+      <ul>
+        <li>Un titre <code>&lt;h1&gt;</code> avec le nom de la recette.</li>
+        <li>Une image illustrative (avec <code>alt</code>).</li>
+        <li>Une liste ordonnée des étapes.</li>
+        <li>Une liste non ordonnée des ingrédients.</li>
+      </ul>
+
+      <h3>Exercice 3 · Page de contact</h3>
+      <p>Créez une page <code>contact.html</code> structurée avec les balises sémantiques :</p>
+      <ul>
+        <li><code>&lt;header&gt;</code> avec un titre.</li>
+        <li><code>&lt;nav&gt;</code> avec 3 liens.</li>
+        <li><code>&lt;main&gt;</code> avec un paragraphe de description.</li>
+        <li><code>&lt;footer&gt;</code> avec vos coordonnées.</li>
+      </ul>
+
+      <h3>Exercice 4 · Tableau comparatif</h3>
+      <p>Créez un tableau HTML comparant 3 langages (HTML, CSS, JavaScript) avec les colonnes : nom, rôle, difficulté.</p>
+
+      <h3>Exercice 5 · Corriger une page</h3>
+      <p>Voici un code HTML contenant <strong>5 erreurs W3C</strong>. Corrigez-les :</p>
+      <div class="code-block"><span class="tag">&lt;HTML&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+<span class="tag">&lt;title&gt;</span><span class="text">Ma page</span><span class="tag">&lt;/title&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+<span class="tag">&lt;H1&gt;</span><span class="text">Titre</span><span class="tag">&lt;/H1&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=image.jpg<span class="tag">&gt;</span>
+<span class="tag">&lt;p&gt;</span><span class="text">Texte</span><span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/HTML&gt;</span></div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 8 : QCM DE VÉRIFICATION                              -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>8. QCM de vérification</h2>
+      <p style="font-style: italic; color: #3f6b4f; margin-bottom: 0.5rem;">Cochez la bonne réponse. Correction automatique.</p>
+
+      <div id="qcmApp" class="qcm-container">
+        <div id="qcmList"></div>
+        <div style="display:flex; gap:1rem; margin-top:1.2rem; align-items:center; flex-wrap:wrap;">
+          <button class="btn" id="checkQcmBtn">✔ Vérifier les réponses</button>
+          <span id="qcmScore" class="score-badge">0 / 10</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 9 : QUIZ SOMMATIF                                    -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>9. Quiz sommatif</h2>
+      <p style="font-style: italic; color: #3f6b4f; margin-bottom: 1rem;">Évaluation finale du chapitre · Note sur 20 · Durée : 20 min</p>
+
+      <div class="quiz-final">
+        <h3>📋 Modalités</h3>
+        <ul>
+          <li><strong>10 questions</strong> à choix multiples</li>
+          <li><strong>2 points</strong> par bonne réponse</li>
+          <li><strong>Aucun point négatif</strong></li>
+          <li><strong>Durée conseillée :</strong> 20 minutes</li>
+          <li><strong>Documents :</strong> non autorisés</li>
+        </ul>
+
+        <div class="info-box" style="margin-top:1rem;">
+          <strong>🎯 Objectifs évalués :</strong><br>
+          • Structure HTML5 · Balises de base · Attributs · Normes W3C · Chemins · Sémantique
+        </div>
+
+        <div style="margin-top:1.2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+          <button class="btn" onclick="scrollToQcm()">📝 Passer au QCM</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 10 : PROJET FINAL                                    -->
+    <!-- ============================================================ -->
+    <div class="section">
+      <h2>10. Projet final</h2>
+
+      <div class="projet-box">
+        <h3>📌 Créer un CV en ligne</h3>
+        <p><strong>Contexte :</strong> Vous devez créer une page web présentant votre CV. Cette page servira de portfolio pour votre recherche de stage.</p>
+
+        <h4>📋 Contenu obligatoire</h4>
+        <ul>
+          <li><strong>En-tête</strong> (<code>&lt;header&gt;</code>) : nom, prénom, titre professionnel, photo.</li>
+          <li><strong>Navigation</strong> (<code>&lt;nav&gt;</code>) : liens vers les sections (ancre interne).</li>
+          <li><strong>Section "À propos"</strong> : paragraphe de présentation.</li>
+          <li><strong>Section "Formation"</strong> : liste ordonnée des diplômes.</li>
+          <li><strong>Section "Compétences"</strong> : liste non ordonnée (avec niveaux).</li>
+          <li><strong>Section "Expériences"</strong> : tableau avec colonnes (période, entreprise, poste).</li>
+          <li><strong>Section "Contact"</strong> : liens (email, LinkedIn, GitHub).</li>
+          <li><strong>Pied de page</strong> (<code>&lt;footer&gt;</code>) : mentions légales.</li>
+        </ul>
+
+        <div class="livrables">
+          <strong>📦 Livrables attendus :</strong>
+          <ul>
+            <li>Fichier <code>cv.html</code> valide W3C.</li>
+            <li>Dossier <code>images/</code> avec les visuels.</li>
+            <li>Respect des normes sémantiques.</li>
+            <li>Un seul <code>&lt;h1&gt;</code> par page.</li>
+            <li>Attributs <code>alt</code> sur toutes les images.</li>
+          </ul>
+        </div>
+
+        <h4>🎯 Critères d'évaluation</h4>
+        <table style="background:white; border-radius:12px; overflow:hidden;">
+          <thead>
+            <tr><th>Critère</th><th>Points</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Respect de la structure HTML5</td><td>/3</td></tr>
+            <tr><td>Utilisation des balises de base</td><td>/4</td></tr>
+            <tr><td>Utilisation des balises sémantiques</td><td>/3</td></tr>
+            <tr><td>Respect des normes W3C</td><td>/3</td></tr>
+            <tr><td>Qualité du contenu (CV complet)</td><td>/4</td></tr>
+            <tr><td>Présentation générale</td><td>/3</td></tr>
+            <tr><td><strong>TOTAL</strong></td><td><strong>/20</strong></td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box" style="margin-top:1rem;">
+          <strong>💡 Astuce :</strong> travaillez en binôme pour la relecture. Validez votre code sur <a href="https://validator.w3.org/" target="_blank">validator.w3.org</a> avant de rendre.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PIED DE PAGE                                                 -->
+    <!-- ============================================================ -->
+    <footer>
+      <p>
+        <strong>OFPPT</strong> · ISMO<br>
+        Support pédagogique créé par <strong>KELLOUCH Mahdi</strong> · Année 2025 – 2026
+      </p>
+      <p style="margin-top: 0.5rem;">
+        Module M104 · Développement Digital · Chapitre 3
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCRIPTS                                                      -->
+  <!-- ============================================================ -->
+  <script>
+    /* ============================================================
+       ACTIVITÉS COLLAPSIBLES
+       ============================================================ */
+    function toggleCollab(btn) {
+      const box = btn.closest('.collab-box');
+      const content = box.querySelector('.collab-content');
+      content.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+
+    /* ============================================================
+       TIMER + RÉVÉLATION SOLUTION
+       ============================================================ */
+    function startTimer(btn, duration) {
+      const box = btn.closest('.collab-content');
+      const timerDisplay = box.querySelector('.timer-display');
+      const timerValue = box.querySelector('.timer-value');
+      const solution = box.querySelector('.solution-content');
+
+      let remaining = duration;
+      btn.disabled = true;
+      btn.textContent = '⏳ Temps en cours…';
+      timerDisplay.style.display = 'inline-flex';
+      timerDisplay.classList.add('counting');
+      timerDisplay.classList.remove('done');
+      timerValue.textContent = remaining;
+
+      const interval = setInterval(() => {
+        remaining--;
+        timerValue.textContent = remaining;
+        if (remaining <= 0) {
+          clearInterval(interval);
+          timerDisplay.classList.remove('counting');
+          timerDisplay.classList.add('done');
+          timerDisplay.innerHTML = '✅ Temps écoulé';
+          btn.textContent = '👁️ Afficher la solution';
+          btn.disabled = false;
+          btn.onclick = () => {
+            solution.classList.add('open');
+            btn.disabled = true;
+            btn.textContent = '✔ Solution affichée';
+          };
+        }
+      }, 1000);
+    }
+
+    /* ============================================================
+       TOUT DÉPLIER / TOUT REPLIER
+       ============================================================ */
+    function expandAll() {
+      document.querySelectorAll('.collab-box').forEach(box => {
+        box.querySelector('.collab-content').classList.add('open');
+        box.querySelector('.collab-toggle').classList.add('open');
+      });
+    }
+    function collapseAll() {
+      document.querySelectorAll('.collab-box').forEach(box => {
+        box.querySelector('.collab-content').classList.remove('open');
+        box.querySelector('.collab-toggle').classList.remove('open');
+      });
+    }
+
+    /* ============================================================
+       SCROLL VERS LE QCM
+       ============================================================ */
+    function scrollToQcm() {
+      document.getElementById('qcmApp').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ============================================================
+       QCM INTERACTIF
+       ============================================================ */
+    (function(){
+      const qcmData = [
+        {
+          question: "Quelle balise déclare qu'un document est en HTML5 ?",
+          options: ["<html>", "<!DOCTYPE html>", "<head>", "<meta>"],
+          correct: 1
+        },
+        {
+          question: "Combien de balises <h1> doit contenir une page selon le W3C ?",
+          options: ["Autant que nécessaire", "Une seule", "Deux maximum", "Aucune"],
+          correct: 1
+        },
+        {
+          question: "Quelle balise crée une liste à puces ?",
+          options: ["<ol>", "<ul>", "<li>", "<list>"],
+          correct: 1
+        },
+        {
+          question: "Quel attribut est obligatoire sur une image ?",
+          options: ["title", "width", "alt", "id"],
+          correct: 2
+        },
+        {
+          question: "Quelle est la différence entre id et class ?",
+          options: [
+            "Aucune, ils sont identiques",
+            "id est unique, class est réutilisable",
+            "class est unique, id est réutilisable",
+            "id s'utilise seulement sur les images"
+          ],
+          correct: 1
+        },
+        {
+          question: "Quel chemin relatif permet de remonter d'un niveau ?",
+          options: ["./", "../", "//", "/"],
+          correct: 1
+        },
+        {
+          question: "Quelle balise sémantique représente le pied de page ?",
+          options: ["<bottom>", "<footer>", "<end>", "<section>"],
+          correct: 1
+        },
+        {
+          question: "Quelle balise est auto-fermante ?",
+          options: ["<p>", "<a>", "<img>", "<ul>"],
+          correct: 2
+        },
+        {
+          question: "Quel attribut permet d'ouvrir un lien dans un nouvel onglet ?",
+          options: ["target='_blank'", "new='tab'", "open='new'", "href='new'"],
+          correct: 0
+        },
+        {
+          question: "Quelle balise contient les métadonnées d'une page ?",
+          options: ["<body>", "<head>", "<meta>", "<title>"],
+          correct: 1
+        }
+      ];
+
+      const container = document.getElementById('qcmList');
+      let userSelections = new Array(qcmData.length).fill(null);
+
+      function renderQCM() {
+        container.innerHTML = '';
+        qcmData.forEach((item, idx) => {
+          const div = document.createElement('div');
+          div.className = 'qcm-item';
+          const p = document.createElement('p');
+          p.textContent = `${idx+1}. ${item.question}`;
+          div.appendChild(p);
+          const optsDiv = document.createElement('div');
+          optsDiv.className = 'qcm-options';
+          item.options.forEach((opt, optIdx) => {
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `qcm_${idx}`;
+            radio.value = optIdx;
+            radio.addEventListener('change', (e) => {
+              userSelections[idx] = parseInt(e.target.value);
+              const siblings = label.parentElement.querySelectorAll('label');
+              siblings.forEach(l => l.classList.remove('correct', 'wrong'));
+            });
+            label.appendChild(radio);
+            label.appendChild(document.createTextNode(' ' + opt));
+            optsDiv.appendChild(label);
+          });
+          div.appendChild(optsDiv);
+          container.appendChild(div);
+        });
+      }
+
+      function checkAnswers() {
+        let correctCount = 0;
+        const items = container.querySelectorAll('.qcm-item');
+        items.forEach((item, idx) => {
+          const selected = userSelections[idx];
+          const labels = item.querySelectorAll('.qcm-options label');
+          labels.forEach(l => l.classList.remove('correct', 'wrong'));
+          if (selected === null || selected === undefined) return;
+          const isCorrect = (selected === qcmData[idx].correct);
+          if (isCorrect) correctCount++;
+          labels.forEach((label, optIdx) => {
+            if (optIdx === qcmData[idx].correct) label.classList.add('correct');
+            else if (optIdx === selected && !isCorrect) label.classList.add('wrong');
+          });
+        });
+        document.getElementById('qcmScore').textContent = `${correctCount} / ${qcmData.length}`;
+      }
+
+      renderQCM();
+      document.getElementById('checkQcmBtn').addEventListener('click', checkAnswers);
+    })();
+  </script>
+
+</body>
+</html>

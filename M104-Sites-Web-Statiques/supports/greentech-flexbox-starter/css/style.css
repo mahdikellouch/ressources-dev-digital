@@ -1,0 +1,357 @@
+/* ============================================================
+   GREEN TECH SOLUTIONS - Feuille de style principale
+   VERSION ELEVE - A COMPLETER
+   ============================================================
+   Consignes :
+   - Suivez l'ordre des sections du cours (Chapitre 5)
+   - Utilisez Flexbox pour TOUTES les mises en page
+   - Utilisez gap pour les espacements
+   - Validez votre code sur validator.w3.org
+   ============================================================ */
+
+
+/* ============================================================
+   1. RESET ET BASE
+   ============================================================ */
+/* À COMPLÉTER :
+   - Appliquer box-sizing: border-box à tous les éléments
+   - Retirer marges et paddings par défaut
+   - Définir la police (Segoe UI, Arial, sans-serif)
+   - Définir la couleur de texte #333 et line-height 1.6
+   - Fond de page : #f8fcf9
+*/
+
+
+/* ============================================================
+   2. VARIABLES CSS
+   ============================================================ */
+/* À COMPLÉTER : définir dans :root
+   --couleur-principale: #144a26
+   --couleur-secondaire: #2e8b57
+   --couleur-accent: #a4d4b3
+   --couleur-fond: #f8fcf9
+   --couleur-texte: #333333
+   --rayon: 12px
+   --ombre: 0 6px 20px rgba(0,0,0,0.08)
+*/
+
+
+/* ============================================================
+   3. HEADER / NAVIGATION (FLEXBOX)
+   ============================================================ */
+/* À COMPLÉTER : .navbar
+   - display: flex
+   - justify-content: space-between
+   - align-items: center
+   - position: sticky + top: 0
+   - padding: 15px 30px
+   - background: white
+   - box-shadow: 0 2px 10px rgba(0,0,0,0.08)
+   - z-index: 1000
+*/
+
+/* À COMPLÉTER : .logo
+   - font-size: 1.3rem
+   - font-weight: 700
+   - color: var(--couleur-principale)
+   - text-decoration: none
+*/
+
+/* À COMPLÉTER : .nav
+   - display: flex
+   - gap: 20px
+*/
+
+/* À COMPLÉTER : .nav-link
+   - text-decoration: none
+   - color: var(--couleur-texte)
+   - padding: 8px 12px
+   - border-radius: 6px
+   - transition
+*/
+
+/* À COMPLÉTER : .nav-link:hover
+   - color: var(--couleur-secondaire)
+   - background: #f1faf4
+*/
+
+/* À COMPLÉTER : .nav-link.active
+   - font-weight: 700
+   - color: var(--couleur-principale)
+   - border-bottom: 2px solid var(--couleur-secondaire)
+*/
+
+
+/* ============================================================
+   4. HERO (FLEXBOX)
+   ============================================================ */
+/* À COMPLÉTER : .hero
+   - display: flex
+   - flex-direction: column
+   - justify-content: center
+   - align-items: center
+   - min-height: 60vh
+   - background: linear-gradient(135deg, #144a26, #2e8b57)
+   - color: white
+   - text-align: center
+   - padding: 40px 20px
+*/
+
+/* À COMPLÉTER : .hero-title
+   - font-size: 2.8rem
+   - margin-bottom: 15px
+*/
+
+/* À COMPLÉTER : .hero-subtitle
+   - font-size: 1.15rem
+   - font-style: italic
+   - margin-bottom: 25px
+*/
+
+
+/* ============================================================
+   5. BOUTONS
+   ============================================================ */
+/* À COMPLÉTER : .btn
+   - display: inline-block
+   - padding: 12px 30px
+   - border-radius: 40px
+   - font-weight: 600
+   - text-decoration: none
+   - transition
+*/
+
+/* À COMPLÉTER : .btn-primary
+   - background: white
+   - color: var(--couleur-principale)
+*/
+
+/* À COMPLÉTER : .btn-primary:hover
+   - background: var(--couleur-accent)
+   - transform: translateY(-2px)
+*/
+
+
+/* ============================================================
+   6. SECTIONS GÉNÉRALES
+   ============================================================ */
+/* À COMPLÉTER : .section-title
+   - font-size: 2rem
+   - color: var(--couleur-principale)
+   - text-align: center
+   - margin-bottom: 40px
+*/
+
+
+/* ============================================================
+   7. SERVICES (FLEXBOX)
+   ============================================================ */
+/* À COMPLÉTER : .services
+   - padding: 80px 30px
+*/
+
+/* À COMPLÉTER : .services-grid
+   - display: flex
+   - flex-wrap: wrap
+   - gap: 30px
+   - max-width: 1200px
+   - margin: 0 auto
+   - justify-content: center
+*/
+
+/* À COMPLÉTER : .service-card
+   - flex: 1 1 300px
+   - background: white
+   - padding: 30px
+   - border-radius: var(--rayon)
+   - box-shadow: var(--ombre)
+   - transition
+*/
+
+/* À COMPLÉTER : .service-card:hover
+   - transform: translateY(-6px)
+   - box-shadow: 0 12px 30px rgba(0,0,0,0.15)
+*/
+
+
+/* ============================================================
+   8. À PROPOS (FLEXBOX)
+   ============================================================ */
+/* À COMPLÉTER : .apropos
+   - display: flex
+   - gap: 40px
+   - padding: 80px 30px
+   - max-width: 1200px
+   - margin: 0 auto
+   - align-items: center
+   - flex-wrap: wrap
+*/
+
+/* À COMPLÉTER : .apropos-image
+   - flex: 1 1 300px
+   - min-height: 300px
+   - display: flex
+   - justify-content: center
+   - align-items: center
+   - font-size: 6rem
+   - background: linear-gradient(135deg, #d4ecd9, #a4d4b3)
+   - border-radius: var(--rayon)
+*/
+
+/* À COMPLÉTER : .apropos-content
+   - flex: 1 1 300px
+*/
+
+
+/* ============================================================
+   9. TÉMOIGNAGES (FLEXBOX)
+   ============================================================ */
+/* À COMPLÉTER : .temoignages
+   - padding: 80px 30px
+   - background: #f1faf4
+*/
+
+/* À COMPLÉTER : .temoignages-grid
+   - display: flex
+   - flex-wrap: wrap
+   - gap: 30px
+   - max-width: 1200px
+   - margin: 0 auto
+   - justify-content: center
+*/
+
+/* À COMPLÉTER : .temoignage
+   - flex: 1 1 280px
+   - background: white
+   - border-left: 4px solid var(--couleur-secondaire)
+   - border-radius: var(--rayon)
+   - padding: 25px 30px
+   - box-shadow: var(--ombre)
+*/
+
+
+/* ============================================================
+   10. FOOTER (FLEXBOX)
+   ============================================================ */
+/* À COMPLÉTER : .footer
+   - background: var(--couleur-principale)
+   - color: white
+   - padding: 50px 30px 20px 30px
+*/
+
+/* À COMPLÉTER : .footer-content
+   - display: flex
+   - flex-wrap: wrap
+   - gap: 40px
+   - max-width: 1200px
+   - margin: 0 auto
+   - padding-bottom: 30px
+*/
+
+/* À COMPLÉTER : .footer-col
+   - flex: 1 1 200px
+*/
+
+/* À COMPLÉTER : .footer-col h4
+   - color: var(--couleur-accent)
+   - margin-bottom: 15px
+*/
+
+/* À COMPLÉTER : .footer-col a
+   - color: #d4ecd9
+   - text-decoration: none
+*/
+
+
+/* ============================================================
+   11. PAGE TITRE (services.html et contact.html)
+   ============================================================ */
+/* À COMPLÉTER : .page-title
+   - background: linear-gradient(135deg, #e6f5eb, #d4ecd9)
+   - text-align: center
+   - padding: 60px 20px
+*/
+
+
+/* ============================================================
+   12. GRILLE SERVICES COMPLET (FLEXBOX)
+   ============================================================ */
+/* À COMPLÉTER : .services-full-grid
+   - display: flex
+   - flex-wrap: wrap
+   - gap: 25px
+   - max-width: 1200px
+   - margin: 0 auto
+   - padding: 30px
+*/
+
+/* À COMPLÉTER : .service-item
+   - flex: 1 1 300px
+   - background: white
+   - border: 1px solid #d4ecd9
+   - border-radius: var(--rayon)
+   - padding: 30px
+   - text-align: center
+   - transition
+*/
+
+
+/* ============================================================
+   13. FAQ
+   ============================================================ */
+/* À COMPLÉTER : .faq-item
+   - border-bottom: 1px solid #d4ecd9
+   - padding: 20px 0
+*/
+
+
+/* ============================================================
+   14. CONTACT (FLEXBOX)
+   ============================================================ */
+/* À COMPLÉTER : .contact-grid
+   - display: flex
+   - flex-wrap: wrap
+   - gap: 40px
+   - max-width: 1200px
+   - margin: 0 auto
+   - padding: 30px
+*/
+
+/* À COMPLÉTER : .contact-form-wrapper
+   - flex: 1 1 400px
+*/
+
+/* À COMPLÉTER : .contact-info
+   - flex: 1 1 300px
+   - background: white
+   - padding: 30px
+   - border-radius: var(--rayon)
+   - box-shadow: var(--ombre)
+*/
+
+/* À COMPLÉTER : .contact-form
+   - display: flex
+   - flex-direction: column
+   - gap: 20px
+*/
+
+
+/* ============================================================
+   15. RESPONSIVE (MEDIA QUERIES)
+   ============================================================ */
+/* À COMPLÉTER : @media (max-width: 992px)
+   - Adapter les grilles si nécessaire
+*/
+
+/* À COMPLÉTER : @media (max-width: 768px)
+   - Header : flex-direction: column
+   - Hero : réduire la taille du titre
+   - Sections : padding réduit
+   - Grilles : passer en colonne (flex-direction: column)
+   - Footer : colonnes empilées
+*/
+
+
+/* ============================================================
+   FIN DU FICHIER - BON TRAVAIL !
+   ============================================================ */

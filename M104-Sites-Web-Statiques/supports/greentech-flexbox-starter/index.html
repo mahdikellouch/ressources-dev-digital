@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GreenTech Solutions - Accueil</title>
+  <!-- À COMPLÉTER : lier votre feuille de style -->
+  <!-- <link rel="stylesheet" href="css/style.css"> -->
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER
+       Objectif : logo à gauche, menu à droite
+       Propriétés attendues : display: flex + justify-content: space-between + align-items: center
+       ============================================================ -->
+  <header class="navbar">
+    <a href="index.html" class="logo">🌱 GreenTech</a>
+    <nav class="nav">
+      <a href="index.html" class="nav-link active">Accueil</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="index.html#apropos" class="nav-link">À propos</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       HERO
+       Objectif : centrage parfait horizontal + vertical
+       Propriétés attendues : display: flex + flex-direction: column + justify-content: center + align-items: center
+       ============================================================ -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Des solutions numériques pour un avenir durable</h1>
+      <p class="hero-subtitle">GreenTech Solutions accompagne les entreprises dans leur transition numérique écologique.</p>
+      <a href="services.html" class="btn btn-primary">Découvrir nos services</a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICES
+       Objectif : 3 cartes de tailles égales côte à côte
+       Propriétés attendues : display: flex + gap + flex: 1 sur chaque carte
+       ============================================================ -->
+  <section class="services" id="services">
+    <h2 class="section-title">Nos services phares</h2>
+
+    <div class="services-grid">
+      <article class="service-card">
+        <div class="service-image">🌿</div>
+        <h3>Hébergement vert</h3>
+        <p>Nos serveurs fonctionnent à 100% grâce aux énergies renouvelables.</p>
+        <a href="services.html" class="service-link">En savoir plus →</a>
+      </article>
+
+      <article class="service-card">
+        <div class="service-image">💻</div>
+        <h3>Développement durable</h3>
+        <p>Nous concevons des applications web éco-responsables et performantes.</p>
+        <a href="services.html" class="service-link">En savoir plus →</a>
+      </article>
+
+      <article class="service-card">
+        <div class="service-image">🌍</div>
+        <h3>Conseil en transition</h3>
+        <p>Nous accompagnons les entreprises dans leur transition numérique écologique.</p>
+        <a href="services.html" class="service-link">En savoir plus →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       À PROPOS
+       Objectif : 2 colonnes côte à côte (image + texte)
+       Propriétés attendues : display: flex + gap + flex: 1 sur chaque colonne
+       ============================================================ -->
+  <section class="apropos" id="apropos">
+    <div class="apropos-image">🌳</div>
+    <div class="apropos-content">
+      <h2 class="section-title section-title-left">À propos de nous</h2>
+      <p>Fondée en 2020, GreenTech Solutions est une start-up marocaine spécialisée dans les solutions numériques écologiques.</p>
+      <p>Notre mission : rendre le numérique plus responsable en réduisant son empreinte carbone, tout en offrant des services de haute qualité à nos clients.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TÉMOIGNAGES
+       Objectif : 3 blocs avec retour à la ligne automatique
+       Propriétés attendues : display: flex + flex-wrap: wrap + flex: 1 1 280px
+       ============================================================ -->
+  <section class="temoignages">
+    <h2 class="section-title">Ils nous font confiance</h2>
+
+    <div class="temoignages-grid">
+      <blockquote class="temoignage">
+        <p>"Grâce à GreenTech, nous avons réduit notre consommation énergétique de 40%."</p>
+        <cite>— Amine B., CTO chez TechCorp</cite>
+      </blockquote>
+
+      <blockquote class="temoignage">
+        <p>"Une équipe à l'écoute, des solutions concrètes et un impact positif."</p>
+        <cite>— Salma R., Directrice Marketing</cite>
+      </blockquote>
+
+      <blockquote class="temoignage">
+        <p>"Notre site web est 3 fois plus rapide et 100% éco-responsable."</p>
+        <cite>— Youssef K., Fondateur de ShopVert</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       Objectif : 3 colonnes égales avec retour à la ligne
+       Propriétés attendues : display: flex + flex-wrap: wrap + flex: 1 sur chaque colonne
+       ============================================================ -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-col">
+        <h4>GreenTech Solutions</h4>
+        <p>123 Avenue Hassan II<br>Casablanca, Maroc</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Liens rapides</h4>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>contact@greentech.ma<br>+212 5 22 00 00 00</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 GreenTech Solutions. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

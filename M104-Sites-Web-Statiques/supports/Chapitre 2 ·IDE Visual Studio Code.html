@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support : IDE Visual Studio Code - ISMO/OFPPT</title>
+<style>
+:root{
+  --bleu-marine:#1F3A5F;
+  --vert-emeraude:#2E8B57;
+  --orange-accent:#FF8C00;
+  --rouge-erreur:#DC3545;
+  --violet:#8A2BE2;
+  --gris-clair:#F2F2F2;
+  --gris-fonce:#333;
+  --vscode-bleu:#007ACC;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Calibri,sans-serif}
+html{scroll-behavior:smooth}
+body{background:#f5f7fa;color:var(--gris-fonce);line-height:1.6}
+
+/* ===== SIDEBAR ===== */
+.sidebar{position:fixed;top:0;left:0;width:270px;height:100vh;background:var(--bleu-marine);color:white;padding:20px 15px;overflow-y:auto;z-index:100;transition:transform 0.3s}
+.sidebar-header{text-align:center;padding-bottom:15px;border-bottom:1px solid rgba(255,255,255,0.2);margin-bottom:20px}
+.sidebar-header img{max-width:100px;margin-bottom:8px}
+.sidebar-header h1{font-size:1rem;font-weight:600}
+.sidebar-header p{font-size:0.75rem;color:#a8c0d8;margin-top:4px}
+.sidebar-nav{list-style:none}
+.sidebar-nav li{margin-bottom:5px}
+.sidebar-nav a{display:block;color:#cfdde8;text-decoration:none;padding:10px 12px;border-radius:8px;font-size:0.85rem;transition:all 0.3s;border-left:3px solid transparent}
+.sidebar-nav a:hover,.sidebar-nav a.active{background:rgba(46,139,87,0.3);color:white;border-left-color:var(--vert-emeraude)}
+.sidebar-nav a .num{display:inline-block;width:22px;height:22px;background:var(--vert-emeraude);color:white;border-radius:50%;text-align:center;font-size:0.7rem;line-height:22px;font-weight:bold;margin-right:8px}
+
+/* ===== MAIN ===== */
+.main-content{margin-left:270px;padding:40px;max-width:1200px}
+.hero{background:linear-gradient(135deg,var(--bleu-marine),var(--vscode-bleu));color:white;padding:50px 40px;border-radius:20px;margin-bottom:40px;text-align:center;box-shadow:0 15px 40px rgba(31,58,95,0.3)}
+.hero img{max-width:120px;margin-bottom:20px;background:white;padding:10px;border-radius:15px}
+.hero h1{font-size:2rem;margin-bottom:10px}
+.hero h2{font-size:1.2rem;font-weight:400;margin-bottom:20px;opacity:0.95}
+.hero .badge{display:inline-block;background:rgba(255,255,255,0.2);padding:8px 20px;border-radius:25px;font-size:0.9rem;margin:5px}
+.section{background:white;border-radius:15px;padding:30px;margin-bottom:30px;box-shadow:0 5px 20px rgba(0,0,0,0.05);scroll-margin-top:20px}
+.section h2{color:var(--bleu-marine);font-size:1.5rem;margin-bottom:20px;padding-bottom:10px;border-bottom:3px solid var(--vscode-bleu);display:flex;align-items:center;gap:10px}
+.section h3{color:var(--vert-emeraude);font-size:1.15rem;margin:20px 0 10px}
+.section p{margin-bottom:12px;color:#444}
+.section ul,.section ol{margin-left:25px;margin-bottom:15px}
+.section li{margin-bottom:6px}
+.encadre{background:var(--gris-clair);border-left:5px solid var(--orange-accent);padding:15px 20px;border-radius:8px;margin:15px 0}
+.encadre-title{font-weight:bold;color:var(--bleu-marine);margin-bottom:8px;font-size:0.95rem}
+.encadre p{font-size:0.9rem;color:#555}
+table{width:100%;border-collapse:collapse;margin:15px 0;border-radius:8px;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,0.05)}
+table thead{background:var(--bleu-marine);color:white}
+table th,table td{padding:12px 15px;text-align:left;font-size:0.9rem}
+table tbody tr:nth-child(even){background:var(--gris-clair)}
+table tbody tr:hover{background:#e0e7ff}
+code{background:#2d2d2d;color:#f8f8f2;padding:3px 8px;border-radius:5px;font-family:'Consolas',monospace;font-size:0.85rem}
+pre{background:#1e1e1e;color:#d4d4d4;padding:15px 20px;border-radius:8px;overflow-x:auto;font-family:'Consolas',monospace;font-size:0.85rem;margin:10px 0;border-left:4px solid var(--vscode-bleu)}
+
+/* ===== ZONES INTERACTIVES ===== */
+.interactive-zone{background:#f8f9fa;border:2px dashed var(--vscode-bleu);border-radius:15px;padding:15px;margin:20px 0}
+.interactive-title{font-weight:bold;color:var(--bleu-marine);margin-bottom:12px;font-size:1rem;padding:8px 15px;background:white;border-radius:8px;display:inline-block}
+
+/* ===== SIMULATEUR VS CODE ===== */
+.vscode-sim{display:grid;grid-template-columns:50px 200px 1fr;grid-template-rows:30px 1fr 22px;height:500px;font-size:11px;background:#1e1e1e;color:#d4d4d4;border-radius:10px;overflow:hidden;position:relative}
+.vscode-sim .title-bar{grid-column:1/-1;background:#3c3c3c;display:flex;align-items:center;padding:0 10px;color:#ccc;font-size:11px}
+.vscode-sim .dot{width:10px;height:10px;border-radius:50%;margin-right:5px}
+.vscode-sim .dot.r{background:#ff5f57}
+.vscode-sim .dot.y{background:#febc2e}
+.vscode-sim .dot.g{background:#28c840}
+.vscode-sim .activity-bar{background:#333;display:flex;flex-direction:column;align-items:center;padding-top:10px;gap:15px}
+.vscode-sim .act-icon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;border-radius:5px;transition:all 0.3s;position:relative;color:#858585}
+.vscode-sim .act-icon:hover,.vscode-sim .act-icon.active{background:#007ACC;color:white}
+.vscode-sim .act-icon.active::before{content:"";position:absolute;left:-6px;top:5px;bottom:5px;width:3px;background:#007ACC;border-radius:2px}
+.vscode-sim .sim-sidebar{background:#252526;border-right:1px solid #3c3c3c;overflow-y:auto;padding:10px 0}
+.vscode-sim .sidebar-title{font-size:10px;color:#858585;padding:5px 15px;text-transform:uppercase;font-weight:bold}
+.vscode-sim .file{padding:4px 15px;cursor:pointer;font-size:11px;color:#ccc;display:flex;align-items:center;gap:5px}
+.vscode-sim .file:hover{background:#2a2d2e}
+.vscode-sim .file.active{background:#37373d}
+.vscode-sim .folder{padding:4px 15px;font-weight:bold;color:#ccc;display:flex;align-items:center;gap:5px;cursor:pointer}
+.vscode-sim .folder-files{padding-left:15px}
+.vscode-sim .editor-area{background:#1e1e1e;display:flex;flex-direction:column;overflow:hidden}
+.vscode-sim .tabs{background:#252526;display:flex;border-bottom:1px solid #1e1e1e}
+.vscode-sim .tab{padding:8px 15px;font-size:11px;background:#2d2d2d;color:#969696;border-right:1px solid #252526;cursor:pointer;display:flex;align-items:center;gap:6px}
+.vscode-sim .tab.active{background:#1e1e1e;color:#fff;border-top:2px solid #007ACC}
+.vscode-sim .code{padding:15px;font-family:Consolas,monospace;font-size:12px;line-height:1.5;overflow:auto;flex:1}
+.vscode-sim .code .line{white-space:pre}
+.vscode-sim .ln{color:#858585;display:inline-block;width:25px;user-select:none}
+.vscode-sim .kw{color:#569cd6}
+.vscode-sim .str{color:#ce9178}
+.vscode-sim .cm{color:#6a9955}
+.vscode-sim .tag{color:#569cd6}
+.vscode-sim .at{color:#9cdcfe}
+.vscode-sim .status-bar{grid-column:1/-1;background:#007ACC;display:flex;justify-content:space-between;align-items:center;padding:0 10px;font-size:11px;color:white}
+
+/* Tooltip simulateur */
+.vscode-tooltip{position:fixed;background:#252526;border:1px solid #007ACC;color:#ccc;padding:8px 12px;border-radius:5px;font-size:11px;max-width:250px;box-shadow:0 5px 15px rgba(0,0,0,0.5);z-index:1000;pointer-events:none;opacity:0;transition:opacity 0.3s}
+.vscode-tooltip.show{opacity:1}
+.vscode-tooltip h4{color:#4ec9b0;margin-bottom:4px;font-size:11px}
+.vscode-tooltip p{color:#ccc;line-height:1.4;font-size:11px}
+
+/* ===== PALETTE DE COMMANDES ANIMATION ===== */
+.palette-demo{background:#1e1e1e;border-radius:10px;padding:20px;min-height:280px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.palette-box{background:#252526;border:1px solid #454545;border-radius:8px;width:100%;max-width:500px;box-shadow:0 10px 30px rgba(0,0,0,0.5);overflow:hidden;opacity:0;transform:scale(0.9);transition:all 0.4s}
+.palette-box.show{opacity:1;transform:scale(1)}
+.palette-input{background:#3c3c3c;border:none;color:white;padding:12px 15px;width:100%;font-size:13px;outline:none;border-bottom:1px solid #454545;font-family:Consolas,monospace}
+.palette-input::placeholder{color:#858585}
+.palette-results{max-height:200px;overflow-y:auto}
+.palette-result{padding:10px 15px;color:#ccc;font-size:12px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background 0.2s}
+.palette-result:hover,.palette-result.highlight{background:#094771}
+.palette-result.hidden{display:none}
+.palette-controls{margin-top:15px;display:flex;gap:10px;justify-content:center}
+.palette-steps{color:#1F3A5F;font-size:11px;margin-top:10px;text-align:center;font-weight:600;background:white;padding:8px;border-radius:8px;max-width:500px;margin-left:auto;margin-right:auto}
+
+/* ===== RACCOURCIS FILTRABLES ===== */
+.rc-search{display:flex;gap:10px;margin-bottom:15px;flex-wrap:wrap;justify-content:center}
+.rc-input{flex:1;min-width:250px;padding:10px 15px;border:2px solid #ddd;border-radius:25px;font-size:0.9rem;outline:none;transition:border 0.3s}
+.rc-input:focus{border-color:var(--vert-emeraude)}
+.rc-filters{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.rc-filter{padding:6px 15px;border:2px solid var(--bleu-marine);background:white;color:var(--bleu-marine);border-radius:20px;font-size:0.75rem;font-weight:bold;cursor:pointer;transition:all 0.3s}
+.rc-filter.active,.rc-filter:hover{background:var(--bleu-marine);color:white}
+.rc-table-wrap{overflow-x:auto;max-height:450px;overflow-y:auto;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,0.05)}
+.rc-table{width:100%;border-collapse:collapse;font-size:0.85rem}
+.rc-table thead{background:var(--bleu-marine);color:white;position:sticky;top:0;z-index:2}
+.rc-table th,.rc-table td{padding:10px 12px;text-align:left}
+.rc-table tbody tr:nth-child(even){background:var(--gris-clair)}
+.rc-table tbody tr:hover{background:#e0e7ff}
+.rc-table tbody tr.hidden{display:none}
+kbd{background:#2d2d2d;color:#f8f8f2;padding:3px 8px;border-radius:5px;font-family:Consolas,monospace;font-size:0.75rem;border-bottom:2px solid #000}
+.cat-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.7rem;font-weight:bold;color:white}
+.c-edit{background:var(--vert-emeraude)}
+.c-nav{background:#007ACC}
+.c-file{background:var(--orange-accent)}
+.c-view{background:var(--violet)}
+.rc-count{text-align:center;font-size:0.8rem;color:#777;padding:8px}
+.rc-no-result{text-align:center;padding:20px;color:#999;font-size:0.85rem;display:none}
+
+/* ===== QUIZ ===== */
+.quiz-container{background:white;border-radius:15px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.1);border:2px solid var(--vscode-bleu)}
+.quiz-header{background:var(--bleu-marine);color:white;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+.quiz-header h1{font-size:0.95rem}
+.quiz-header .badge{background:var(--vert-emeraude);padding:3px 10px;border-radius:15px;font-size:0.7rem;font-weight:bold}
+.quiz-progress-c{background:var(--gris-clair);height:6px}
+.quiz-progress{height:100%;background:linear-gradient(to right,var(--vert-emeraude),var(--bleu-marine));width:0%;transition:width 0.5s}
+.quiz-ptext{text-align:center;padding:8px;font-size:0.75rem;color:var(--bleu-marine);font-weight:600}
+.quiz-content{padding:20px;min-height:350px}
+.quiz-welcome{text-align:center;padding:25px 15px}
+.quiz-welcome .ic{font-size:3rem;margin-bottom:15px}
+.quiz-welcome h2{color:var(--bleu-marine);font-size:1.2rem;margin-bottom:10px}
+.quiz-welcome p{color:#666;font-size:0.85rem;line-height:1.5;max-width:500px;margin:0 auto 15px}
+.quiz-stats{display:flex;justify-content:center;gap:25px;margin:20px 0;flex-wrap:wrap}
+.quiz-stat{text-align:center}
+.quiz-stat .v{font-size:1.5rem;font-weight:bold;color:var(--vert-emeraude)}
+.quiz-stat .l{font-size:0.7rem;color:#777}
+.quiz-qs{display:none}
+.quiz-qs.active{display:block;animation:qFade 0.4s}
+@keyframes qFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.quiz-qtype{display:inline-block;background:var(--orange-accent);color:white;padding:2px 10px;border-radius:12px;font-size:0.65rem;font-weight:bold;margin-bottom:10px}
+.quiz-qtext{color:var(--bleu-marine);font-size:1rem;font-weight:600;margin-bottom:18px;line-height:1.4}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{background:var(--gris-clair);padding:12px 15px;border-radius:10px;cursor:pointer;transition:all 0.3s;border:2px solid transparent;display:flex;align-items:center;gap:12px;font-size:0.85rem;color:#333}
+.quiz-opt:hover:not(.disabled){background:#e0e7ff;transform:translateX(5px)}
+.quiz-opt.disabled{cursor:not-allowed}
+.quiz-ol{width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:var(--bleu-marine);flex-shrink:0;font-size:0.75rem}
+.quiz-opt.correct{background:#d4edda;border-color:var(--vert-emeraude)}
+.quiz-opt.correct .quiz-ol{background:var(--vert-emeraude);color:white}
+.quiz-opt.incorrect{background:#f8d7da;border-color:var(--rouge-erreur)}
+.quiz-opt.incorrect .quiz-ol{background:var(--rouge-erreur);color:white}
+.quiz-fb{margin-top:15px;padding:12px 15px;border-radius:10px;display:none;animation:qFade 0.3s}
+.quiz-fb.show{display:block}
+.quiz-fb.correct{background:#d4edda;border-left:4px solid var(--vert-emeraude)}
+.quiz-fb.incorrect{background:#f8d7da;border-left:4px solid var(--rouge-erreur)}
+.quiz-fb-t{font-weight:bold;margin-bottom:5px;font-size:0.85rem}
+.quiz-fb.correct .quiz-fb-t{color:var(--vert-emeraude)}
+.quiz-fb.incorrect .quiz-fb-t{color:var(--rouge-erreur)}
+.quiz-fb-x{font-size:0.8rem;color:#333;line-height:1.4}
+.quiz-controls{display:flex;justify-content:center;gap:10px;padding:15px;background:white;border-top:1px solid #eee}
+.quiz-btn{padding:10px 25px;border:none;border-radius:20px;font-weight:bold;cursor:pointer;font-size:0.85rem;transition:all 0.3s;color:white}
+.quiz-bp{background:var(--vert-emeraude)}
+.quiz-bs{background:var(--bleu-marine)}
+.quiz-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 5px 12px rgba(0,0,0,0.2)}
+.quiz-btn:disabled{opacity:0.5;cursor:not-allowed}
+.quiz-res{display:none;text-align:center;padding:25px 15px}
+.quiz-res.active{display:block;animation:qFade 0.5s}
+.quiz-res .ic{font-size:3rem;margin-bottom:12px}
+.quiz-res h2{color:var(--bleu-marine);font-size:1.3rem;margin-bottom:8px}
+.quiz-sc{width:120px;height:120px;border-radius:50%;background:conic-gradient(var(--vert-emeraude) 0%,var(--gris-clair) 0%);margin:15px auto;display:flex;align-items:center;justify-content:center;position:relative;transition:background 1s}
+.quiz-sc::before{content:"";position:absolute;width:95px;height:95px;background:white;border-radius:50%}
+.quiz-sv{position:relative;font-size:1.6rem;font-weight:bold;color:var(--bleu-marine)}
+.quiz-rm{font-size:0.95rem;color:#555;margin:10px 0;font-weight:600}
+.quiz-rd{background:var(--gris-clair);padding:12px 18px;border-radius:10px;margin:15px auto;max-width:350px;font-size:0.8rem;color:#555;line-height:1.6}
+
+/* ===== MOBILE ===== */
+.mobile-header{display:none;background:var(--bleu-marine);color:white;padding:15px 20px;position:sticky;top:0;z-index:200;justify-content:space-between;align-items:center}
+.mobile-header button{background:var(--vert-emeraude);border:none;color:white;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:1rem}
+.back-to-top{position:fixed;bottom:30px;right:30px;background:var(--vert-emeraude);color:white;width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;font-size:1.3rem;box-shadow:0 5px 15px rgba(0,0,0,0.2);display:none;z-index:150;transition:all 0.3s}
+.back-to-top:hover{background:var(--bleu-marine);transform:translateY(-3px)}
+.back-to-top.show{display:block}
+
+@media (max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main-content{margin-left:0;padding:20px}
+  .mobile-header{display:flex}
+  .hero{padding:30px 20px}
+  .hero h1{font-size:1.4rem}
+  .section{padding:20px}
+  .section h2{font-size:1.2rem}
+  .vscode-sim{grid-template-columns:40px 1fr;height:400px}
+  .vscode-sim .sim-sidebar{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="mobile-header">
+  <div><strong>📚 Support VS Code</strong></div>
+  <button onclick="toggleSidebar()">☰</button>
+</div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <img src="logo_ofppt.png" alt="Logo OFPPT" onerror="this.style.display='none'">
+    <h1>ISMO</h1>
+    <p>Institut Spécialisé dans les<br>Métiers de l'Offshoring</p>
+  </div>
+  <ul class="sidebar-nav">
+    <li><a href="#accueil"><span class="num">🏠</span>Accueil</a></li>
+    <li><a href="#intro"><span class="num">1</span>Introduction à VS Code</a></li>
+    <li><a href="#interface"><span class="num">2</span>Interface Utilisateur</a></li>
+    <li><a href="#fonctionnalites"><span class="num">3</span>Fonctionnalités Clés</a></li>
+    <li><a href="#extensions"><span class="num">4</span>Extensions</a></li>
+    <li><a href="#installation"><span class="num">5</span>Installation</a></li>
+    <li><a href="#atelier"><span class="num">6</span>Atelier Pratique</a></li>
+    <li><a href="#raccourcis"><span class="num">7</span>Raccourcis</a></li>
+    <li><a href="#quiz"><span class="num">📝</span>Quiz Interactif</a></li>
+  </ul>
+</aside>
+
+<main class="main-content">
+
+<!-- HERO -->
+<div class="hero" id="accueil">
+  <img src="logo_ofppt.png" alt="Logo OFPPT" onerror="this.style.display='none'">
+  <h1>L'IDE Visual Studio Code</h1>
+  <h2>Développement des Sites Web Statiques</h2>
+  <div>
+    <span class="badge">📚 ISMO</span>
+    <span class="badge">🏛️ OFPPT</span>
+    <span class="badge">💻 VS Code</span>
+  </div>
+</div>
+
+<!-- SECTION 1 -->
+<section class="section" id="intro">
+  <h2>1. Introduction à Visual Studio Code</h2>
+  <p><strong>Visual Studio Code</strong> (VS Code) est un éditeur de code source <strong>gratuit, open source et multiplateforme</strong> développé par Microsoft. Lancé en 2015, il est aujourd'hui l'outil de prédilection de millions de développeurs.</p>
+  <p>Contrairement à un IDE complet comme Visual Studio, VS Code est un éditeur <em>léger</em> qui peut être transformé en véritable environnement de développement grâce à ses extensions. Il supporte nativement JavaScript, TypeScript et Node.js, et via des extensions : Python, Java, C++, PHP, HTML, CSS, etc.</p>
+
+  <h3>Caractéristiques principales</h3>
+  <ul>
+    <li>✅ Gratuit et open source</li>
+    <li>✅ Multiplateforme (Windows, macOS, Linux)</li>
+    <li>✅ Léger et rapide</li>
+    <li>✅ Éditeur intelligent (IntelliSense)</li>
+    <li>✅ Débogage intégré</li>
+    <li>✅ Écosystème de 40 000+ extensions</li>
+    <li>✅ Intégration Git native</li>
+  </ul>
+
+  <div class="encadre">
+    <div class="encadre-title">💡 À retenir</div>
+    <p>VS Code n'est pas un simple bloc-notes. C'est un <strong>environnement de développement complet</strong> qui, grâce à ses extensions, rivalise avec les IDE les plus puissants.</p>
+  </div>
+</section>
+
+<!-- SECTION 2 : INTERFACE -->
+<section class="section" id="interface">
+  <h2>2. Interface Utilisateur de VS Code</h2>
+  <p>L'interface de VS Code se compose de 5 zones principales. <strong>Survolez chaque zone</strong> pour découvrir son rôle.</p>
+
+  <div class="interactive-zone">
+    <div class="interactive-title">🎬 Simulateur interactif de l'interface VS Code</div>
+    <div class="vscode-sim" id="vscodeSim">
+      <div class="title-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>&nbsp;&nbsp;index.html - mon-projet - Visual Studio Code</div>
+      
+      <div class="activity-bar">
+        <div class="act-icon active" data-vtip="activity" data-vtitle="Barre d'activité" data-vdesc="Bascule entre Explorateur, Recherche, Git, Débogage et Extensions.">📁</div>
+        <div class="act-icon" data-vtip="search" data-vtitle="Recherche" data-vdesc="Rechercher et remplacer dans tous les fichiers du projet (Ctrl+Shift+F).">🔍</div>
+        <div class="act-icon" data-vtip="git" data-vtitle="Contrôle de code source" data-vdesc="Gestion Git intégrée : commit, push, pull, branches.">🌿</div>
+        <div class="act-icon" data-vtip="debug" data-vtitle="Exécuter et déboguer" data-vdesc="Lancer le débogueur, gérer les points d'arrêt et configurations.">🐞</div>
+        <div class="act-icon" data-vtip="ext" data-vtitle="Extensions" data-vdesc="Parcourir et installer des milliers d'extensions.">🧩</div>
+      </div>
+      
+      <div class="sim-sidebar" data-vtip="sidebar" data-vtitle="Barre latérale" data-vdesc="Affiche le contenu de la vue active : ici, l'explorateur de fichiers du projet.">
+        <div class="sidebar-title">Explorateur</div>
+        <div class="folder">📂 ▼ MON-PROJET</div>
+        <div class="folder-files">
+          <div class="file active">📄 index.html</div>
+          <div class="file">🎨 style.css</div>
+          <div class="file">⚡ script.js</div>
+          <div class="file">🖼️ logo.png</div>
+        </div>
+      </div>
+      
+      <div class="editor-area" data-vtip="editor" data-vtitle="Éditeur de code" data-vdesc="Zone principale où s'affichent les fichiers ouverts. Supporte les onglets et le split-screen.">
+        <div class="tabs">
+          <div class="tab active">📄 index.html ✕</div>
+          <div class="tab">🎨 style.css ✕</div>
+        </div>
+        <div class="code">
+          <div class="line"><span class="ln">1</span><span class="cm">&lt;!-- Fichier HTML5 généré avec VS Code --&gt;</span></div>
+          <div class="line"><span class="ln">2</span><span class="tag">&lt;!DOCTYPE html&gt;</span></div>
+          <div class="line"><span class="ln">3</span><span class="tag">&lt;html</span> <span class="at">lang</span>=<span class="str">"fr"</span><span class="tag">&gt;</span></div>
+          <div class="line"><span class="ln">4</span><span class="tag">&lt;head&gt;</span></div>
+          <div class="line"><span class="ln">5</span>  <span class="tag">&lt;meta</span> <span class="at">charset</span>=<span class="str">"UTF-8"</span><span class="tag">&gt;</span></div>
+          <div class="line"><span class="ln">6</span>  <span class="tag">&lt;title&gt;</span>Mon Premier Site<span class="tag">&lt;/title&gt;</span></div>
+          <div class="line"><span class="ln">7</span>  <span class="tag">&lt;link</span> <span class="at">rel</span>=<span class="str">"stylesheet"</span> <span class="at">href</span>=<span class="str">"style.css"</span><span class="tag">&gt;</span></div>
+          <div class="line"><span class="ln">8</span><span class="tag">&lt;/head&gt;</span></div>
+          <div class="line"><span class="ln">9</span><span class="tag">&lt;body&gt;</span></div>
+          <div class="line"><span class="ln">10</span>  <span class="tag">&lt;h1&gt;</span>Bienvenue !<span class="tag">&lt;/h1&gt;</span></div>
+          <div class="line"><span class="ln">11</span>  <span class="tag">&lt;script</span> <span class="at">src</span>=<span class="str">"script.js"</span><span class="tag">&gt;&lt;/script&gt;</span></div>
+          <div class="line"><span class="ln">12</span><span class="tag">&lt;/body&gt;</span></div>
+          <div class="line"><span class="ln">13</span><span class="tag">&lt;/html&gt;</span></div>
+        </div>
+      </div>
+      
+      <div class="status-bar">
+        <div>🌿 main &nbsp; ⚠ 0 &nbsp; ❌ 0</div>
+        <div>Ln 10, Col 5 &nbsp; | &nbsp; UTF-8 &nbsp; | &nbsp; HTML &nbsp; | &nbsp; ⚡ Prettier</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Les 5 zones de l'interface</h3>
+  <table>
+    <thead><tr><th>Zone</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Barre d'activité</td><td>Barre verticale à gauche. Bascule entre Explorateur, Recherche, Git, Débogage, Extensions.</td></tr>
+      <tr><td>Barre latérale</td><td>Affiche le contenu de la vue active (fichiers, résultats de recherche, etc.).</td></tr>
+      <tr><td>Éditeur</td><td>Zone centrale où s'ouvrent les fichiers. Supporte les onglets et le split-screen.</td></tr>
+      <tr><td>Panneau inférieur</td><td>Terminal, Sortie, Problèmes, Console de débogage.</td></tr>
+      <tr><td>Barre d'état</td><td>Encodage, numéro de ligne, langage, branche Git, notifications.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 3 : FONCTIONNALITÉS -->
+<section class="section" id="fonctionnalites">
+  <h2>3. Les Fonctionnalités Clés de VS Code</h2>
+
+  <h3>3.1 Édition intelligente (IntelliSense)</h3>
+  <p>VS Code comprend votre code et vous assiste en temps réel.</p>
+  <table>
+    <thead><tr><th>Fonctionnalité</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Coloration syntaxique</td><td>Distingue visuellement les mots-clés, chaînes, commentaires par des couleurs.</td></tr>
+      <tr><td>Auto-complétion</td><td>Propose des suggestions pendant la saisie (fonctions, variables, propriétés).</td></tr>
+      <tr><td>Détection d'erreurs</td><td>Souligne les erreurs en rouge (syntaxe) ou bleu (sémantique).</td></tr>
+      <tr><td>Pliage de code</td><td>Replie/déplie les blocs de code pour faciliter la navigation.</td></tr>
+      <tr><td>Multi-curseurs</td><td>Édite plusieurs lignes simultanément (Alt + Clic).</td></tr>
+      <tr><td>Détection du langage</td><td>Identifie le langage selon l'extension du fichier (.html, .css, .py, .js).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="encadre">
+    <div class="encadre-title">💡 Détection automatique du langage</div>
+    <p>VS Code reconnaît automatiquement le langage grâce à l'extension du fichier : <code>.html</code> → HTML, <code>.css</code> → CSS, <code>.js</code> → JavaScript, <code>.py</code> → Python, <code>.java</code> → Java.</p>
+  </div>
+
+  <h3>3.2 Débogage (Debugger)</h3>
+  <p>VS Code intègre un débogueur qui permet d'exécuter le code pas à pas et d'inspecter les variables.</p>
+  <ul>
+    <li><strong>Points d'arrêt :</strong> Cliquez sur la marge gauche pour ajouter un point rouge.</li>
+    <li><strong>Point conditionnel :</strong> Clic droit → Ajouter un point conditionnel (ex: <code>i &gt; 10</code>).</li>
+    <li><strong>Panneau VARIABLES :</strong> Affiche les variables locales et globales.</li>
+    <li><strong>Panneau WATCH :</strong> Surveille des expressions personnalisées.</li>
+    <li><strong>CALL STACK :</strong> Affiche la pile d'appels des fonctions.</li>
+    <li><strong>DEBUG CONSOLE :</strong> Exécute du code pendant la pause.</li>
+  </ul>
+  <pre>// .vscode/launch.json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Lancer le programme",
+      "program": "${workspaceFolder}/index.js"
+    }
+  ]
+}</pre>
+
+  <h3>3.3 Terminal intégré</h3>
+  <ul>
+    <li>Raccourci : <code>Ctrl + `</code> (Windows/Linux) ou <code>Cmd + `</code> (macOS).</li>
+    <li>Supporte : PowerShell, Invite de commandes, Bash, Zsh.</li>
+    <li>Multi-terminaux : Plusieurs instances simultanées.</li>
+  </ul>
+
+  <h3>3.4 Intégration Git</h3>
+  <p>VS Code intègre nativement Git dans la barre latérale "Contrôle de code source" :</p>
+  <ul>
+    <li>Statuts : <code>M</code> = Modifié, <code>U</code> = Non suivi, <code>A</code> = Indexé.</li>
+    <li>Actions : Valider, Tirer, Pousser, Créer une branche.</li>
+    <li>Diff visuel directement dans l'éditeur.</li>
+  </ul>
+
+  <h3>3.5 Palette de commandes</h3>
+  <p>Véritable couteau suisse de VS Code :</p>
+  <ul>
+    <li>Raccourci : <code>Ctrl + Shift + P</code>.</li>
+    <li>Recherche floue : taper <code>odks</code> trouve "Open Default Keyboard Shortcuts".</li>
+  </ul>
+
+  <div class="interactive-zone">
+    <div class="interactive-title">🎬 Animation : La Palette de commandes en action</div>
+    <div class="palette-demo">
+      <div class="palette-box" id="paletteBox">
+        <input type="text" class="palette-input" id="paletteInput" placeholder="Tapez une commande... (ex: odks)" readonly>
+        <div class="palette-results" id="paletteResults">
+          <div class="palette-result" data-cmd="format"><span>🎨</span>Format Document</div>
+          <div class="palette-result" data-cmd="toggle"><span>👁️</span>Toggle Sidebar</div>
+          <div class="palette-result" data-cmd="term"><span>💻</span>Terminal : Créer un nouveau terminal</div>
+          <div class="palette-result" data-cmd="odks"><span>⌨️</span>Open Default Keyboard Shortcuts</div>
+          <div class="palette-result" data-cmd="set"><span>⚙️</span>Preferences : Open Settings</div>
+        </div>
+      </div>
+      <div class="palette-controls">
+        <button class="quiz-btn quiz-bp" onclick="playPalette()">▶ Lancer la démo</button>
+        <button class="quiz-btn quiz-bs" onclick="resetPalette()">🔄 Réinitialiser</button>
+      </div>
+      <div class="palette-steps" id="paletteSteps">Cliquez sur <strong>Lancer la démo</strong> pour voir la magie de Ctrl+Shift+P</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 : EXTENSIONS -->
+<section class="section" id="extensions">
+  <h2>4. Les Extensions Incontournables</h2>
+  <p>La force de VS Code réside dans son marché d'extensions. Voici les plus utiles pour un développeur Web.</p>
+
+  <h3>4.1 Extensions de productivité</h3>
+  <table>
+    <thead><tr><th>Extension</th><th>Rôle</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Prettier</strong></td><td>Formate automatiquement le code (indentation, guillemets, points-virgules).</td></tr>
+      <tr><td><strong>ESLint</strong></td><td>Analyse statique du JavaScript/TypeScript pour détecter les erreurs.</td></tr>
+      <tr><td><strong>Path Intellisense</strong></td><td>Auto-complétion des chemins de fichiers.</td></tr>
+      <tr><td><strong>Auto Rename Tag</strong></td><td>Renomme automatiquement la balise fermante HTML/XML.</td></tr>
+      <tr><td><strong>Live Server</strong></td><td>Lance un serveur local avec rechargement automatique du navigateur.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>4.2 Extensions de navigation</h3>
+  <table>
+    <thead><tr><th>Extension</th><th>Rôle</th></tr></thead>
+    <tbody>
+      <tr><td><strong>CSS Peek</strong></td><td>Aperçu et navigation vers les définitions CSS depuis le HTML.</td></tr>
+      <tr><td><strong>GitLens</strong></td><td>Affiche l'historique Git ligne par ligne (auteur, date, commit).</td></tr>
+      <tr><td><strong>Material Icon Theme</strong></td><td>Icônes colorées pour chaque type de fichier.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>4.3 Extensions IA (tendance 2025-2026)</h3>
+  <table>
+    <thead><tr><th>Extension</th><th>Rôle</th></tr></thead>
+    <tbody>
+      <tr><td><strong>GitHub Copilot</strong></td><td>Assistant IA qui propose des complétions de code complètes.</td></tr>
+      <tr><td><strong>Tabnine</strong></td><td>Complétion IA respectueuse de la vie privée (peut tourner en local).</td></tr>
+      <tr><td><strong>Codeium</strong></td><td>Alternative gratuite à Copilot, support de nombreux langages.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 5 : INSTALLATION -->
+<section class="section" id="installation">
+  <h2>5. Installation et Configuration</h2>
+
+  <h3>5.1 Étapes d'installation</h3>
+  <ol>
+    <li>Rendez-vous sur <strong>https://code.visualstudio.com</strong></li>
+    <li>Le site détecte automatiquement votre OS.</li>
+    <li>Cliquez sur le bouton de téléchargement.</li>
+    <li>Lancez l'installateur et acceptez la licence.</li>
+    <li>Choisissez l'installation <em>Utilisateur</em> (recommandée).</li>
+    <li>Terminez et lancez VS Code.</li>
+  </ol>
+
+  <h3>5.2 Configuration recommandée</h3>
+  <table>
+    <thead><tr><th>Paramètre</th><th>Valeur</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>files.autoSave</td><td>onFocusChange</td><td>Sauvegarde auto lors du changement de fenêtre.</td></tr>
+      <tr><td>editor.formatOnSave</td><td>true</td><td>Formate le code à chaque sauvegarde.</td></tr>
+      <tr><td>editor.fontFamily</td><td>Consolas, monospace</td><td>Police adaptée au code.</td></tr>
+      <tr><td>editor.fontSize</td><td>14</td><td>Taille du texte adaptée.</td></tr>
+      <tr><td>editor.tabSize</td><td>2</td><td>Indentation par défaut (Web).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- SECTION 6 : ATELIER -->
+<section class="section" id="atelier">
+  <h2>6. Atelier Pratique : Premier Projet Web</h2>
+  <p><strong>Objectif :</strong> Créer un mini-site web (HTML + CSS + JS) avec VS Code.</p>
+
+  <h3>Étape 1 : Créer le dossier du projet</h3>
+  <p>Ouvrez VS Code → Fichier → Ouvrir un dossier → Créez <code>mon-premier-site</code>.</p>
+
+  <h3>Étape 2 : Créer le fichier index.html</h3>
+  <p>Clic droit dans l'explorateur → Nouveau fichier → <code>index.html</code></p>
+  <p>Astuce : tapez <code>!</code> puis <code>Tab</code> pour générer la structure HTML5 automatique.</p>
+  <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="fr"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Mon Premier Site&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Bienvenue sur mon site !&lt;/h1&gt;
+  &lt;p&gt;Créé avec Visual Studio Code&lt;/p&gt;
+  &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+  <h3>Étape 3 : Créer le fichier style.css</h3>
+  <pre>body {
+  font-family: Arial, sans-serif;
+  background: #f0f4f8;
+  text-align: center;
+  padding: 50px;
+}
+h1 { color: #1F3A5F; }
+p { color: #2E8B57; }</pre>
+
+  <h3>Étape 4 : Créer le fichier script.js</h3>
+  <pre>document.querySelector("h1").addEventListener("click", () => {
+  alert("Vous avez cliqué sur le titre !");
+});</pre>
+
+  <h3>Étape 5 : Lancer avec Live Server</h3>
+  <ul>
+    <li>Clic droit sur <code>index.html</code> → <strong>Open with Live Server</strong>.</li>
+    <li>Le navigateur s'ouvre sur <code>http://127.0.0.1:5500</code>.</li>
+    <li>Chaque modification est rechargée automatiquement.</li>
+  </ul>
+
+  <div class="encadre">
+    <div class="encadre-title">✅ Résultat attendu</div>
+    <p>Une page web interactive avec un titre cliquable, stylisée en CSS, le tout créé avec VS Code et Live Server.</p>
+  </div>
+</section>
+
+<!-- SECTION 7 : RACCOURCIS -->
+<section class="section" id="raccourcis">
+  <h2>7. Raccourcis Clavier Essentiels</h2>
+  <p>Utilisez la <strong>barre de recherche</strong> ou les filtres pour trouver un raccourci.</p>
+
+  <div class="interactive-zone">
+    <div class="interactive-title">🎬 Tableau interactif des raccourcis</div>
+    <div class="rc-search">
+      <input type="text" class="rc-input" id="rcSearch" placeholder="🔍 Rechercher un raccourci...">
+      <div class="rc-filters">
+        <button class="rc-filter active" data-cat="all">Tous</button>
+        <button class="rc-filter" data-cat="edit">Édition</button>
+        <button class="rc-filter" data-cat="nav">Navigation</button>
+        <button class="rc-filter" data-cat="file">Fichier</button>
+        <button class="rc-filter" data-cat="view">Affichage</button>
+      </div>
+    </div>
+    <div class="rc-table-wrap">
+      <table class="rc-table">
+        <thead><tr><th>Action</th><th>Windows / Linux</th><th>macOS</th><th>Catégorie</th></tr></thead>
+        <tbody id="rcBody">
+          <tr data-cat="nav"><td>Palette de commandes</td><td><kbd>Ctrl + Shift + P</kbd></td><td><kbd>Cmd + Shift + P</kbd></td><td><span class="cat-badge c-nav">Navigation</span></td></tr>
+          <tr data-cat="file"><td>Ouvrir un fichier</td><td><kbd>Ctrl + P</kbd></td><td><kbd>Cmd + P</kbd></td><td><span class="cat-badge c-file">Fichier</span></td></tr>
+          <tr data-cat="view"><td>Terminal intégré</td><td><kbd>Ctrl + `</kbd></td><td><kbd>Cmd + `</kbd></td><td><span class="cat-badge c-view">Affichage</span></td></tr>
+          <tr data-cat="edit"><td>Formater le document</td><td><kbd>Shift + Alt + F</kbd></td><td><kbd>Shift + Option + F</kbd></td><td><span class="cat-badge c-edit">Édition</span></td></tr>
+          <tr data-cat="view"><td>Basculer la barre latérale</td><td><kbd>Ctrl + B</kbd></td><td><kbd>Cmd + B</kbd></td><td><span class="cat-badge c-view">Affichage</span></td></tr>
+          <tr data-cat="edit"><td>Multi-curseurs</td><td><kbd>Alt + Clic</kbd></td><td><kbd>Option + Clic</kbd></td><td><span class="cat-badge c-edit">Édition</span></td></tr>
+          <tr data-cat="edit"><td>Commenter la ligne</td><td><kbd>Ctrl + /</kbd></td><td><kbd>Cmd + /</kbd></td><td><span class="cat-badge c-edit">Édition</span></td></tr>
+          <tr data-cat="file"><td>Sauvegarder</td><td><kbd>Ctrl + S</kbd></td><td><kbd>Cmd + S</kbd></td><td><span class="cat-badge c-file">Fichier</span></td></tr>
+          <tr data-cat="file"><td>Tout sauvegarder</td><td><kbd>Ctrl + K S</kbd></td><td><kbd>Cmd + K S</kbd></td><td><span class="cat-badge c-file">Fichier</span></td></tr>
+          <tr data-cat="nav"><td>Rechercher dans les fichiers</td><td><kbd>Ctrl + Shift + F</kbd></td><td><kbd>Cmd + Shift + F</kbd></td><td><span class="cat-badge c-nav">Navigation</span></td></tr>
+          <tr data-cat="nav"><td>Ouvrir les paramètres</td><td><kbd>Ctrl + ,</kbd></td><td><kbd>Cmd + ,</kbd></td><td><span class="cat-badge c-nav">Navigation</span></td></tr>
+          <tr data-cat="edit"><td>Dupliquer la ligne</td><td><kbd>Shift + Alt + ↓</kbd></td><td><kbd>Shift + Option + ↓</kbd></td><td><span class="cat-badge c-edit">Édition</span></td></tr>
+          <tr data-cat="edit"><td>Déplacer la ligne</td><td><kbd>Alt + ↑ / ↓</kbd></td><td><kbd>Option + ↑ / ↓</kbd></td><td><span class="cat-badge c-edit">Édition</span></td></tr>
+          <tr data-cat="edit"><td>Renommer le symbole</td><td><kbd>F2</kbd></td><td><kbd>F2</kbd></td><td><span class="cat-badge c-edit">Édition</span></td></tr>
+          <tr data-cat="nav"><td>Aller à la ligne</td><td><kbd>Ctrl + G</kbd></td><td><kbd>Ctrl + G</kbd></td><td><span class="cat-badge c-nav">Navigation</span></td></tr>
+          <tr data-cat="view"><td>Zoom avant / arrière</td><td><kbd>Ctrl + + / -</kbd></td><td><kbd>Cmd + + / -</kbd></td><td><span class="cat-badge c-view">Affichage</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="rc-count" id="rcCount">16 raccourcis affichés</div>
+    <div class="rc-no-result" id="rcNoRes">😕 Aucun raccourci ne correspond à votre recherche.</div>
+  </div>
+</section>
+
+<!-- SECTION 8 : QUIZ -->
+<section class="section" id="quiz">
+  <h2>8. Quiz Interactif : Testez vos connaissances</h2>
+  <p>Répondez aux 15 questions pour évaluer votre maîtrise de Visual Studio Code.</p>
+
+  <div class="interactive-zone">
+    <div class="interactive-title">📝 Quiz : IDE Visual Studio Code (15 questions)</div>
+    <div class="quiz-container">
+      <div class="quiz-header">
+        <h1>📝 Quiz : Visual Studio Code</h1>
+        <span class="badge">ISMO / OFPPT</span>
+      </div>
+      <div class="quiz-progress-c"><div class="quiz-progress" id="quizP"></div></div>
+      <div class="quiz-ptext" id="quizPT">Question 0 / 15</div>
+
+      <div class="quiz-content">
+        <div class="quiz-welcome" id="quizWel">
+          <div class="ic">🎓</div>
+          <h2>Quiz : Maîtrisez-vous VS Code ?</h2>
+          <p>15 questions pour tester vos connaissances sur l'interface, les fonctionnalités et les extensions de Visual Studio Code.</p>
+          <div class="quiz-stats">
+            <div class="quiz-stat"><div class="v">15</div><div class="l">Questions</div></div>
+            <div class="quiz-stat"><div class="v">3</div><div class="l">Types</div></div>
+            <div class="quiz-stat"><div class="v">∞</div><div class="l">Temps</div></div>
+          </div>
+          <button class="quiz-btn quiz-bp" id="quizStart">▶ Commencer le Quiz</button>
+        </div>
+
+        <div class="quiz-qs" id="quizQs">
+          <span class="quiz-qtype" id="quizQT">QCM</span>
+          <div class="quiz-qtext" id="quizQQ">Question...</div>
+          <div class="quiz-opts" id="quizOpts"></div>
+          <div class="quiz-fb" id="quizFB">
+            <div class="quiz-fb-t" id="quizFBT"></div>
+            <div class="quiz-fb-x" id="quizFBX"></div>
+          </div>
+        </div>
+
+        <div class="quiz-res" id="quizRes">
+          <div class="ic" id="quizRI">🏆</div>
+          <h2 id="quizRT">Quiz Terminé !</h2>
+          <div class="quiz-sc" id="quizSC"><div class="quiz-sv" id="quizSV">0/15</div></div>
+          <div class="quiz-rm" id="quizRM"></div>
+          <div class="quiz-rd" id="quizRD"></div>
+          <button class="quiz-btn quiz-bs" id="quizReset">🔄 Recommencer</button>
+        </div>
+      </div>
+
+      <div class="quiz-controls" id="quizCtrl" style="display:none">
+        <button class="quiz-btn quiz-bs" id="quizPrev">⏮ Précédent</button>
+        <button class="quiz-btn quiz-bp" id="quizNext">Valider ✓</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIED DE PAGE -->
+<div style="text-align:center;padding:30px;color:#888;font-size:0.85rem">
+  <p><strong>ISMO</strong> — Institut Spécialisé dans les Métiers de l'Offshoring</p>
+  <p>Module : Développement des Sites Web Statiques | OFPPT</p>
+  <p style="margin-top:10px">© Support de cours interactif sur Visual Studio Code</p>
+</div>
+
+</main>
+
+<button class="back-to-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- Tooltip flottant pour le simulateur -->
+<div class="vscode-tooltip" id="vscodeTooltip">
+  <h4 id="vscodeTooltipTitle"></h4>
+  <p id="vscodeTooltipDesc"></p>
+</div>
+
+<script>
+/* ============================================================
+   1. NAVIGATION & SCROLL SPY
+   ============================================================ */
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+const sections = document.querySelectorAll('.section, .hero');
+const navLinks = document.querySelectorAll('.sidebar-nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  navLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+  });
+  const bt = document.getElementById('backTop');
+  if (window.scrollY > 400) bt.classList.add('show');
+  else bt.classList.remove('show');
+});
+navLinks.forEach(l => l.addEventListener('click', () => {
+  if (window.innerWidth < 900) document.getElementById('sidebar').classList.remove('open');
+}));
+
+/* ============================================================
+   2. SIMULATEUR VS CODE : INFO-BULLES AU SURVOL
+   ============================================================ */
+const vscodeTooltip = document.getElementById('vscodeTooltip');
+const vscodeTooltipTitle = document.getElementById('vscodeTooltipTitle');
+const vscodeTooltipDesc = document.getElementById('vscodeTooltipDesc');
+document.querySelectorAll('[data-vtip]').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    vscodeTooltipTitle.textContent = el.dataset.vtitle;
+    vscodeTooltipDesc.textContent = el.dataset.vdesc;
+    vscodeTooltip.classList.add('show');
+  });
+  el.addEventListener('mousemove', (e) => {
+    const rect = el.getBoundingClientRect();
+    let x = rect.right + 10;
+    let y = rect.top;
+    if (x + 270 > window.innerWidth) x = rect.left - 270;
+    if (y + 80 > window.innerHeight) y = window.innerHeight - 90;
+    vscodeTooltip.style.left = x + 'px';
+    vscodeTooltip.style.top = y + 'px';
+  });
+  el.addEventListener('mouseleave', () => {
+    vscodeTooltip.classList.remove('show');
+  });
+});
+
+/* ============================================================
+   3. PALETTE DE COMMANDES : ANIMATION
+   ============================================================ */
+const paletteBox = document.getElementById('paletteBox');
+const paletteInput = document.getElementById('paletteInput');
+const paletteResults = document.querySelectorAll('.palette-result');
+const paletteSteps = document.getElementById('paletteSteps');
+let paletteTimers = [];
+function resetPalette() {
+  paletteTimers.forEach(t => clearTimeout(t));
+  paletteTimers = [];
+  paletteBox.classList.remove('show');
+  paletteInput.value = '';
+  paletteResults.forEach(r => r.classList.remove('hidden', 'highlight'));
+  paletteSteps.innerHTML = 'Cliquez sur <strong>Lancer la démo</strong> pour voir la magie de Ctrl+Shift+P';
+}
+function playPalette() {
+  resetPalette();
+  paletteTimers.push(setTimeout(() => {
+    paletteBox.classList.add('show');
+    paletteSteps.textContent = '1. Appuyez sur Ctrl+Shift+P pour ouvrir la palette';
+  }, 300));
+  paletteTimers.push(setTimeout(() => {
+    paletteInput.value = 'odks';
+    paletteSteps.textContent = '2. Tapez "odks" (recherche floue)';
+  }, 1800));
+  paletteTimers.push(setTimeout(() => {
+    paletteResults.forEach(r => r.classList.add('hidden'));
+    const target = document.querySelector('.palette-result[data-cmd="odks"]');
+    target.classList.remove('hidden');
+    target.classList.add('highlight');
+    paletteSteps.textContent = '3. VS Code trouve "Open Default Keyboard Shortcuts"';
+  }, 3200));
+  paletteTimers.push(setTimeout(() => {
+    paletteSteps.textContent = '✅ La recherche floue trouve les commandes sans connaître leur nom exact !';
+  }, 4500));
+}
+
+/* ============================================================
+   4. TABLEAU DES RACCOURCIS : FILTRAGE
+   ============================================================ */
+const rcSearch = document.getElementById('rcSearch');
+const rcRows = document.querySelectorAll('#rcBody tr');
+const rcFilters = document.querySelectorAll('.rc-filter');
+const rcCount = document.getElementById('rcCount');
+const rcNoRes = document.getElementById('rcNoRes');
+let rcCat = 'all';
+function filterRaccourcis() {
+  const q = rcSearch.value.toLowerCase();
+  let n = 0;
+  rcRows.forEach(r => {
+    const matchQ = r.textContent.toLowerCase().includes(q);
+    const matchC = rcCat === 'all' || r.dataset.cat === rcCat;
+    if (matchQ && matchC) { r.classList.remove('hidden'); n++; }
+    else r.classList.add('hidden');
+  });
+  rcCount.textContent = n + ' raccourci' + (n > 1 ? 's' : '') + ' affiché' + (n > 1 ? 's' : '');
+  rcNoRes.style.display = n === 0 ? 'block' : 'none';
+}
+rcSearch.addEventListener('input', filterRaccourcis);
+rcFilters.forEach(f => f.addEventListener('click', () => {
+  rcFilters.forEach(x => x.classList.remove('active'));
+  f.classList.add('active');
+  rcCat = f.dataset.cat;
+  filterRaccourcis();
+}));
+
+/* ============================================================
+   5. QUIZ INTERACTIF
+   ============================================================ */
+const QUIZ_DATA = [
+  {t:"QCM",q:"Quelle est la nature de Visual Studio Code ?",o:["Un IDE lourd payant","Un éditeur de code gratuit et open source","Un navigateur web","Un système d'exploitation"],c:1,e:"VS Code est un éditeur gratuit, open source et multiplateforme créé par Microsoft."},
+  {t:"QCM",q:"Quel est le raccourci pour ouvrir la Palette de commandes ?",o:["Ctrl + P","Ctrl + Shift + P","Ctrl + Alt + P","Ctrl + C"],c:1,e:"Ctrl + Shift + P (ou Cmd + Shift + P) ouvre la palette de commandes."},
+  {t:"QCM",q:"Comment VS Code détecte-t-il le langage d'un fichier ?",o:["Par la taille du fichier","Par l'extension du fichier (.html, .css, .py)","Par le nom de l'utilisateur","Par la date de création"],c:1,e:"VS Code se base sur l'extension (.html, .css, .js, .py, .java, etc.) pour identifier le langage."},
+  {t:"Vrai/Faux",q:"VS Code est uniquement disponible sur Windows.",o:["Vrai","Faux, il est disponible sur Windows, macOS et Linux","Vrai, sauf pour les serveurs","Faux, seulement sur Mac"],c:1,e:"VS Code est multiplateforme : Windows, macOS et Linux."},
+  {t:"QCM",q:"Quelle extension lance un serveur local avec rechargement auto ?",o:["Prettier","ESLint","Live Server","GitLens"],c:2,e:"Live Server lance un serveur local avec rechargement automatique du navigateur."},
+  {t:"QCM",q:"Que fait l'extension Prettier ?",o:["Compile le code","Formate automatiquement le code","Bloque les erreurs","Traduit le code"],c:1,e:"Prettier formate le code : indentation, guillemets, points-virgules."},
+  {t:"QCM",q:"Quel raccourci ouvre le terminal intégré ?",o:["Ctrl + T","Ctrl + ` (backtick)","Ctrl + Alt + T","Ctrl + Shift + T"],c:1,e:"Ctrl + ` (backtick) ouvre le terminal intégré."},
+  {t:"Vrai/Faux",q:"VS Code intègre nativement Git.",o:["Vrai, dans la barre latérale Contrôle de code source","Faux, il faut un plugin payant","Vrai, mais seulement sur Mac","Faux, Git n'est pas supporté"],c:0,e:"VS Code intègre Git nativement dans la barre latérale."},
+  {t:"QCM",q:"Que fait le raccourci F2 dans VS Code ?",o:["Ferme l'éditeur","Renomme le symbole (variable, fonction)","Ouvre le terminal","Change le thème"],c:1,e:"F2 renomme le symbole sélectionné dans tout le projet."},
+  {t:"QCM",q:"Quel est le rôle du panneau WATCH lors du débogage ?",o:["Affiche les variables locales","Surveille des expressions personnalisées","Liste les erreurs","Gère les branches Git"],c:1,e:"Le panneau WATCH surveille des expressions définies par le développeur."},
+  {t:"QCM",q:"Quel outil IA est proposé par Microsoft dans VS Code ?",o:["ChatGPT","GitHub Copilot","Claude","Bard"],c:1,e:"GitHub Copilot est l'assistant IA de Microsoft (avec OpenAI) pour VS Code."},
+  {t:"QCM",q:"Que signifie le statut M dans le contrôle de code source ?",o:["Modifié","Manquant","Multiple","Migré"],c:0,e:"M = Modifié. U = Non suivi, A = Indexé."},
+  {t:"Vrai/Faux",q:"La recherche floue dans la Palette de commandes nécessite de taper le nom exact de la commande.",o:["Vrai","Faux, on peut taper des abréviations comme 'odks'","Vrai, sinon rien ne s'affiche","Faux, seulement pour les extensions"],c:1,e:"La recherche floue permet de taper 'odks' pour trouver 'Open Default Keyboard Shortcuts'."},
+  {t:"QCM",q:"Que fait le raccourci Shift + Alt + F ?",o:["Ferme la fenêtre","Formate le document","Cherche dans les fichiers","Ouvre les paramètres"],c:1,e:"Shift + Alt + F formate le document actif (indentation, style)."},
+  {t:"QCM",q:"Quel fichier configure le débogage dans VS Code ?",o:[".vscode/launch.json",".vscode/settings.json","package.json","index.html"],c:0,e:".vscode/launch.json définit les configurations de débogage."}
+];
+
+let quizIdx = 0, quizScore = 0, quizRep = [], quizSel = null;
+const quizWel = document.getElementById('quizWel');
+const quizQs = document.getElementById('quizQs');
+const quizRes = document.getElementById('quizRes');
+const quizCtrl = document.getElementById('quizCtrl');
+const quizP = document.getElementById('quizP');
+const quizPT = document.getElementById('quizPT');
+const quizQT = document.getElementById('quizQT');
+const quizQQ = document.getElementById('quizQQ');
+const quizOpts = document.getElementById('quizOpts');
+const quizFB = document.getElementById('quizFB');
+const quizFBT = document.getElementById('quizFBT');
+const quizFBX = document.getElementById('quizFBX');
+const quizNext = document.getElementById('quizNext');
+const quizPrev = document.getElementById('quizPrev');
+
+document.getElementById('quizStart').addEventListener('click', startQuiz);
+document.getElementById('quizReset').addEventListener('click', resetQuiz);
+quizPrev.addEventListener('click', prevQuiz);
+quizNext.addEventListener('click', validateQuiz);
+
+function startQuiz() {
+  quizWel.style.display = 'none';
+  quizQs.classList.add('active');
+  quizCtrl.style.display = 'flex';
+  quizIdx = 0; quizScore = 0; quizRep = []; quizSel = null;
+  showQuiz();
+}
+function showQuiz() {
+  const q = QUIZ_DATA[quizIdx];
+  quizQT.textContent = q.t;
+  quizQQ.textContent = q.q;
+  quizP.style.width = (quizIdx / QUIZ_DATA.length) * 100 + '%';
+  quizPT.textContent = 'Question ' + (quizIdx + 1) + ' / ' + QUIZ_DATA.length;
+  quizOpts.innerHTML = '';
+  const L = ['A', 'B', 'C', 'D'];
+  q.o.forEach((o, i) => {
+    const d = document.createElement('div');
+    d.className = 'quiz-opt';
+    d.dataset.i = i;
+    d.innerHTML = '<div class="quiz-ol">' + L[i] + '</div><div>' + o + '</div>';
+    d.addEventListener('click', () => selectQuiz(i));
+    quizOpts.appendChild(d);
+  });
+  quizFB.classList.remove('show', 'correct', 'incorrect');
+  quizFBT.textContent = '';
+  quizFBX.textContent = '';
+  quizPrev.disabled = quizIdx === 0;
+  if (quizRep[quizIdx] !== undefined) {
+    showQuizRep(quizRep[quizIdx]);
+    quizNext.textContent = quizIdx === QUIZ_DATA.length - 1 ? 'Voir résultats 🏆' : 'Suivant ⏭';
+  } else {
+    quizNext.textContent = 'Valider ✓';
+    quizNext.disabled = false;
+  }
+}
+function selectQuiz(i) {
+  if (quizRep[quizIdx] !== undefined) return;
+  document.querySelectorAll('.quiz-opt').forEach(o => {
+    o.style.background = '';
+    o.style.borderColor = '';
+  });
+  const el = document.querySelector('.quiz-opt[data-i="' + i + '"]');
+  el.style.background = '#e0e7ff';
+  el.style.borderColor = '#1F3A5F';
+  quizSel = i;
+}
+function validateQuiz() {
+  if (quizIdx === QUIZ_DATA.length - 1 && quizRep[quizIdx] !== undefined) {
+    finishQuiz();
+    return;
+  }
+  if (quizRep[quizIdx] !== undefined) {
+    if (quizIdx < QUIZ_DATA.length - 1) {
+      quizIdx++;
+      quizSel = null;
+      showQuiz();
+    } else finishQuiz();
+    return;
+  }
+  if (quizSel === null) {
+    alert('Veuillez sélectionner une réponse.');
+    return;
+  }
+  quizRep[quizIdx] = quizSel;
+  const q = QUIZ_DATA[quizIdx];
+  if (quizSel === q.c) {
+    quizScore++;
+    quizFB.className = 'quiz-fb correct show';
+    quizFBT.innerHTML = '✅ Bonne réponse !';
+  } else {
+    quizFB.className = 'quiz-fb incorrect show';
+    quizFBT.innerHTML = '❌ Mauvaise réponse';
+  }
+  quizFBX.textContent = q.e;
+  showQuizRep(quizSel);
+  quizNext.textContent = quizIdx === QUIZ_DATA.length - 1 ? 'Voir résultats 🏆' : 'Suivant ⏭';
+}
+function showQuizRep(i) {
+  const q = QUIZ_DATA[quizIdx];
+  document.querySelectorAll('.quiz-opt').forEach((o, j) => {
+    o.classList.add('disabled');
+    o.style.background = '';
+    o.style.borderColor = '';
+    if (j === q.c) o.classList.add('correct');
+    else if (j === i && j !== q.c) o.classList.add('incorrect');
+  });
+  if (!quizFB.classList.contains('show')) {
+    if (i === q.c) {
+      quizFB.className = 'quiz-fb correct show';
+      quizFBT.innerHTML = '✅ Bonne réponse !';
+    } else {
+      quizFB.className = 'quiz-fb incorrect show';
+      quizFBT.innerHTML = '❌ Mauvaise réponse';
+    }
+    quizFBX.textContent = q.e;
+  }
+}
+function prevQuiz() {
+  if (quizIdx > 0) {
+    quizIdx--;
+    quizSel = quizRep[quizIdx];
+    showQuiz();
+  }
+}
+function finishQuiz() {
+  quizQs.classList.remove('active');
+  quizRes.classList.add('active');
+  quizCtrl.style.display = 'none';
+  quizP.style.width = '100%';
+  quizPT.textContent = 'Quiz terminé !';
+  const pc = Math.round((quizScore / QUIZ_DATA.length) * 100);
+  document.getElementById('quizSV').textContent = quizScore + '/' + QUIZ_DATA.length;
+  document.getElementById('quizSC').style.background = 'conic-gradient(#2E8B57 ' + pc + '%, #F2F2F2 ' + pc + '%)';
+  const ri = document.getElementById('quizRI');
+  const rt = document.getElementById('quizRT');
+  const rm = document.getElementById('quizRM');
+  if (pc >= 80) {
+    ri.textContent = '🏆';
+    rt.textContent = 'Excellent travail !';
+    rm.textContent = 'Vous maîtrisez VS Code (' + pc + '%).';
+    rm.style.color = '#2E8B57';
+  } else if (pc >= 60) {
+    ri.textContent = '👍';
+    rt.textContent = 'Bon travail !';
+    rm.textContent = 'Bonne base (' + pc + '%). Révisez quelques points.';
+    rm.style.color = '#1F3A5F';
+  } else if (pc >= 40) {
+    ri.textContent = '📚';
+    rt.textContent = 'Peut mieux faire';
+    rm.textContent = 'Lacunes (' + pc + '%). Relisez le cours.';
+    rm.style.color = '#FF8C00';
+  } else {
+    ri.textContent = '⚠️';
+    rt.textContent = 'À revoir';
+    rm.textContent = 'Score insuffisant (' + pc + '%). Reprenez le cours.';
+    rm.style.color = '#DC3545';
+  }
+  document.getElementById('quizRD').innerHTML =
+    '<strong>Récapitulatif :</strong><br>' +
+    '✅ Bonnes réponses : ' + quizScore + '<br>' +
+    '❌ Mauvaises réponses : ' + (QUIZ_DATA.length - quizScore) + '<br>' +
+    '📊 Pourcentage : ' + pc + '%';
+}
+function resetQuiz() {
+  quizRes.classList.remove('active');
+  quizWel.style.display = 'block';
+  quizQs.classList.remove('active');
+  quizCtrl.style.display = 'none';
+  quizP.style.width = '0%';
+  quizPT.textContent = 'Question 0 / 15';
+  quizIdx = 0; quizScore = 0; quizRep = []; quizSel = null;
+}
+
+/* ============================================================
+   6. INITIALISATION
+   ============================================================ */
+filterRaccourcis();
+</script>
+
+</body>
+</html>

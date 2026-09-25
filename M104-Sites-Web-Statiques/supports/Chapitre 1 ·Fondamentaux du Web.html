@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support de Cours : Fondamentaux du Web - ISMO/OFPPT</title>
+    <style>
+        /* ============================================================
+           CONFIGURATION GÉNÉRALE & THÈME
+           ============================================================ */
+        :root {
+            --bleu-marine: #1F3A5F;
+            --vert-emeraude: #2E8B57;
+            --orange-accent: #FF8C00;
+            --rouge-erreur: #DC3545;
+            --violet: #8A2BE2;
+            --gris-clair: #F2F2F2;
+            --gris-fonce: #333;
+            --w3c-bleu: #005A9C;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Calibri, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: #f5f7fa;
+            color: var(--gris-fonce);
+            line-height: 1.6;
+        }
+
+        /* ============================================================
+           BARRE DE NAVIGATION LATÉRALE (Sommaire)
+           ============================================================ */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background: var(--bleu-marine);
+            color: white;
+            padding: 20px 15px;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header img {
+            max-width: 100px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .sidebar-header p {
+            font-size: 0.75rem;
+            color: #a8c0d8;
+            margin-top: 4px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-nav a {
+            display: block;
+            color: #cfdde8;
+            text-decoration: none;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: rgba(46, 139, 87, 0.3);
+            color: white;
+            border-left-color: var(--vert-emeraude);
+        }
+
+        .sidebar-nav a .num {
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            background: var(--vert-emeraude);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 0.7rem;
+            line-height: 22px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* ============================================================
+           CONTENU PRINCIPAL
+           ============================================================ */
+        .main-content {
+            margin-left: 260px;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        /* Section d'accueil */
+        .hero {
+            background: linear-gradient(135deg, var(--bleu-marine), var(--vert-emeraude));
+            color: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(31, 58, 95, 0.3);
+        }
+
+        .hero img {
+            max-width: 120px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 15px;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .hero h2 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            opacity: 0.95;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            margin: 5px;
+        }
+
+        /* Sections du cours */
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            scroll-margin-top: 20px;
+        }
+
+        .section h2 {
+            color: var(--bleu-marine);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--vert-emeraude);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            color: var(--vert-emeraude);
+            font-size: 1.15rem;
+            margin: 20px 0 10px 0;
+        }
+
+        .section p {
+            margin-bottom: 12px;
+            color: #444;
+        }
+
+        .section ul, .section ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 6px;
+        }
+
+        /* Encadrés pédagogiques */
+        .encadre {
+            background: var(--gris-clair);
+            border-left: 5px solid var(--orange-accent);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .encadre-title {
+            font-weight: bold;
+            color: var(--bleu-marine);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .encadre p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        /* Tableaux */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        table thead {
+            background: var(--bleu-marine);
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        table tbody tr:nth-child(even) {
+            background: var(--gris-clair);
+        }
+
+        table tbody tr:hover {
+            background: #e0e7ff;
+        }
+
+        /* Code */
+        code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            margin: 10px 0;
+        }
+
+        /* ============================================================
+           ANIMATIONS INTÉGRÉES (Iframes / Embeds)
+           ============================================================ */
+        .animation-container {
+            background: #f8f9fa;
+            border: 2px dashed var(--vert-emeraude);
+            border-radius: 15px;
+            padding: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .animation-title {
+            font-weight: bold;
+            color: var(--bleu-marine);
+            margin-bottom: 10px;
+            font-size: 1rem;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .animation-iframe {
+            width: 100%;
+            height: 700px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* ============================================================
+           EN-TÊTE MOBILE
+           ============================================================ */
+        .mobile-header {
+            display: none;
+            background: var(--bleu-marine);
+            color: white;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-header button {
+            background: var(--vert-emeraude);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .mobile-header {
+                display: flex;
+            }
+            .hero {
+                padding: 30px 20px;
+            }
+            .hero h1 { font-size: 1.4rem; }
+            .hero h2 { font-size: 1rem; }
+            .section { padding: 20px; }
+            .section h2 { font-size: 1.2rem; }
+            .animation-iframe { height: 500px; }
+        }
+
+        /* Bouton "retour en haut" */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--vert-emeraude);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 150;
+            transition: all 0.3s;
+        }
+
+        .back-to-top:hover {
+            background: var(--bleu-marine);
+            transform: translateY(-3px);
+        }
+
+        .back-to-top.show { display: block; }
+    </style>
+</head>
+<body>
+
+    <!-- En-tête mobile -->
+    <div class="mobile-header">
+        <div><strong>📚 Support de Cours</strong></div>
+        <button onclick="toggleSidebar()">☰</button>
+    </div>
+
+    <!-- Barre latérale (Sommaire) -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="logo_ofppt.png" alt="Logo OFPPT" onerror="this.style.display='none'">
+            <h1>ISMO</h1>
+            <p>Institut Spécialisé dans les<br>Métiers de l'Offshoring</p>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#accueil"><span class="num">🏠</span>Accueil</a></li>
+            <li><a href="#definitions"><span class="num">1</span>Définitions Fondamentales</a></li>
+            <li><a href="#client-serveur"><span class="num">2</span>Modèle Client-Serveur</a></li>
+            <li><a href="#url"><span class="num">3</span>URL & Hyperliens</a></li>
+            <li><a href="#historique"><span class="num">4</span>Historique du Web</a></li>
+            <li><a href="#w3c"><span class="num">5</span>Le W3C</a></li>
+            <li><a href="#navigateurs"><span class="num">6</span>Les Navigateurs</a></li>
+            <li><a href="#quiz"><span class="num">📝</span>Quiz Interactif</a></li>
+        </ul>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+
+        <!-- HERO / PAGE DE GARDE -->
+        <div class="hero" id="accueil">
+            <img src="logo_ofppt.png" alt="Logo OFPPT" onerror="this.style.display='none'">
+            <h1>Fondamentaux du Web</h1>
+            <h2>Développement des Sites Web Statiques</h2>
+            <div>
+                <span class="badge">📚 ISMO</span>
+                <span class="badge">🏛️ OFPPT</span>
+                <span class="badge">💻 Module Web</span>
+            </div>
+        </div>
+
+        <!-- SECTION 1 : DÉFINITIONS -->
+        <section class="section" id="definitions">
+            <h2>1. Définitions Fondamentales</h2>
+
+            <h3>1.1 Le World Wide Web (WWW)</h3>
+            <p>Le WWW n'est pas Internet. <strong>Internet</strong> est l'infrastructure réseau (câbles, serveurs, routeurs), tandis que le <strong>WWW</strong> est un service qui utilise cette infrastructure pour partager des documents hypertextes.</p>
+            <ul>
+                <li><strong>Définition :</strong> Système d'information distribué basé sur l'hypertexte, accessible via Internet.</li>
+                <li><strong>Composants clés :</strong> HTML (structure), HTTP (protocole), URL (adresse).</li>
+            </ul>
+
+            <!-- ANIMATION 1 : Autoroute / Camions -->
+            <!-- ANIMATION 1 : Autoroute / Camions (VERSION CORRIGÉE) -->
+<div class="animation-container">
+  <div class="animation-title">🎬 Animation : Internet (autoroute) vs WWW (camions)</div>
+  <iframe class="animation-iframe" style="height:420px" srcdoc='
+    <!DOCTYPE html>
+    <html><head><style>
+      *{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",sans-serif}
+      body{background:#e0f2fe;overflow:hidden;height:100vh}
+      .scene{position:relative;height:340px;overflow:hidden;background:linear-gradient(to bottom,#87CEEB 0%,#B0E0E6 60%,#7CB342 60%,#7CB342 62%,#4a4a4a 62%,#4a4a4a 100%)}
+      
+      /* Nuages */
+      .cloud{position:absolute;background:white;border-radius:50%;opacity:0.85}
+      .cloud::before,.cloud::after{content:"";position:absolute;background:white;border-radius:50%}
+      .cloud1{width:70px;height:25px;top:25px;animation:cloudMove 25s linear infinite}
+      .cloud1::before{width:35px;height:35px;top:-12px;left:10px}
+      .cloud1::after{width:45px;height:45px;top:-18px;left:30px}
+      .cloud2{width:90px;height:30px;top:65px;animation:cloudMove 35s linear infinite;animation-delay:-15s}
+      .cloud2::before{width:45px;height:45px;top:-15px;left:15px}
+      .cloud2::after{width:55px;height:55px;top:-22px;left:40px}
+      @keyframes cloudMove{from{left:-150px}to{left:110%}}
+      
+      /* Panneaux de signalisation */
+      .sign{position:absolute;top:130px;background:#2E8B57;color:white;padding:5px 14px;border-radius:6px;font-weight:bold;font-size:0.85rem;border:2px solid white;box-shadow:0 3px 6px rgba(0,0,0,0.3);z-index:3}
+      .sign::after{content:"";position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);width:4px;height:25px;background:#888}
+      .sign-dns{left:15%}
+      .sign-http{left:50%;transform:translateX(-50%)}
+      .sign-ip{right:15%}
+      
+      /* Ligne de la route (marquage au sol) */
+      .road-line{position:absolute;top:270px;left:0;width:200%;height:6px;background:repeating-linear-gradient(to right,#FFD700 0px,#FFD700 40px,transparent 40px,transparent 80px);animation:roadMove 1.2s linear infinite}
+      @keyframes roadMove{from{transform:translateX(0)}to{transform:translateX(-80px)}}
+      
+      /* CAMION : structure inversée (trailer à gauche, cabine à droite = sens gauche→droite) */
+      .truck{position:absolute;bottom:20px;display:flex;align-items:flex-end;animation:drive 9s linear infinite;z-index:2}
+      .truck-2{bottom:60px;animation:driveReverse 12s linear infinite}
+      
+      @keyframes drive{from{left:-280px}to{left:110%}}
+      @keyframes driveReverse{from{left:110%}to{left:-280px}}
+      
+      /* Remorque (trailer) — contient les pages web */
+      .trailer{width:130px;height:85px;background:white;border:3px solid #1F3A5F;border-radius:8px 0 0 8px;display:flex;align-items:center;justify-content:center;gap:6px;position:relative}
+      .trailer::after,.trailer::before{content:"";position:absolute;bottom:-14px;width:24px;height:24px;background:#222;border-radius:50%;border:3px solid #555}
+      .trailer::after{left:15px}
+      .trailer::before{right:15px}
+      
+      /* Cabine — à droite */
+      .cabin{width:60px;height:70px;background:#1F3A5F;border-radius:0 12px 6px 0;position:relative;display:flex;align-items:center;justify-content:center}
+      .cabin::before{content:"";position:absolute;top:12px;right:8px;width:28px;height:24px;background:#87CEEB;border-radius:4px;border:2px solid #0d1f33}
+      .cabin .wheel{width:24px;height:24px;background:#222;border-radius:50%;border:3px solid #555;position:absolute;bottom:-14px;right:12px}
+      
+      /* Roue avant de la remorque */
+      .trailer-wheel{width:24px;height:24px;background:#222;border-radius:50%;border:3px solid #555;position:absolute;bottom:-14px}
+      
+      /* Pages Web dans la remorque */
+      .web-page{width:28px;height:38px;background:#F2F2F2;border:1px solid #ccc;border-radius:3px;position:relative;padding:4px;display:flex;flex-direction:column;gap:3px}
+      .web-page::before{content:"";width:100%;height:3px;background:#2E8B57;border-radius:2px}
+      .web-page::after{content:"";width:70%;height:2px;background:#aaa;border-radius:2px;box-shadow:0 4px 0 #aaa,0 8px 0 #aaa}
+      
+      /* Effet inverse pour truck-2 : cabine à gauche */
+      .truck-2 .trailer{border-radius:0 8px 8px 0;border-color:#2E8B57}
+      .truck-2 .cabin{background:#2E8B57;border-radius:12px 0 0 6px;order:-1}
+      .truck-2 .cabin::before{right:auto;left:8px}
+      .truck-2 .cabin .wheel{right:auto;left:12px}
+      .truck-2 .web-page::before{background:#1F3A5F}
+      
+      /* Légende en bas */
+      .legend{position:absolute;bottom:0;left:0;right:0;background:white;padding:10px;display:flex;justify-content:space-around;font-size:0.8rem;color:#1F3A5F;font-weight:600;border-top:3px solid #1F3A5F}
+      .legend span{display:flex;align-items:center;gap:6px}
+      .legend .color{width:16px;height:16px;border-radius:4px}
+    </style></head><body>
+    <div class="scene">
+    
+      <div class="cloud cloud1"></div>
+      <div class="cloud cloud2"></div>
+      
+    
+      <div class="sign sign-dns">DNS</div>
+      <div class="sign sign-http">HTTP</div>
+      <div class="sign sign-ip">IP</div>
+      
+  
+      <div class="truck truck-1">
+        <div class="trailer">
+          <div class="web-page"></div>
+          <div class="web-page"></div>
+          <div class="web-page"></div>
+        </div>
+        <div class="cabin">
+          <div class="wheel"></div>
+        </div>
+      </div>
+      
+     
+      <div class="truck truck-2">
+        <div class="cabin">
+          <div class="wheel"></div>
+        </div>
+        <div class="trailer">
+          <div class="web-page"></div>
+          <div class="web-page"></div>
+        </div>
+      </div>
+      
+   
+      <div class="road-line"></div>
+     
+      <div class="legend">
+        <span><div class="color" style="background:#4a4a4a"></div>Internet (autoroute)</span>
+        <span><div class="color" style="background:#1F3A5F"></div>WWW (camions)</span>
+        <span><div class="color" style="background:#2E8B57"></div>Pages Web</span>
+      </div>
+    </div>
+    </body></html>
+  '></iframe>
+</div>
+        </section>
+
+        <!-- SECTION 2 : CLIENT-SERVEUR -->
+        <section class="section" id="client-serveur">
+            <h2>2. Le Modèle Client-Serveur</h2>
+            <p>C'est l'architecture fondamentale du Web. Le client (navigateur) demande une ressource, le serveur la fournit.</p>
+            <ul>
+                <li><strong>Le Client :</strong> Généralement le navigateur web. Il envoie des <em>requêtes</em>.</li>
+                <li><strong>Le Serveur :</strong> Ordinateur puissant hébergeant les fichiers du site. Il renvoie des <em>réponses</em>.</li>
+                <li><strong>Analogie :</strong> Le client est un client au restaurant qui commande un plat (requête). Le serveur est le cuisinier qui prépare et apporte le plat (réponse).</li>
+            </ul>
+
+            <!-- ANIMATION 2 : Cycle Requête/Réponse HTTP -->
+            <div class="animation-container">
+                <div class="animation-title">🎬 Animation : Cycle Requête / Réponse HTTP (UML)</div>
+                <iframe class="animation-iframe" srcdoc='
+                    <!DOCTYPE html>
+                    <html><head><style>
+                        body{margin:0;font-family:Segoe UI,sans-serif;background:linear-gradient(135deg,#e0eafc,#cfdef3);padding:15px;box-sizing:border-box}
+                        .container{background:white;border-radius:15px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.15)}
+                        .header{background:#1F3A5F;color:white;padding:10px 20px;font-size:0.9rem;font-weight:600}
+                        .scene{position:relative;height:340px;overflow:hidden;background:linear-gradient(to bottom,#87CEEB 0%,#B0E0E6 55%,#7CB342 55%,#7CB342 58%,#4a4a4a 58%,#4a4a4a 100%)}
+                        .block{display:flex;flex-direction:column;align-items:center;transition:transform 0.3s}
+                        .block.active{transform:scale(1.1)}
+                        .icon{width:60px;height:60px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:white;box-shadow:0 5px 15px rgba(0,0,0,0.2);transition:all 0.3s}
+                        .client .icon{background:#1F3A5F}.internet .icon{background:#333}.server .icon{background:#2E8B57}
+                        .block.active .icon{box-shadow:0 0 0 5px rgba(255,140,0,0.4),0 5px 15px rgba(0,0,0,0.3)}
+                        .label{margin-top:8px;font-weight:bold;color:#1F3A5F;font-size:0.75rem}
+                        .packet{position:absolute;top:50%;transform:translateY(-50%);padding:6px 14px;border-radius:15px;color:white;font-weight:bold;font-size:0.7rem;opacity:0;transition:all 0.8s;box-shadow:0 3px 8px rgba(0,0,0,0.3);white-space:nowrap}
+                        .packet.requete{background:#FF8C00;left:12%}
+                        .packet.reponse{background:#8A2BE2;right:12%}
+                        .packet.visible{opacity:1}
+                        .packet.requete.middle{left:42%}.packet.requete.end{left:72%}
+                        .packet.reponse.middle{right:42%}.packet.reponse.end{right:72%}
+                        .line{position:absolute;top:50%;left:12%;right:12%;height:4px;background:repeating-linear-gradient(to right,#ccc 0,#ccc 10px,transparent 10px,transparent 20px);transform:translateY(-50%)}
+                        .desc{background:#F2F2F2;padding:12px;text-align:center;min-height:60px}
+                        .desc h3{color:#1F3A5F;font-size:0.85rem;margin:0 0 4px}
+                        .desc p{color:#555;font-size:0.75rem;margin:0}
+                        .controls{display:flex;justify-content:center;gap:10px;padding:10px;background:white;border-top:1px solid #eee}
+                        .btn{padding:6px 15px;border:none;border-radius:15px;font-weight:bold;cursor:pointer;font-size:0.75rem;color:white;transition:all 0.3s}
+                        .btn-play{background:#2E8B57}.btn-pause{background:#FF8C00}.btn-reset{background:#1F3A5F}
+                        .btn:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.2)}
+                        .uml{background:#fafafa;padding:15px;border-top:3px solid #1F3A5F;}
+                        .uml-title{text-align:center;color:#1F3A5F;font-weight:bold;margin-bottom:10px;font-size:0.8rem}
+                        .uml-diagram{display:flex;justify-content:space-around;position:relative;min-height:120px;padding-top:30px}
+                        .uml-actor{display:flex;flex-direction:column;align-items:center;position:relative;width:80px}
+                        .uml-box{background:white;border:2px solid #1F3A5F;padding:5px 10px;border-radius:5px;font-weight:bold;font-size:0.7rem;color:#1F3A5F;z-index:2}
+                        .uml-actor.server .uml-box{border-color:#2E8B57;color:#2E8B57}
+                        .uml-lifeline{position:absolute;top:30px;bottom:0;width:2px;border-left:2px dashed #aaa}
+                        .uml-arrow{position:absolute;height:3px;background:#FF8C00;opacity:0;transition:opacity 0.5s;z-index:3}
+                        .uml-arrow.visible{opacity:1}
+                        .uml-arrow::after{content:"";position:absolute;right:-1px;top:-5px;border:6px solid transparent;border-left-color:#FF8C00}
+                        .uml-arrow.response{background:#8A2BE2}
+                        .uml-arrow.response::after{border-left-color:transparent;right:auto;left:-1px;border-right-color:#8A2BE2}
+                        .uml-label{position:absolute;top:-18px;font-size:0.65rem;font-weight:bold;color:#FF8C00;white-space:nowrap}
+                        .uml-arrow.response .uml-label{color:#8A2BE2}
+                    </style></head><body>
+                    <div class="container">
+                        <div class="header">🎬 Cycle Requête / Réponse HTTP</div>
+                        <div class="scene">
+                            <div class="line"></div>
+                            <div class="block client" id="b-client"><div class="icon">💻</div><div class="label">CLIENT</div></div>
+                            <div class="block internet" id="b-internet"><div class="icon">🌐</div><div class="label">INTERNET</div></div>
+                            <div class="block server" id="b-server"><div class="icon">🖥️</div><div class="label">SERVEUR</div></div>
+                            <div class="packet requete" id="p-req">📤 Requête HTTP</div>
+                            <div class="packet reponse" id="p-res">📥 Réponse HTTP (200 OK)</div>
+                        </div>
+                        <div class="desc"><h3 id="d-title">Prêt à démarrer</h3><p id="d-desc">Cliquez sur Lecture pour visualiser le cycle.</p></div>
+                        <div class="controls">
+                            <button class="btn btn-play" onclick="playAnim()">▶ Lecture</button>
+                            <button class="btn btn-pause" onclick="pauseAnim()">⏸ Pause</button>
+                            <button class="btn btn-reset" onclick="resetAnim()">🔄 Reset</button>
+                        </div>
+                        <div class="uml">
+                            <div class="uml-title">📊 Diagramme de Séquence UML</div>
+                            <div class="uml-diagram">
+                                <div class="uml-actor"><div class="uml-box">Client</div><div class="uml-lifeline"></div></div>
+                                <div class="uml-actor server"><div class="uml-box">Serveur</div><div class="uml-lifeline"></div></div>
+                                <div class="uml-arrow" id="a-req" style="left:15%;width:65%;top:60px"><span class="uml-label">1. Requête HTTP (GET)</span></div>
+                                <div class="uml-arrow response" id="a-res" style="left:15%;width:65%;top:100px"><span class="uml-label">2. Réponse HTTP (200 OK)</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        const steps=[
+                            {t:"1. Client prépare la requête",d:"L\u0027utilisateur saisit une URL. Le navigateur prépare une requête HTTP (GET).",a:()=>{reset();b_client.classList.add("active");p_req.classList.add("visible");}},
+                            {t:"2. Envoi via Internet",d:"La requête traverse le réseau. Le DNS trouve l\u0027adresse IP du serveur.",a:()=>{b_client.classList.remove("active");b_internet.classList.add("active");p_req.classList.add("middle");a_req.classList.add("visible");}},
+                            {t:"3. Traitement par le Serveur",d:"Le serveur reçoit la requête, localise le fichier et prépare la réponse (200 OK).",a:()=>{b_internet.classList.remove("active");b_server.classList.add("active");p_req.classList.remove("middle");p_req.classList.add("end");}},
+                            {t:"4. Envoi de la Réponse",d:"Le serveur renvoie la réponse HTTP (200 OK + HTML) via Internet.",a:()=>{b_server.classList.remove("active");b_internet.classList.add("active");p_res.classList.add("visible");a_res.classList.add("visible");}},
+                            {t:"5. Affichage Client",d:"Le navigateur interprète le HTML/CSS/JS et affiche la page. Cycle terminé !",a:()=>{b_internet.classList.remove("active");b_client.classList.add("active");p_req.classList.remove("visible","end");p_res.classList.add("end");}}
+                        ];
+                        let idx=-1,running=false,timer=null;
+                        function reset(){p_req.className="packet requete";p_res.className="packet reponse";b_client.classList.remove("active");b_internet.classList.remove("active");b_server.classList.remove("active");a_req.classList.remove("visible");a_res.classList.remove("visible");}
+                        function show(i){if(i<0||i>=steps.length)return;d_title.textContent=steps[i].t;d_desc.textContent=steps[i].d;steps[i].a();}
+                        function next(){idx++;if(idx>=steps.length){clearInterval(timer);running=false;d_title.textContent="✅ Animation terminée";d_desc.textContent="Cliquez sur Reset pour recommencer.";return;}show(idx);}
+                        function playAnim(){if(running)return;if(idx>=steps.length-1)resetAnim();running=true;next();timer=setInterval(next,2500);}
+                        function pauseAnim(){if(!running)return;clearInterval(timer);running=false;}
+                        function resetAnim(){clearInterval(timer);running=false;idx=-1;reset();d_title.textContent="Prêt à démarrer";d_desc.textContent="Cliquez sur Lecture pour visualiser le cycle.";}
+                        resetAnim();
+                    </script>
+                    </body></html>
+                '></iframe>
+            </div>
+        </section>
+
+        <!-- SECTION 3 : URL ET HYPERLIENS -->
+        <section class="section" id="url">
+            <h2>3. URL & Hyperliens</h2>
+
+            <h3>3.1 Les URL (Uniform Resource Locator)</h3>
+            <p>L'URL est l'adresse unique d'une ressource sur le Web.</p>
+            <ul>
+                <li><strong>Structure :</strong> <code>protocole://sous-domaine.domaine.extension/chemin/ressource</code></li>
+                <li><strong>Exemple :</strong> <code>https://www.ofppt.ma/formation/ismo</code></li>
+                <li><code>https</code> : Protocole sécurisé.</li>
+                <li><code>www</code> : Sous-domaine.</li>
+                <li><code>ofppt.ma</code> : Nom de domaine.</li>
+                <li><code>/formation/ismo</code> : Chemin d'accès au fichier.</li>
+            </ul>
+
+            <h3>3.2 Les Hyperliens (Liens)</h3>
+            <p>Élément cliquable permettant de naviguer d'une page à une autre. C'est ce qui fait du Web une "toile" (Web).</p>
+            <pre>&lt;a href="url"&gt;Texte du lien&lt;/a&gt;</pre>
+        </section>
+
+        <!-- SECTION 4 : HISTORIQUE -->
+        <section class="section" id="historique">
+            <h2>4. Historique du Web</h2>
+
+            <table>
+                <thead>
+                    <tr><th>Année</th><th>Événement</th><th>Description</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>1989</strong></td><td>Invention par Tim Berners-Lee</td><td>Au CERN, il propose un système de gestion de l'information.</td></tr>
+                    <tr><td><strong>1991</strong></td><td>Naissance du WWW</td><td>Premier site web mis en ligne (info.cern.ch).</td></tr>
+                    <tr><td><strong>1994</strong></td><td>Création du W3C</td><td>Fondation du consortium pour standardiser le Web.</td></tr>
+                    <tr><td><strong>1995</strong></td><td>HTML 2.0</td><td>Première version standardisée.</td></tr>
+                    <tr><td><strong>1999</strong></td><td>HTML 4.01</td><td>Popularisation du CSS (séparation contenu/présentation).</td></tr>
+                    <tr><td><strong>2014</strong></td><td>HTML5</td><td>Standard actuel : multimédia, sémantique, APIs riches.</td></tr>
+                </tbody>
+            </table>
+
+            <!-- ANIMATION 3 : Frise chronologique -->
+            <div class="animation-container">
+                <div class="animation-title">🎬 Animation : Frise chronologique interactive (1989 → 2014)</div>
+                <iframe class="animation-iframe" srcdoc='
+                    <!DOCTYPE html>
+                    <html><head><style>
+                        body{margin:0;font-family:Segoe UI,sans-serif;background:linear-gradient(135deg,#e0eafc,#cfdef3);padding:15px;box-sizing:border-box}
+                        .container{background:white;border-radius:15px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.15)}
+                        .header{background:#1F3A5F;color:white;padding:10px 20px;font-size:0.9rem;font-weight:600}
+                        .wrapper{padding:25px 20px 15px;background:linear-gradient(to bottom,#f8f9fa,#e9ecef)}
+                        .bar{position:relative;height:8px;background:#ddd;border-radius:4px;margin-bottom:25px}
+                        .progress{position:absolute;top:0;left:0;height:100%;background:linear-gradient(to right,#2E8B57,#1F3A5F);border-radius:4px;width:0%;transition:width 0.8s}
+                        .points{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);display:flex;justify-content:space-between}
+                        .point{width:18px;height:18px;background:white;border:3px solid #ccc;border-radius:50%;cursor:pointer;transition:all 0.3s;position:relative;z-index:2}
+                        .point:hover{transform:scale(1.3);border-color:#FF8C00}
+                        .point.active{background:#2E8B57;border-color:#2E8B57;box-shadow:0 0 0 5px rgba(46,139,87,0.3)}
+                        .point.done{background:#1F3A5F;border-color:#1F3A5F}
+                        .year{position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);font-size:0.7rem;font-weight:bold;color:#1F3A5F;white-space:nowrap}
+                        .card{background:white;border-radius:15px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,0.1);min-height:160px;display:flex;align-items:center;gap:20px;border-left:6px solid #2E8B57;transition:all 0.5s}
+                        .card.hidden{opacity:0;transform:translateY(20px)}
+                        .card.visible{opacity:1;transform:translateY(0)}
+                        .icon{flex-shrink:0;width:80px;height:80px;background:#1F3A5F;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2.3rem;color:white;box-shadow:0 8px 20px rgba(31,58,95,0.3)}
+                        .content{flex:1}
+                        .badge{display:inline-block;background:#2E8B57;color:white;padding:3px 12px;border-radius:15px;font-weight:bold;font-size:0.8rem;margin-bottom:8px}
+                        .title{color:#1F3A5F;font-size:1.1rem;font-weight:bold;margin-bottom:8px}
+                        .desc{color:#555;font-size:0.85rem;line-height:1.4}
+                        .tags{margin-top:8px}
+                        .tag{display:inline-block;background:#F2F2F2;color:#1F3A5F;padding:2px 8px;border-radius:4px;font-size:0.7rem;font-weight:600;margin-right:5px}
+                        .info{display:flex;justify-content:space-between;padding:8px 20px;background:white;font-size:0.8rem;color:#777}
+                        .info .cur{font-weight:bold;color:#1F3A5F;font-size:0.9rem}
+                        .controls{display:flex;justify-content:center;gap:10px;padding:12px;background:white;border-top:1px solid #eee}
+                        .btn{padding:8px 18px;border:none;border-radius:20px;font-weight:bold;cursor:pointer;font-size:0.8rem;color:white;transition:all 0.3s}
+                        .btn-play{background:#2E8B57}.btn-pause{background:#FF8C00}.btn-prev{background:#6c757d}.btn-next{background:#1F3A5F}
+                        .btn:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(0,0,0,0.2)}
+                        .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+                    </style></head><body>
+                    <div class="container">
+                        <div class="header">📜 Histoire du Web : De 1989 à 2014</div>
+                        <div class="wrapper">
+                            <div class="bar">
+                                <div class="progress" id="prog"></div>
+                                <div class="points" id="points"></div>
+                            </div>
+                            <div class="card visible" id="card">
+                                <div class="icon" id="ic">💡</div>
+                                <div class="content">
+                                    <span class="badge" id="yr">1989</span>
+                                    <div class="title" id="ti">Invention du World Wide Web</div>
+                                    <div class="desc" id="de"></div>
+                                    <div class="tags" id="tg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info">
+                            <span>Progression :</span>
+                            <span class="cur" id="cur">1989</span>
+                            <span id="tot">1 / 6</span>
+                        </div>
+                        <div class="controls">
+                            <button class="btn btn-prev" onclick="prev()">⏮ Préc.</button>
+                            <button class="btn btn-play" id="bp" onclick="play()">▶ Lecture</button>
+                            <button class="btn btn-pause" id="bpa" onclick="pause()" disabled>⏸ Pause</button>
+                            <button class="btn btn-next" onclick="next()">Suiv. ⏭</button>
+                        </div>
+                    </div>
+                    <script>
+                        const evts=[
+                            {a:"1989",i:"💡",t:"Invention du World Wide Web",d:"Tim Berners-Lee, chercheur au CERN, propose un système de gestion de l\u0027information basé sur l\u0027hypertexte.",g:["Tim Berners-Lee","CERN","Hypertexte"]},
+                            {a:"1991",i:"🌐",t:"Naissance du premier site web",d:"Le tout premier site web est mis en ligne à info.cern.ch. Le Web devient public.",g:["info.cern.ch","Premier site","HTTP"]},
+                            {a:"1994",i:"🏛️",t:"Création du W3C",d:"Tim Berners-Lee fonde le World Wide Web Consortium (W3C) pour standardiser le Web.",g:["W3C","Standards","MIT"]},
+                            {a:"1995",i:"📄",t:"HTML 2.0",d:"Première version standardisée du HTML. Elle pose les bases des formulaires et des images.",g:["HTML 2.0","Standard"]},
+                            {a:"1999",i:"🎨",t:"HTML 4.01 et CSS",d:"HTML 4.01 popularise la séparation entre contenu (HTML) et présentation (CSS).",g:["HTML 4.01","CSS"]},
+                            {a:"2014",i:"🚀",t:"HTML5",d:"HTML5 devient recommandation officielle. Multimédia natif, sémantique et APIs modernes.",g:["HTML5","Multimédia","APIs"]}
+                        ];
+                        let idx=0,playing=false,timer=null;
+                        function initPoints(){
+                            const c=document.getElementById("points");c.innerHTML="";
+                            evts.forEach((e,i)=>{const p=document.createElement("div");p.className="point";p.dataset.i=i;
+                            const y=document.createElement("span");y.className="year";y.textContent=e.a;p.appendChild(y);
+                            p.onclick=()=>{pause();show(i)};c.appendChild(p);});
+                        }
+                        function show(i){
+                            if(i<0||i>=evts.length)return;idx=i;const e=evts[i];
+                            card.classList.remove("visible");card.classList.add("hidden");
+                            setTimeout(()=>{
+                                ic.textContent=e.i;yr.textContent=e.a;ti.textContent=e.t;de.textContent=e.d;
+                                tg.innerHTML="";e.g.forEach(g=>{const s=document.createElement("span");s.className="tag";s.textContent=g;tg.appendChild(s);});
+                                card.classList.remove("hidden");card.classList.add("visible");
+                            },250);
+                            document.querySelectorAll(".point").forEach((p,j)=>{p.classList.remove("active","done");if(j===i)p.classList.add("active");if(j<i)p.classList.add("done");});
+                            prog.style.width=(i/(evts.length-1))*100+"%";
+                            cur.textContent=e.a;tot.textContent=(i+1)+" / "+evts.length;
+                        }
+                        function play(){if(playing)return;playing=true;bp.disabled=true;bpa.disabled=false;if(idx===evts.length-1)show(0);timer=setInterval(()=>{if(idx<evts.length-1)show(idx+1);else pause();},4000);}
+                        function pause(){playing=false;clearInterval(timer);bp.disabled=false;bpa.disabled=true;}
+                        function next(){pause();if(idx<evts.length-1)show(idx+1);}
+                        function prev(){pause();if(idx>0)show(idx-1);}
+                        initPoints();show(0);
+                    </script>
+                    </body></html>
+                '></iframe>
+            </div>
+        </section>
+
+        <!-- SECTION 5 : W3C -->
+        <section class="section" id="w3c">
+            <h2>5. Le W3C (World Wide Web Consortium)</h2>
+            <ul>
+                <li><strong>Rôle :</strong> Organisme international qui développe des standards ouverts pour le Web.</li>
+                <li><strong>Objectifs :</strong></li>
+                <ul>
+                    <li><strong>Interopérabilité :</strong> S'assurer que tous les navigateurs comprennent le même code.</li>
+                    <li><strong>Accessibilité :</strong> Rendre le Web accessible aux personnes handicapées (normes WCAG).</li>
+                    <li><strong>Évolution :</strong> Développer les technologies futures (HTML, CSS, XML).</li>
+                </ul>
+            </ul>
+
+            <!-- ANIMATION 4 : W3C et Navigateurs -->
+            <div class="animation-container">
+                <div class="animation-title">🎬 Animation : Le W3C dicte les règles, les navigateurs appliquent</div>
+                <iframe class="animation-iframe" srcdoc='
+                    <!DOCTYPE html>
+                    <html><head><style>
+                        body{margin:0;font-family:Segoe UI,sans-serif;background:linear-gradient(135deg,#e0eafc,#cfdef3);padding:15px;box-sizing:border-box}
+                        .container{background:white;border-radius:15px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.15)}
+                        .header{background:#1F3A5F;color:white;padding:12px 20px;font-size:0.95rem;font-weight:600;display:flex;justify-content:space-between}
+                        .header .badge{background:#2E8B57;padding:3px 10px;border-radius:15px;font-size:0.75rem}
+                        .schema{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;padding:25px 20px;background:linear-gradient(to bottom,#f8f9fa,#e9ecef);position:relative;align-items:center}
+                        .schema::before,.schema::after{content:"➜";position:absolute;top:50%;transform:translateY(-50%);font-size:2rem;color:#FF8C00;font-weight:bold;animation:pulse 1.5s infinite}
+                        .schema::before{left:32%}.schema::after{left:65%}
+                        @keyframes pulse{0%,100%{opacity:0.5;transform:translateY(-50%) translateX(0)}50%{opacity:1;transform:translateY(-50%) translateX(5px)}}
+                        .col{display:flex;flex-direction:column;align-items:center;gap:12px}
+                        .col-title{font-size:0.75rem;font-weight:bold;color:#1F3A5F;text-transform:uppercase;letter-spacing:1px;text-align:center}
+                        .w3c{width:110px;height:110px;background:white;border-radius:18px;box-shadow:0 8px 20px rgba(0,90,156,0.3);display:flex;align-items:center;justify-content:center;border:3px solid #005A9C;animation:float 3s ease-in-out infinite}
+                        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+                        .w3c svg{width:75px;height:75px}
+                        .w3c-badge{background:#005A9C;color:white;padding:4px 12px;border-radius:15px;font-weight:bold;font-size:0.75rem}
+                        .role{font-size:0.7rem;color:#666;text-align:center;line-height:1.3;max-width:160px}
+                        .stds{display:flex;flex-direction:column;gap:10px;width:100%}
+                        .std{background:white;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 3px 8px rgba(0,0,0,0.08);cursor:pointer;transition:all 0.3s;border-left:4px solid #FF8C00}
+                        .std:hover{transform:translateX(5px)}
+                        .std.active{border-left-color:#2E8B57;background:linear-gradient(to right,#f0fdf4,white);transform:translateX(8px)}
+                        .std-ic{width:35px;height:35px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:bold;color:white;flex-shrink:0}
+                        .html .std-ic{background:#E44D26}.css .std-ic{background:#264DE4}.js .std-ic{background:#F7DF1E;color:#333}
+                        .std-name{font-weight:bold;color:#1F3A5F;font-size:0.85rem}
+                        .std-desc{font-size:0.7rem;color:#777}
+                        .brs{display:flex;flex-direction:column;gap:10px;width:100%}
+                        .br{background:white;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 3px 8px rgba(0,0,0,0.08);transition:all 0.4s;border-left:4px solid #ccc}
+                        .br.applied{border-left-color:#2E8B57;background:linear-gradient(to right,#f0fdf4,white)}
+                        .br-ic{width:35px;height:35px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:bold;color:white;flex-shrink:0}
+                        .chrome{background:linear-gradient(135deg,#4285F4,#EA4335,#FBBC05,#34A853)}
+                        .firefox{background:linear-gradient(135deg,#FF7139,#FFB13D)}
+                        .safari{background:linear-gradient(135deg,#006CFF,#00C6FF)}
+                        .edge{background:linear-gradient(135deg,#0078D7,#00BCF2)}
+                        .br-name{font-weight:bold;color:#1F3A5F;font-size:0.85rem}
+                        .br-st{font-size:0.7rem;color:#999;transition:color 0.3s}
+                        .br.applied .br-st{color:#2E8B57;font-weight:600}
+                        .check{opacity:0;color:#2E8B57;font-size:1.2rem;font-weight:bold;transition:opacity 0.3s,transform 0.3s;transform:scale(0)}
+                        .br.applied .check{opacity:1;transform:scale(1)}
+                        .info-panel{background:#1F3A5F;color:white;padding:15px 20px;display:flex;align-items:center;gap:15px;min-height:70px;transition:background 0.5s}
+                        .info-panel.html{background:#E44D26}.info-panel.css{background:#264DE4}.info-panel.js{background:#F7DF1E;color:#333}
+                        .info-icon{font-size:2rem;flex-shrink:0}
+                        .info-content h3{font-size:1rem;margin-bottom:3px}
+                        .info-content p{font-size:0.8rem;opacity:0.95;line-height:1.4}
+                        .controls{display:flex;justify-content:center;gap:10px;padding:12px;background:white;border-top:1px solid #eee}
+                        .btn{padding:8px 20px;border:none;border-radius:20px;font-weight:bold;cursor:pointer;font-size:0.8rem;color:white;transition:all 0.3s}
+                        .btn-demo{background:#2E8B57}.btn-reset{background:#1F3A5F}
+                        .btn:hover{transform:translateY(-2px);box-shadow:0 5px 12px rgba(0,0,0,0.2)}
+                        .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+                        .pedago{background:#F2F2F2;padding:15px 20px;border-top:3px solid #1F3A5F}
+                        .pedago h3{color:#1F3A5F;font-size:0.85rem;margin-bottom:6px}
+                        .pedago p{color:#555;font-size:0.8rem;line-height:1.4}
+                        .pedago strong{color:#2E8B57}
+                    </style></head><body>
+                    <div class="container">
+                        <div class="header"><span>🏛️ Le W3C et les Standards du Web</span><span class="badge">ISMO / OFPPT</span></div>
+                        <div class="schema">
+                            <div class="col">
+                                <div class="col-title">Organisme</div>
+                                <div class="w3c"><svg viewBox="0 0 100 100"><path d="M 20 60 Q 30 20 40 60 T 60 60" stroke="#005A9C" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M 45 30 L 55 60 L 65 30" stroke="#005A9C" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="75" cy="45" r="15" stroke="#005A9C" stroke-width="5" fill="none"/><text x="50" y="90" font-family="Arial" font-size="12" font-weight="bold" fill="#005A9C" text-anchor="middle">W3C</text></svg></div>
+                                <div class="w3c-badge">World Wide Web Consortium</div>
+                                <p class="role">Fondé en 1994 par Tim Berners-Lee. Développe des standards ouverts.</p>
+                            </div>
+                            <div class="col">
+                                <div class="col-title">Standards</div>
+                                <div class="stds" id="stds">
+                                    <div class="std html active" data-s="html"><div class="std-ic">H</div><div><div class="std-name">HTML5</div><div class="std-desc">Structure</div></div></div>
+                                    <div class="std css" data-s="css"><div class="std-ic">C</div><div><div class="std-name">CSS3</div><div class="std-desc">Mise en forme</div></div></div>
+                                    <div class="std js" data-s="js"><div class="std-ic">JS</div><div><div class="std-name">ECMAScript</div><div class="std-desc">Interactivité</div></div></div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="col-title">Navigateurs</div>
+                                <div class="brs" id="brs">
+                                    <div class="br" data-b="chrome"><div class="br-ic chrome">C</div><div><div class="br-name">Chrome</div><div class="br-st">En attente...</div></div><div class="check">✓</div></div>
+                                    <div class="br" data-b="firefox"><div class="br-ic firefox">F</div><div><div class="br-name">Firefox</div><div class="br-st">En attente...</div></div><div class="check">✓</div></div>
+                                    <div class="br" data-b="safari"><div class="br-ic safari">S</div><div><div class="br-name">Safari</div><div class="br-st">En attente...</div></div><div class="check">✓</div></div>
+                                    <div class="br" data-b="edge"><div class="br-ic edge">E</div><div><div class="br-name">Edge</div><div class="br-st">En attente...</div></div><div class="check">✓</div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-panel html" id="ip">
+                            <div class="info-icon" id="ii">📄</div>
+                            <div class="info-content"><h3 id="it">HTML5</h3><p id="id2">Structure des pages web.</p></div>
+                        </div>
+                        <div class="controls">
+                            <button class="btn btn-demo" id="bd">▶ Lancer la démonstration</button>
+                            <button class="btn btn-reset" id="br2">🔄 Réinitialiser</button>
+                        </div>
+                        <div class="pedago"><h3>💡 À retenir</h3><p>Le <strong>W3C</strong> est le "législateur" du Web. Les <strong>navigateurs</strong> appliquent ses règles pour garantir l'<strong>interopérabilité</strong>.</p></div>
+                    </div>
+                    <script>
+                        const data={
+                            html:{i:"📄",t:"HTML5",d:"Standard du W3C qui définit la structure et la sémantique des pages web.",c:"html",n:{chrome:"Support complet",firefox:"Support complet",safari:"Support complet",edge:"Support complet"}},
+                            css:{i:"🎨",t:"CSS3",d:"Standard du W3C pour la mise en forme (couleurs, polices, mise en page).",c:"css",n:{chrome:"Support CSS3 + Grid",firefox:"Support CSS3 + Grid",safari:"Support (préfixes)",edge:"Support CSS3 + Grid"}},
+                            js:{i:"⚡",t:"ECMAScript",d:"Standard ECMA pour l\u0027interactivité (JavaScript).",c:"js",n:{chrome:"Moteur V8",firefox:"SpiderMonkey",safari:"JavaScriptCore",edge:"Moteur V8"}}
+                        };
+                        let cur="html",running=false;
+                        function show(k){cur=k;const d=data[k];
+                            document.querySelectorAll(".std").forEach(s=>s.classList.toggle("active",s.dataset.s===k));
+                            ip.className="info-panel "+d.c;ii.textContent=d.i;it.textContent=d.t;id2.textContent=d.d;
+                            document.querySelectorAll(".br").forEach(b=>{b.classList.remove("applied");b.querySelector(".br-st").textContent="En attente...";});
+                        }
+                        function demo(){if(running)return;running=true;bd.disabled=true;
+                            const bs=["chrome","firefox","safari","edge"];const d=data[cur];
+                            bs.forEach((b,i)=>setTimeout(()=>{
+                                const el=document.querySelector(\u0027.br[data-b="\u0027+b+\u0027"]\u0027);
+                                el.classList.add("applied");el.querySelector(".br-st").textContent=d.n[b];
+                                if(i===bs.length-1){running=false;bd.disabled=false;}
+                            },(i+1)*500));
+                        }
+                        function reset(){running=false;bd.disabled=false;show("html");}
+                        document.querySelectorAll(".std").forEach(s=>s.onclick=()=>show(s.dataset.s));
+                        bd.onclick=demo;br2.onclick=reset;show("html");
+                    </script>
+                    </body></html>
+                '></iframe>
+            </div>
+        </section>
+
+        <!-- SECTION 6 : NAVIGATEURS -->
+        <section class="section" id="navigateurs">
+            <h2>6. Les Navigateurs Web</h2>
+
+            <h3>6.1 Rôle</h3>
+            <p>Le navigateur est le logiciel client qui :</p>
+            <ol>
+                <li><strong>Interprète</strong> le code (HTML, CSS, JavaScript).</li>
+                <li><strong>Gère les requêtes</strong> HTTP vers les serveurs.</li>
+                <li><strong>Affiche</strong> le rendu visuel (moteur de rendu).</li>
+            </ol>
+
+            <h3>6.2 Fonctionnement (Cycle Requête/Réponse)</h3>
+            <ol>
+                <li><strong>Saisie URL :</strong> L'utilisateur tape une adresse.</li>
+                <li><strong>Résolution DNS :</strong> Le navigateur trouve l'adresse IP du serveur.</li>
+                <li><strong>Requête HTTP :</strong> Envoi d'une demande (ex: <code>GET /index.html</code>).</li>
+                <li><strong>Réponse Serveur :</strong> Le serveur renvoie le code HTML avec un code statut (ex: <code>200 OK</code>).</li>
+                <li><strong>Rendu :</strong> Le navigateur analyse le HTML, charge le CSS, exécute le JS et peint l'écran.</li>
+            </ol>
+
+            <div class="encadre">
+                <div class="encadre-title">🎬 Démonstration en classe</div>
+                <p><strong>Outil :</strong> Utilisez les DevTools (F12) dans Chrome → onglet "Network" (Réseau).</p>
+                <p><strong>Action :</strong> Rechargez une page et montrez les requêtes qui défilent en temps réel (codes 200, 304, etc.).</p>
+            </div>
+        </section>
+
+        <!-- SECTION 7 : QUIZ INTERACTIF -->
+        <section class="section" id="quiz">
+            <h2>7. Quiz Interactif : Testez vos connaissances</h2>
+            <p>Répondez aux 15 questions pour évaluer votre maîtrise du chapitre. Vous recevrez un feedback immédiat et un score final.</p>
+
+            <div class="animation-container">
+                <div class="animation-title">📝 Quiz : Fondamentaux du Web (15 questions)</div>
+                <iframe class="animation-iframe" srcdoc='
+                    <!DOCTYPE html>
+                    <html><head><style>
+                        body{margin:0;font-family:Segoe UI,sans-serif;background:linear-gradient(135deg,#e0eafc,#cfdef3);padding:15px;box-sizing:border-box}
+                        .container{background:white;border-radius:15px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.15)}
+                        .header{background:#1F3A5F;color:white;padding:12px 20px;display:flex;justify-content:space-between;align-items:center}
+                        .header h1{font-size:0.95rem}
+                        .header .badge{background:#2E8B57;padding:3px 10px;border-radius:15px;font-size:0.7rem;font-weight:bold}
+                        .progress-c{background:#F2F2F2;height:6px}
+                        .progress{height:100%;background:linear-gradient(to right,#2E8B57,#1F3A5F);width:0%;transition:width 0.5s}
+                        .ptext{text-align:center;padding:8px;font-size:0.75rem;color:#1F3A5F;font-weight:600}
+                        .content{padding:20px;min-height:350px}
+                        .welcome{text-align:center;padding:25px 15px}
+                        .welcome .ic{font-size:3rem;margin-bottom:15px}
+                        .welcome h2{color:#1F3A5F;font-size:1.2rem;margin-bottom:10px}
+                        .welcome p{color:#666;font-size:0.85rem;line-height:1.5;max-width:500px;margin:0 auto 15px}
+                        .stats{display:flex;justify-content:center;gap:25px;margin:20px 0;flex-wrap:wrap}
+                        .stat{text-align:center}.stat .v{font-size:1.5rem;font-weight:bold;color:#2E8B57}.stat .l{font-size:0.7rem;color:#777}
+                        .qs{display:none}.qs.active{display:block;animation:fade 0.4s}
+                        @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+                        .qtype{display:inline-block;background:#FF8C00;color:white;padding:2px 10px;border-radius:12px;font-size:0.65rem;font-weight:bold;margin-bottom:10px}
+                        .qtext{color:#1F3A5F;font-size:1rem;font-weight:600;margin-bottom:18px;line-height:1.4}
+                        .opts{display:flex;flex-direction:column;gap:8px}
+                        .opt{background:#F2F2F2;padding:12px 15px;border-radius:10px;cursor:pointer;transition:all 0.3s;border:2px solid transparent;display:flex;align-items:center;gap:12px;font-size:0.85rem;color:#333}
+                        .opt:hover:not(.disabled){background:#e0e7ff;transform:translateX(5px)}
+                        .opt.disabled{cursor:not-allowed}
+                        .ol{width:26px;height:26px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#1F3A5F;flex-shrink:0;font-size:0.75rem}
+                        .opt.correct{background:#d4edda;border-color:#2E8B57}.opt.correct .ol{background:#2E8B57;color:white}
+                        .opt.incorrect{background:#f8d7da;border-color:#DC3545}.opt.incorrect .ol{background:#DC3545;color:white}
+                        .fb{margin-top:15px;padding:12px 15px;border-radius:10px;display:none;animation:fade 0.3s}
+                        .fb.show{display:block}
+                        .fb.correct{background:#d4edda;border-left:4px solid #2E8B57}
+                        .fb.incorrect{background:#f8d7da;border-left:4px solid #DC3545}
+                        .fb-t{font-weight:bold;margin-bottom:5px;font-size:0.85rem}
+                        .fb.correct .fb-t{color:#2E8B57}.fb.incorrect .fb-t{color:#DC3545}
+                        .fb-x{font-size:0.8rem;color:#333;line-height:1.4}
+                        .controls{display:flex;justify-content:center;gap:10px;padding:15px;background:white;border-top:1px solid #eee}
+                        .btn{padding:10px 25px;border:none;border-radius:20px;font-weight:bold;cursor:pointer;font-size:0.85rem;transition:all 0.3s;color:white}
+                        .bp{background:#2E8B57}.bs{background:#1F3A5F}
+                        .btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 5px 12px rgba(0,0,0,0.2)}
+                        .btn:disabled{opacity:0.5;cursor:not-allowed}
+                        .res{display:none;text-align:center;padding:25px 15px}
+                        .res.active{display:block;animation:fade 0.5s}
+                        .res .ic{font-size:3rem;margin-bottom:12px}
+                        .res h2{color:#1F3A5F;font-size:1.3rem;margin-bottom:8px}
+                        .sc{width:120px;height:120px;border-radius:50%;background:conic-gradient(#2E8B57 0%,#F2F2F2 0%);margin:15px auto;display:flex;align-items:center;justify-content:center;position:relative;transition:background 1s}
+                        .sc::before{content:"";position:absolute;width:95px;height:95px;background:white;border-radius:50%}
+                        .sv{position:relative;font-size:1.6rem;font-weight:bold;color:#1F3A5F}
+                        .rm{font-size:0.95rem;color:#555;margin:10px 0;font-weight:600}
+                        .rd{background:#F2F2F2;padding:12px 18px;border-radius:10px;margin:15px auto;max-width:350px;font-size:0.8rem;color:#555;line-height:1.6}
+                    </style></head><body>
+                    <div class="container">
+                        <div class="header"><h1>📝 Quiz : Fondamentaux du Web</h1><span class="badge">ISMO / OFPPT</span></div>
+                        <div class="progress-c"><div class="progress" id="p"></div></div>
+                        <div class="ptext" id="pt">Question 0 / 15</div>
+                        <div class="content">
+                            <div class="welcome" id="wel">
+                                <div class="ic">🎓</div><h2>Bienvenue dans le Quiz !</h2>
+                                <p>15 questions pour tester votre maîtrise du chapitre : WWW, Client-Serveur, URL, Historique, W3C, Navigateurs.</p>
+                                <div class="stats">
+                                    <div class="stat"><div class="v">15</div><div class="l">Questions</div></div>
+                                    <div class="stat"><div class="v">3</div><div class="l">Types</div></div>
+                                    <div class="stat"><div class="v">∞</div><div class="l">Temps</div></div>
+                                </div>
+                                <button class="btn bp" onclick="start()">▶ Commencer</button>
+                            </div>
+                            <div class="qs" id="qs">
+                                <span class="qtype" id="qt">QCM</span>
+                                <div class="qtext" id="qq">Question...</div>
+                                <div class="opts" id="opts"></div>
+                                <div class="fb" id="fb"><div class="fb-t" id="fbt"></div><div class="fb-x" id="fbx"></div></div>
+                            </div>
+                            <div class="res" id="res">
+                                <div class="ic" id="ri">🏆</div><h2 id="rt">Quiz Terminé !</h2>
+                                <div class="sc" id="sc"><div class="sv" id="sv">0/15</div></div>
+                                <div class="rm" id="rm"></div>
+                                <div class="rd" id="rd"></div>
+                                <button class="btn bs" onclick="reset()">🔄 Recommencer</button>
+                            </div>
+                        </div>
+                        <div class="controls" id="ctrl" style="display:none">
+                            <button class="btn bs" onclick="prev()" id="bp2" disabled>⏮ Préc.</button>
+                            <button class="btn bp" onclick="validate()" id="bn">Valider ✓</button>
+                        </div>
+                    </div>
+                    <script>
+                        const Q=[
+                            {t:"QCM",q:"Quelle est la différence entre Internet et le WWW ?",o:["Internet est un navigateur","Internet est l\u0027infrastructure, le WWW est un service","Les deux sont identiques","Le WWW est plus rapide"],c:1,e:"Internet est l\u0027infrastructure. Le WWW est un service qui l\u0027utilise."},
+                            {t:"QCM",q:"Quel est le rôle du client dans le modèle Client-Serveur ?",o:["Stocker les pages","Envoyer des requêtes et afficher les réponses","Gérer les IP","Créer les standards"],c:1,e:"Le client envoie des requêtes HTTP et affiche le résultat."},
+                            {t:"QCM",q:"Que signifie URL ?",o:["Universal Reference Link","Uniform Resource Locator","Unified Retrieval Language","User Request Line"],c:1,e:"URL = Uniform Resource Locator, l\u0027adresse d\u0027une ressource."},
+                            {t:"Vrai/Faux",q:"Une URL peut exister sans protocole.",o:["Vrai","Faux, le protocole est obligatoire","Vrai pour les sites locaux","Faux sauf emails"],c:1,e:"Une URL complète commence toujours par un protocole (http, https)."},
+                            {t:"QCM",q:"Qui a inventé le WWW et quand ?",o:["Bill Gates 1985","Tim Berners-Lee 1989","Steve Jobs 1991","Zuckerberg 2004"],c:1,e:"Tim Berners-Lee au CERN en 1989."},
+                            {t:"QCM",q:"Quel est le rôle principal du W3C ?",o:["Vendre des domaines","Créer des navigateurs","Développer des standards ouverts","Héberger des sites"],c:2,e:"Le W3C développe des standards ouverts pour le Web."},
+                            {t:"QCM",q:"Quand le W3C a-t-il été créé ?",o:["1989","1991","1994","1999"],c:2,e:"Le W3C a été fondé en 1994 par Tim Berners-Lee."},
+                            {t:"Vrai/Faux",q:"Chaque navigateur peut inventer ses propres règles HTML.",o:["Vrai","Faux, ils suivent les standards du W3C","Vrai pour sites privés","Faux, c\u0027est le gouvernement"],c:1,e:"Les navigateurs doivent suivre le W3C pour l\u0027interopérabilité."},
+                            {t:"QCM",q:"Quelle version HTML a apporté le multimédia natif ?",o:["HTML 2.0","HTML 4.01","XHTML","HTML5"],c:3,e:"HTML5 (2014) apporte audio, vidéo et APIs modernes."},
+                            {t:"QCM",q:"Première version standardisée du HTML ?",o:["HTML 1.0","HTML 2.0","HTML 3.2","HTML 4.0"],c:1,e:"HTML 2.0 (1995) est la première version standardisée."},
+                            {t:"QCM",q:"Dans https://www.ofppt.ma/formation, que représente ofppt.ma ?",o:["Protocole","Nom de domaine","Chemin","Sous-domaine"],c:1,e:"ofppt.ma est le nom de domaine. www est le sous-domaine."},
+                            {t:"QCM",q:"Que fait un navigateur lors du cycle HTTP ?",o:["Envoie requête et affiche réponse","Stocke les pages","Crée les standards","Attribue les IP"],c:0,e:"Le navigateur envoie une requête et affiche la réponse."},
+                            {t:"QCM",q:"Que signifie le code HTTP 200 OK ?",o:["Page introuvable","Erreur serveur","Requête réussie","Reconnexion"],c:2,e:"200 OK = la requête a réussi."},
+                            {t:"QCM",q:"Quel langage structure le contenu d\u0027une page ?",o:["CSS","JavaScript","HTML","Python"],c:2,e:"HTML structure le contenu. CSS = style, JS = interactivité."},
+                            {t:"Vrai/Faux",q:"WWW et Internet sont interchangeables.",o:["Vrai","Faux, Internet est l\u0027infrastructure, le WWW un service","Vrai depuis 2014","Faux, Internet est plus récent"],c:1,e:"Internet est l\u0027infrastructure. Le WWW est un service."}
+                        ];
+                        let idx=0,score=0,rep=[],sel=null;
+                        const wel=document.getElementById("wel"),qs=document.getElementById("qs"),res=document.getElementById("res"),ctrl=document.getElementById("ctrl");
+                        const p=document.getElementById("p"),pt=document.getElementById("pt"),qt=document.getElementById("qt"),qq=document.getElementById("qq"),opts=document.getElementById("opts");
+                        const fb=document.getElementById("fb"),fbt=document.getElementById("fbt"),fbx=document.getElementById("fbx"),bn=document.getElementById("bn"),bp2=document.getElementById("bp2");
+                        function start(){wel.style.display="none";qs.classList.add("active");ctrl.style.display="flex";idx=0;score=0;rep=[];show();}
+                        function show(){const q=Q[idx];qt.textContent=q.t;qq.textContent=q.q;
+                            p.style.width=(idx/Q.length)*100+"%";pt.textContent="Question "+(idx+1)+" / "+Q.length;
+                            opts.innerHTML="";const L=["A","B","C","D"];
+                            q.o.forEach((o,i)=>{const d=document.createElement("div");d.className="opt";d.dataset.i=i;
+                            d.innerHTML="<div class=\u0027ol\u0027>"+L[i]+"</div><div>"+o+"</div>";
+                            d.onclick=()=>select(i);opts.appendChild(d);});
+                            fb.classList.remove("show","correct","incorrect");fbt.textContent="";fbx.textContent="";
+                            bp2.disabled=idx===0;
+                            if(rep[idx]!==undefined){showRep(rep[idx]);bn.textContent=idx===Q.length-1?"Voir résultats 🏆":"Suivant ⏭";}
+                            else{bn.textContent="Valider ✓";bn.disabled=false;}
+                        }
+                        function select(i){if(rep[idx]!==undefined)return;
+                            document.querySelectorAll(".opt").forEach(o=>{o.style.background="";o.style.borderColor="";});
+                            const el=document.querySelector(\u0027.opt[data-i="\u0027+i+\u0027"]\u0027);
+                            el.style.background="#e0e7ff";el.style.borderColor="#1F3A5F";sel=i;
+                        }
+                        function validate(){
+                            if(idx===Q.length-1&&rep[idx]!==undefined){finish();return;}
+                            if(rep[idx]!==undefined){if(idx<Q.length-1){idx++;sel=null;show();}else finish();return;}
+                            if(sel===null){alert("Sélectionnez une réponse.");return;}
+                            rep[idx]=sel;const q=Q[idx];
+                            if(sel===q.c){score++;fb.className="fb correct show";fbt.innerHTML="✅ Bonne réponse !";}
+                            else{fb.className="fb incorrect show";fbt.innerHTML="❌ Mauvaise réponse";}
+                            fbx.textContent=q.e;showRep(sel);
+                            bn.textContent=idx===Q.length-1?"Voir résultats 🏆":"Suivant ⏭";
+                        }
+                        function showRep(i){const q=Q[idx];
+                            document.querySelectorAll(".opt").forEach((o,j)=>{o.classList.add("disabled");o.style.background="";o.style.borderColor="";
+                            if(j===q.c)o.classList.add("correct");else if(j===i&&j!==q.c)o.classList.add("incorrect");});
+                            if(!fb.classList.contains("show")){if(i===q.c){fb.className="fb correct show";fbt.innerHTML="✅ Bonne réponse !";}else{fb.className="fb incorrect show";fbt.innerHTML="❌ Mauvaise réponse";}fbx.textContent=q.e;}
+                        }
+                        function prev(){if(idx>0){idx--;sel=rep[idx];show();}}
+                        function finish(){qs.classList.remove("active");res.classList.add("active");ctrl.style.display="none";p.style.width="100%";pt.textContent="Quiz terminé !";
+                            const pc=Math.round((score/Q.length)*100);
+                            document.getElementById("sv").textContent=score+"/"+Q.length;
+                            document.getElementById("sc").style.background="conic-gradient(#2E8B57 "+pc+"%,#F2F2F2 "+pc+"%)";
+                            const ri=document.getElementById("ri"),rt=document.getElementById("rt"),rm=document.getElementById("rm");
+                            if(pc>=80){ri.textContent="🏆";rt.textContent="Excellent travail !";rm.textContent="Vous maîtrisez les fondamentaux ("+pc+"%).";rm.style.color="#2E8B57";}
+                            else if(pc>=60){ri.textContent="👍";rt.textContent="Bon travail !";rm.textContent="Bonne base ("+pc+"%). Révisez quelques points.";rm.style.color="#1F3A5F";}
+                            else if(pc>=40){ri.textContent="📚";rt.textContent="Peut mieux faire";rm.textContent="Lacunes ("+pc+"%). Relisez le cours.";rm.style.color="#FF8C00";}
+                            else{ri.textContent="⚠️";rt.textContent="À revoir";rm.textContent="Score insuffisant ("+pc+"%). Reprenez le cours.";rm.style.color="#DC3545";}
+                            document.getElementById("rd").innerHTML="<strong>Récapitulatif :</strong><br>✅ Bonnes : "+score+"<br>❌ Mauvaises : "+(Q.length-score)+"<br>📊 Pourcentage : "+pc+"%";
+                        }
+                        function reset(){res.classList.remove("active");wel.style.display="block";qs.classList.remove("active");ctrl.style.display="none";p.style.width="0%";pt.textContent="Question 0 / 15";idx=0;score=0;rep=[];sel=null;}
+                    </script>
+                    </body></html>
+                '></iframe>
+            </div>
+        </section>
+
+        <!-- PIED DE PAGE -->
+        <div style="text-align:center;padding:30px;color:#888;font-size:0.85rem;">
+            <p><strong>ISMO</strong> — Institut Spécialisé dans les Métiers de l'Offshoring</p>
+            <p>Module : Développement des Sites Web Statiques | OFPPT</p>
+            <p style="margin-top:10px;">© Support de cours interactif — HTML5/CSS3/JavaScript</p>
+        </div>
+    </main>
+
+    <!-- Bouton retour en haut -->
+    <button class="back-to-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+    <script>
+        // --- MENU MOBILE ---
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // --- SCROLL SPY (Surlignage du lien actif) ---
+        const sections = document.querySelectorAll('.section, .hero');
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Bouton retour en haut
+            const backTop = document.getElementById('backTop');
+            if (window.scrollY > 400) {
+                backTop.classList.add('show');
+            } else {
+                backTop.classList.remove('show');
+            }
+        });
+
+        // Fermer la sidebar au clic sur un lien (mobile)
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 900) {
+                    document.getElementById('sidebar').classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

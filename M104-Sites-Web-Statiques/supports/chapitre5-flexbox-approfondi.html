@@ -1,0 +1,3810 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapitre 5 · Flexbox approfondi</title>
+  <style>
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Calibri, Roboto, system-ui, sans-serif;
+      background: #eaf3ec;
+      color: #143522;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* ============================================================
+       EN-TÊTE DE PAGE
+       ============================================================ */
+    .page-header {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      border-left: 8px solid #2e8b57;
+      box-shadow: 0 10px 30px rgba(20, 50, 30, 0.08);
+    }
+    .chapter-badge {
+      display: inline-block;
+      background: #e6f5eb;
+      color: #1d5e36;
+      padding: 0.3rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+    .page-header h1 {
+      font-size: 2.4rem;
+      color: #144a26;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+    }
+    .page-header .sous-titre {
+      font-size: 1.1rem;
+      color: #3f6b4f;
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+    .meta-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .meta-info span {
+      background: #f1faf4;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      color: #1a5e33;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+
+    /* ============================================================
+       SOMMAIRE
+       ============================================================ */
+    .sommaire {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 6px 20px rgba(20, 50, 30, 0.06);
+    }
+    .sommaire h2 {
+      font-size: 1.4rem;
+      color: #1d5e36;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #d4ecd9;
+      padding-bottom: 0.5rem;
+    }
+    .sommaire ol {
+      padding-left: 1.5rem;
+      columns: 2;
+      column-gap: 2rem;
+    }
+    .sommaire li {
+      margin-bottom: 0.4rem;
+      font-size: 0.95rem;
+    }
+    .sommaire a {
+      color: #1d6e3f;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .sommaire a:hover {
+      color: #0f542f;
+      text-decoration: underline;
+    }
+
+    /* ============================================================
+       SECTIONS
+       ============================================================ */
+    .section {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 6px 20px rgba(20, 50, 30, 0.06);
+      border-top: 4px solid #d4ecd9;
+    }
+    .section h2 {
+      font-size: 1.6rem;
+      color: #1d5e36;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #d4ecd9;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section h3 {
+      font-size: 1.2rem;
+      color: #1e6b3a;
+      margin: 1.5rem 0 0.6rem 0;
+    }
+    .section h4 {
+      font-size: 1.05rem;
+      color: #2e8b57;
+      margin: 1rem 0 0.4rem 0;
+      font-weight: 600;
+    }
+    .section p {
+      margin-bottom: 0.8rem;
+      color: #1a3322;
+    }
+    .section ul, .section ol {
+      padding-left: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+    .section li {
+      margin-bottom: 0.3rem;
+    }
+
+    /* ============================================================
+       BLOCS DE CODE
+       ============================================================ */
+    .code-block {
+      background: #1e3a2e;
+      color: #e6f5eb;
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-left: 4px solid #2e8b57;
+      white-space: pre;
+    }
+    .code-block .tag { color: #7ac89c; }
+    .code-block .attr { color: #a4d4b3; }
+    .code-block .value { color: #ffd966; }
+    .code-block .comment { color: #7aae8b; font-style: italic; }
+    .code-block .text { color: #e6f5eb; }
+
+    code {
+      background: #f1faf4;
+      color: #1d5e36;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.9em;
+      font-weight: 600;
+      border: 1px solid #d4ecd9;
+    }
+
+    /* ============================================================
+       ENCADRÉS
+       ============================================================ */
+    .info-box {
+      background: #f1faf4;
+      border-left: 4px solid #2e8b57;
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+    }
+    .info-box strong { color: #14562b; }
+
+    .warn-box {
+      background: #fff8e1;
+      border-left: 4px solid #e6b655;
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+      color: #7a5f00;
+    }
+    .warn-box strong { color: #92400e; }
+
+    .success-box {
+      background: #e6f5eb;
+      border-left: 4px solid #1d5e36;
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+      color: #0f4629;
+    }
+
+    /* ============================================================
+       TABLEAUX
+       ============================================================ */
+    .section table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    .section table th {
+      background: #1d5e36;
+      color: white;
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .section table td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid #d4ecd9;
+    }
+    .section table tr:nth-child(even) td {
+      background: #f8fcf9;
+    }
+
+    /* ============================================================
+       NOUVEAUTÉ · CONTENEURS DE DÉMONSTRATION FLEXBOX
+       ============================================================ */
+    .demo-container {
+      background: #f8fcf9;
+      border: 2px dashed #a4d4b3;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin: 1.2rem 0;
+    }
+    .demo-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1d5e36;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid #d4ecd9;
+    }
+
+    /* Conteneur flex générique pour les démonstrations */
+    .demo-flex {
+      display: flex;
+      background: #ffffff;
+      border: 2px solid #2e8b57;
+      border-radius: 10px;
+      padding: 12px;
+      min-height: 80px;
+      gap: 10px;
+      margin-bottom: 0.8rem;
+    }
+
+    /* Élément flex générique */
+    .demo-item {
+      background: linear-gradient(135deg, #2e8b57, #1d5e36);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      min-width: 60px;
+      text-align: center;
+      box-shadow: 0 3px 8px rgba(29, 94, 54, 0.2);
+    }
+
+    .demo-item.alt {
+      background: linear-gradient(135deg, #a4d4b3, #7aae8b);
+      color: #144a26;
+    }
+
+    /* Grille de comparaison */
+    .demo-comparison {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .demo-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .demo-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #1d5e36;
+      background: #e6f5eb;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      display: inline-block;
+      width: fit-content;
+      font-family: 'Consolas', monospace;
+    }
+
+    /* Indicateur d'axe pour visualiser les directions */
+    .demo-axis {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: #3f6b4f;
+      margin-bottom: 0.5rem;
+      font-style: italic;
+    }
+    .demo-axis::before {
+      content: "→";
+      color: #2e8b57;
+      font-weight: 700;
+    }
+    .demo-axis.vertical::before {
+      content: "↓";
+    }
+
+    /* Zone placeholder pour les sections vides */
+    .placeholder {
+      color: #7aae8b;
+      font-style: italic;
+      padding: 1rem;
+      background: #f8fcf9;
+      border-radius: 10px;
+      border: 1px dashed #cae0d0;
+      text-align: center;
+    }
+
+    /* ============================================================
+       ACTIVITÉS COLLAPSIBLES
+       ============================================================ */
+    .collab-box {
+      background: #f1faf4;
+      border-radius: 16px;
+      margin: 1.5rem 0;
+      border: 1px solid #b3d9c0;
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .collab-toggle {
+      background: transparent;
+      border: none;
+      color: #14562b;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+      transition: background 0.15s;
+    }
+    .collab-toggle:hover { background: #e6f5eb; }
+    .collab-toggle .collab-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .collab-toggle .collab-meta {
+      background: #d4ecd9;
+      color: #1d5e36;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.7rem;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .collab-toggle .arrow {
+      transition: transform 0.25s;
+      font-size: 0.85rem;
+      color: #2e8b57;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .collab-toggle.open .arrow { transform: rotate(90deg); }
+
+    .collab-content {
+      display: none;
+      padding: 0 1.5rem 1.2rem 1.5rem;
+      border-top: 1px dashed #b3d9c0;
+    }
+    .collab-content.open { display: block; animation: fadeIn 0.25s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .collab-enonce {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #1a3322;
+      margin: 0.9rem 0;
+    }
+    .collab-enonce strong { color: #14562b; }
+
+    .solution-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      margin-top: 0.8rem;
+      padding-top: 0.6rem;
+      border-top: 1px dotted #b3d9c0;
+    }
+    .btn-solution {
+      background: #1d6e3f;
+      color: white;
+      border: none;
+      padding: 0.4rem 1.4rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.15s;
+      border: 1px solid #0f4629;
+    }
+    .btn-solution:hover { background: #0f542f; transform: scale(0.97); }
+    .btn-solution:disabled {
+      background: #b8d9c0;
+      color: #3f6b4f;
+      cursor: not-allowed;
+      border-color: #a4d4b3;
+    }
+
+    .timer-display {
+      font-size: 0.85rem;
+      color: #3f6b4f;
+      font-weight: 600;
+      background: #e6f5eb;
+      padding: 0.25rem 0.9rem;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .timer-display.counting { background: #fff3cd; color: #856404; }
+    .timer-display.done { background: #d4ecd9; color: #14562b; }
+
+    .solution-content {
+      display: none;
+      background: #e6f5eb;
+      padding: 1rem 1.3rem;
+      border-radius: 12px;
+      margin-top: 0.6rem;
+      border-left: 4px solid #1d5e36;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .solution-content.open { display: block; animation: fadeIn 0.25s ease; }
+    .solution-content strong { color: #0f4629; }
+
+    /* ============================================================
+       QCM
+       ============================================================ */
+    .qcm-container {
+      background: #f1faf4;
+      border-radius: 20px;
+      padding: 1.5rem 1.8rem;
+      margin-top: 1.2rem;
+      border: 1px solid #b1d7bd;
+    }
+    .qcm-item {
+      background: white;
+      border-radius: 14px;
+      padding: 0.9rem 1.4rem;
+      margin-bottom: 0.9rem;
+      box-shadow: 0 2px 6px rgba(0,30,10,0.04);
+      border-left: 4px solid #2e8b57;
+    }
+    .qcm-item p {
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      font-size: 0.92rem;
+      color: #144a26;
+    }
+    .qcm-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.6rem;
+      padding-left: 0.3rem;
+    }
+    .qcm-options label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      background: #f2faf5;
+      padding: 0.15rem 0.9rem 0.15rem 0.55rem;
+      border-radius: 40px;
+      border: 1px solid transparent;
+      transition: 0.1s;
+      font-size: 0.87rem;
+    }
+    .qcm-options label.correct {
+      background: #b4e0c5;
+      border-color: #1a7a3b;
+      font-weight: 600;
+    }
+    .qcm-options label.wrong {
+      background: #f8d7da;
+      border-color: #b02a37;
+    }
+
+    .btn {
+      background: #1d6e3f;
+      border: none;
+      color: white;
+      padding: 0.5rem 2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.15s;
+      border: 1px solid #0f4629;
+    }
+    .btn:hover { background: #0f542f; transform: scale(0.97); }
+
+    .score-badge {
+      font-weight: 700;
+      background: #d4ecd9;
+      color: #14562b;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+    }
+
+    /* ============================================================
+       QUIZ SOMMATIF
+       ============================================================ */
+    .quiz-final {
+      background: linear-gradient(135deg, #f1faf4 0%, #e6f5eb 100%);
+      border: 2px dashed #2e8b57;
+      border-radius: 20px;
+      padding: 2rem;
+      margin-top: 1.5rem;
+    }
+    .quiz-final h3 {
+      color: #144a26;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ============================================================
+       PROJET FINAL
+       ============================================================ */
+    .projet-box {
+      background: #e5f3e9;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 2px solid #278a4e;
+      margin-top: 1.5rem;
+    }
+    .projet-box h3 {
+      color: #144a26;
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+    }
+    .projet-box .livrables {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem 1.3rem;
+      margin-top: 1rem;
+    }
+
+    /* ============================================================
+       PIED DE PAGE
+       ============================================================ */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #cae0d0;
+      font-size: 0.85rem;
+      color: #3f6b4f;
+    }
+    footer a { color: #1d5e36; text-decoration: none; font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ============================================================
+       BOUTON IMPRESSION
+       ============================================================ */
+    .print-bar {
+      max-width: 1100px;
+      margin: 1rem auto;
+      text-align: center;
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-print {
+      background: #1d6e3f;
+      color: white;
+      border: none;
+      padding: 0.6rem 2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: 0 4px 12px rgba(29, 110, 63, 0.25);
+    }
+    .btn-print:hover { background: #0f542f; transform: translateY(-2px); }
+    .btn-print.secondary {
+      background: #e6f5eb;
+      color: #1d5e36;
+      border: 1px solid #7aae8b;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 700px) {
+      .section { padding: 1.3rem; }
+      .page-header { padding: 1.5rem; }
+      .page-header h1 { font-size: 1.6rem; }
+      .section h2 { font-size: 1.3rem; }
+      .sommaire ol { columns: 1; }
+      .demo-flex { flex-wrap: wrap; }
+    }
+
+    /* ============================================================
+       IMPRESSION
+       ============================================================ */
+    @media print {
+      body { background: white; }
+      .print-bar { display: none; }
+      .collab-content { display: block !important; }
+      .solution-content { display: block !important; }
+      .btn-solution, .timer-display { display: none !important; }
+      .collab-toggle { pointer-events: none; }
+      .collab-toggle .arrow { transform: rotate(90deg); }
+      .section { box-shadow: none; border: 1px solid #d4ecd9; page-break-inside: avoid; }
+      .demo-container { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barre d'action -->
+  <div class="print-bar">
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimer le support</button>
+    <button class="btn-print secondary" onclick="expandAll()">📖 Tout déplier</button>
+    <button class="btn-print secondary" onclick="collapseAll()">📕 Tout replier</button>
+  </div>
+
+  <div class="container">
+
+    <!-- ============================================================ -->
+    <!-- EN-TÊTE DU CHAPITRE                                          -->
+    <!-- ============================================================ -->
+    <div class="page-header">
+      <div class="chapter-badge">CHAPITRE 5</div>
+      <h1>Flexbox approfondi</h1>
+      <p class="sous-titre">Maîtriser les mises en page modernes avec Flexbox</p>
+      <div class="meta-info">
+        <span>📘 Module M104</span>
+        <span>🎯 Développement Digital</span>
+        <span>⏱️ Durée : 25 h</span>
+        <span>📈 Niveau : Approfondi</span>
+        <span>👨‍🏫 KELLOUCH Mahdi</span>
+        <span>🏛️ ISMO · OFPPT</span>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SOMMAIRE                                                     -->
+    <!-- ============================================================ -->
+    <div class="sommaire">
+      <h2>📋 Sommaire du chapitre</h2>
+      <ol>
+        <li><a href="#section1">Qu'est-ce que Flexbox ?</a></li>
+        <li><a href="#section2">Le conteneur flex</a></li>
+        <li><a href="#section3">La direction (flex-direction)</a></li>
+        <li><a href="#section4">L'alignement principal (justify-content)</a></li>
+        <li><a href="#section5">L'alignement secondaire (align-items)</a></li>
+        <li><a href="#section6">Le retour à la ligne (flex-wrap / align-content)</a></li>
+        <li><a href="#section7">Les propriétés des enfants (flex-grow, shrink, basis)</a></li>
+        <li><a href="#section8">Alignement individuel et ordre</a></li>
+        <li><a href="#section9">Cas pratiques complets</a></li>
+        <li><a href="#section10">Projet final</a></li>
+        <li><a href="#exercices">Exercices pratiques</a></li>
+        <li><a href="#qcm">QCM de vérification</a></li>
+        <li><a href="#quiz">Quiz sommatif</a></li>
+      </ol>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 1 · QU'EST-CE QUE FLEXBOX ?                         -->
+    <!-- ============================================================ -->
+       <!-- ============================================================ -->
+    <!-- SECTION 1 · QU'EST-CE QUE FLEXBOX ?                         -->
+    <!-- ============================================================ -->
+    <div class="section" id="section1">
+      <h2>1. Qu'est-ce que Flexbox ?</h2>
+
+      <h3>1.1 Définition</h3>
+      <p>
+        <strong>Flexbox</strong> (pour <em>Flexible Box Layout</em>) est un modèle de mise en page CSS introduit
+        avec CSS3. Il permet de <strong>disposer, aligner et distribuer l'espace</strong> entre les éléments
+        d'un conteneur de manière <strong>flexible et efficace</strong>, même lorsque leurs tailles sont inconnues
+        ou dynamiques.
+      </p>
+
+      <div class="info-box">
+        <strong>💡 Analogie :</strong> imaginez une rangée de livres sur une étagère. Flexbox, c'est la capacité
+        de répartir automatiquement ces livres dans l'espace disponible, en les centrant, les espaçant ou les
+        étirant selon vos besoins.
+      </div>
+
+      <h3>1.2 Pourquoi Flexbox ?</h3>
+      <p>Avant Flexbox, les développeurs utilisaient des techniques fragiles :</p>
+      <ul>
+        <li><code>float</code> : provoquait des effets de bord et nécessitait des <em>clearfix</em></li>
+        <li><code>inline-block</code> : créait des espaces indésirables entre les éléments</li>
+        <li><code>table</code> : rigide et sémantiquement incorrecte</li>
+        <li>Positionnement absolu : complexe à maintenir</li>
+      </ul>
+
+      <p>Flexbox résout tous ces problèmes avec une syntaxe simple et moderne.</p>
+
+      <h3>1.3 Les avantages de Flexbox</h3>
+      <table>
+        <thead>
+          <tr><th>Avantage</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Simplicité</strong></td><td>Une seule propriété (<code>display: flex</code>) active tout le système</td></tr>
+          <tr><td><strong>Flexibilité</strong></td><td>Les éléments s'adaptent automatiquement à l'espace disponible</td></tr>
+          <tr><td><strong>Alignement facile</strong></td><td>Centrage vertical et horizontal en 2 lignes de CSS</td></tr>
+          <tr><td><strong>Ordre personnalisable</strong></td><td>Réorganisation visuelle sans toucher au HTML</td></tr>
+          <tr><td><strong>Responsive natif</strong></td><td>Idéal pour les mises en page adaptatives</td></tr>
+          <tr><td><strong>Support universel</strong></td><td>Compatible avec tous les navigateurs modernes</td></tr>
+        </tbody>
+      </table>
+
+      <h3>1.4 Le modèle à deux axes</h3>
+      <p>
+        Flexbox repose sur un principe fondamental : <strong>deux axes perpendiculaires</strong>.
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>Axe</th><th>Description</th><th>Propriété associée</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Axe principal</strong></td>
+            <td>Direction dans laquelle les éléments sont disposés (par défaut : horizontal)</td>
+            <td><code>justify-content</code></td>
+          </tr>
+          <tr>
+            <td><strong>Axe secondaire</strong></td>
+            <td>Direction perpendiculaire à l'axe principal</td>
+            <td><code>align-items</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration interactive · Axe principal et axe secondaire</div>
+        <div class="demo-axis">Axe principal (horizontal par défaut)</div>
+        <div class="demo-flex">
+          <div class="demo-item">1</div>
+          <div class="demo-item alt">2</div>
+          <div class="demo-item">3</div>
+        </div>
+        <p style="font-size: 0.85rem; color: #3f6b4f; font-style: italic; text-align: center; margin-top: 0.5rem;">
+          <em>Les éléments sont alignés le long de l'axe principal (horizontal). L'axe secondaire est vertical.</em>
+        </p>
+      </div>
+
+      <h3>1.5 Quand utiliser Flexbox ?</h3>
+      <ul>
+        <li>Alignement d'éléments dans une <strong>seule dimension</strong> (ligne ou colonne)</li>
+        <li>Navigation (menu horizontal ou vertical)</li>
+        <li>Centrage parfait (horizontal + vertical)</li>
+        <li>Répartition d'espace entre plusieurs éléments</li>
+        <li>Cartes de même hauteur</li>
+        <li>Barre latérale + contenu principal</li>
+        <li>Pied de page multi-colonnes</li>
+      </ul>
+
+      <div class="success-box">
+        <strong>✅ À retenir :</strong> Flexbox est <strong>idéal pour les mises en page 1D</strong> (une seule direction).
+        Pour les mises en page <strong>2D</strong> (lignes et colonnes simultanées), on utilise plutôt <strong>CSS Grid</strong>.
+      </div>
+
+      <h3>1.6 Flexbox vs méthodes classiques</h3>
+      <table>
+        <thead>
+          <tr><th>Technique</th><th>Centrage vertical</th><th>Répartition d'espace</th><th>Ordre</th><th>Complexité</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>float</td><td>❌ Difficile</td><td>❌ Non</td><td>❌ Non</td><td>Élevée</td></tr>
+          <tr><td>inline-block</td><td>❌ Difficile</td><td>❌ Non</td><td>❌ Non</td><td>Moyenne</td></tr>
+          <tr><td>table</td><td>⚠️ Possible</td><td>⚠️ Limité</td><td>❌ Non</td><td>Moyenne</td></tr>
+          <tr><td><strong>Flexbox</strong></td><td>✅ Trivial</td><td>✅ Oui</td><td>✅ Oui</td><td>Faible</td></tr>
+        </tbody>
+      </table>
+
+      <!-- ACTIVITÉ 1.1 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 1.1 · Identifier les situations Flexbox <span class="collab-meta">5 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Pour chaque situation, indiquez si Flexbox est <strong>adapté</strong> ou <strong>non adapté</strong>, et justifiez :<br><br>
+            <strong>1.</strong> Un menu de navigation horizontal en haut d'un site<br>
+            <strong>2.</strong> Une grille de photos de 3 colonnes sur 5 lignes<br>
+            <strong>3.</strong> Centrer un titre verticalement et horizontalement dans une section<br>
+            <strong>4.</strong> Un layout "sidebar + contenu principal"<br>
+            <strong>5.</strong> Une galerie d'images en mosaïque complexe<br>
+            <strong>6.</strong> Des boutons alignés avec espacement régulier<br>
+            <strong>7.</strong> Un formulaire avec 10 champs alignés en 2 colonnes<br>
+            <strong>8.</strong> Un pied de page avec 3 sections côte à côte
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 45)">⏱️ Lancer le temps (45 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">45</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. ✅ <strong>Adapté</strong> — Flexbox sur l'axe horizontal<br>
+            2. ❌ <strong>Non adapté</strong> — Grille 2D, préférer CSS Grid<br>
+            3. ✅ <strong>Adapté</strong> — Flexbox excelle pour le centrage<br>
+            4. ✅ <strong>Adapté</strong> — Layout 1D classique (flex-grow)<br>
+            5. ❌ <strong>Non adapté</strong> — Mosaïque complexe, préférer CSS Grid<br>
+            6. ✅ <strong>Adapté</strong> — <code>justify-content: space-between/around</code><br>
+            7. ⚠️ <strong>Discutable</strong> — Possible avec flex-wrap, mais Grid plus naturel<br>
+            8. ✅ <strong>Adapté</strong> — 3 colonnes alignées horizontalement
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ 1.2 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 1.2 · Avantages de Flexbox vs float <span class="collab-meta">7 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Contexte :</strong> Un développeur a créé un site en 2010 avec <code>float</code>. Il souhaite moderniser son code avec Flexbox.<br><br>
+            <strong>Question 1 :</strong> Citez <strong>3 problèmes</strong> qu'il rencontrait avec <code>float</code>.<br>
+            <strong>Question 2 :</strong> Comment Flexbox résout-il chacun de ces problèmes ?<br>
+            <strong>Question 3 :</strong> Citez <strong>2 fonctionnalités</strong> de Flexbox impossibles avec <code>float</code>.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 60)">⏱️ Lancer le temps (60 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">60</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+
+            <strong>Q1 — Problèmes avec float :</strong><br>
+            • Collapse des parents (nécessite un <em>clearfix</em>)<br>
+            • Centrage vertical très difficile<br>
+            • Répartition d'espace manuelle avec des marges<br><br>
+
+            <strong>Q2 — Solutions Flexbox :</strong><br>
+            • Le parent s'adapte automatiquement à ses enfants (pas de collapse)<br>
+            • <code>align-items: center</code> centre verticalement en 1 ligne<br>
+            • <code>justify-content: space-between</code> répartit automatiquement l'espace<br><br>
+
+            <strong>Q3 — Fonctionnalités impossibles avec float :</strong><br>
+            • Réorganisation de l'ordre visuel (<code>order</code>)<br>
+            • Adaptation dynamique du ratio de taille (<code>flex-grow</code>, <code>flex-shrink</code>)<br>
+            • Alignement différent par enfant (<code>align-self</code>)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 2 · LE CONTENEUR FLEX                               -->
+    <!-- ============================================================ -->
+        <!-- ============================================================ -->
+    <!-- SECTION 2 · LE CONTENEUR FLEX                               -->
+    <!-- ============================================================ -->
+    <div class="section" id="section2">
+      <h2>2. Le conteneur flex</h2>
+
+      <h3>2.1 Activation du mode flex</h3>
+      <p>
+        Pour activer Flexbox, il suffit d'appliquer <code>display: flex</code> à un élément.
+        Cet élément devient le <strong>conteneur flex</strong>, et tous ses <strong>enfants directs</strong>
+        deviennent des <strong>éléments flex</strong>.
+      </p>
+
+      <div class="code-block"><span class="tag">.conteneur</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+}</div>
+
+      <div class="info-box">
+        <strong>📌 Important :</strong> seuls les <strong>enfants directs</strong> du conteneur flex deviennent
+        des éléments flex. Les petits-enfants ne sont pas affectés.
+      </div>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration · Sans Flexbox vs Avec Flexbox</div>
+        <div class="demo-comparison">
+          <div class="demo-row">
+            <span class="demo-label">Sans flexbox (comportement normal)</span>
+            <div style="background: white; border: 2px dashed #ccc; border-radius: 10px; padding: 12px;">
+              <div style="background: linear-gradient(135deg, #2e8b57, #1d5e36); color: white; padding: 15px 25px; border-radius: 8px; margin-bottom: 8px; font-weight: 700;">1</div>
+              <div style="background: linear-gradient(135deg, #a4d4b3, #7aae8b); color: #144a26; padding: 15px 25px; border-radius: 8px; margin-bottom: 8px; font-weight: 700;">2</div>
+              <div style="background: linear-gradient(135deg, #2e8b57, #1d5e36); color: white; padding: 15px 25px; border-radius: 8px; font-weight: 700;">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">Avec flexbox (display: flex)</span>
+            <div class="demo-flex">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>2.2 display: flex vs display: inline-flex</h3>
+      <p>
+        Comme pour <code>block</code> et <code>inline-block</code>, Flexbox propose deux variantes :
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>Valeur</th><th>Comportement</th><th>Usage</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>display: flex</code></td>
+            <td>Le conteneur prend toute la largeur disponible (bloc)</td>
+            <td>Mise en page principale</td>
+          </tr>
+          <tr>
+            <td><code>display: inline-flex</code></td>
+            <td>Le conteneur prend la largeur de son contenu (inline)</td>
+            <td>Composant intégré dans du texte</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="comment">/* Le conteneur prend toute la largeur */</span>
+<span class="tag">.flex-block</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+}
+
+<span class="comment">/* Le conteneur prend juste la largeur de son contenu */</span>
+<span class="tag">.flex-inline</span> {
+  <span class="attr">display</span>: <span class="value">inline-flex</span>;
+}</div>
+
+      <h3>2.3 Le comportement par défaut</h3>
+      <p>Quand on active <code>display: flex</code>, voici ce qui se produit automatiquement :</p>
+
+      <table>
+        <thead>
+          <tr><th>Comportement</th><th>Valeur par défaut</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Direction</td><td><code>row</code> (horizontal, de gauche à droite)</td></tr>
+          <tr><td>Alignement principal</td><td><code>flex-start</code> (à gauche)</td></tr>
+          <tr><td>Alignement secondaire</td><td><code>stretch</code> (étiré sur toute la hauteur)</td></tr>
+          <tr><td>Retour à la ligne</td><td><code>nowrap</code> (pas de retour)</td></tr>
+          <tr><td>Ordre</td><td>Ordre du HTML</td></tr>
+        </tbody>
+      </table>
+
+      <h3>2.4 Les enfants flex</h3>
+      <p>
+        Un enfant flex perd son comportement natif. Par exemple, un <code>&lt;div&gt;</code> (normalement
+        <code>display: block</code>) devient un élément flex sur une seule ligne.
+      </p>
+
+      <div class="code-block"><span class="comment">/* HTML */</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"conteneur"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div&gt;</span><span class="text">Bloc 1</span><span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div&gt;</span><span class="text">Bloc 2</span><span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div&gt;</span><span class="text">Bloc 3</span><span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">/* CSS */</span>
+<span class="tag">.conteneur</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+}
+
+<span class="comment">/* Les 3 div s'alignent sur la même ligne */</span></div>
+
+      <h3>2.5 Les marges automatiques (astuce)</h3>
+      <p>
+        Flexbox permet une astuce très puissante : <code>margin: auto</code> sur un enfant flex
+        pousse cet élément à absorber tout l'espace disponible.
+      </p>
+
+      <div class="code-block"><span class="comment">/* Pousser un élément à droite */</span>
+<span class="tag">.logo</span> {
+  <span class="attr">margin-right</span>: <span class="value">auto</span>;   <span class="comment">/* Prend tout l'espace à droite */</span>
+}
+
+<span class="comment">/* Centrer un élément */</span>
+<span class="tag">.centre</span> {
+  <span class="attr">margin</span>: <span class="value">auto</span>;           <span class="comment">/* Prend tout l'espace autour */</span>
+}</div>
+
+      <!-- ACTIVITÉ 2.1 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 2.1 · flex ou inline-flex ? <span class="collab-meta">6 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Pour chaque situation, indiquez s'il faut utiliser <code>display: flex</code> ou <code>display: inline-flex</code> :<br><br>
+            <strong>1.</strong> Une barre de navigation en haut de page<br>
+            <strong>2.</strong> Un badge avec une icône et un texte dans une phrase<br>
+            <strong>3.</strong> Une grille de 6 cartes de services<br>
+            <strong>4.</strong> Un bouton avec une icône intégrée<br>
+            <strong>5.</strong> Un pied de page avec 3 colonnes<br>
+            <strong>6.</strong> Une pastille "Nouveau" à côté d'un titre<br>
+            <strong>7.</strong> Une section "À propos" avec image + texte<br>
+            <strong>8.</strong> Un indicateur de statut dans une liste
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 60)">⏱️ Lancer le temps (60 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">60</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. <strong>flex</strong> — le conteneur prend toute la largeur<br>
+            2. <strong>inline-flex</strong> — s'insère dans une phrase<br>
+            3. <strong>flex</strong> — mise en page principale<br>
+            4. <strong>inline-flex</strong> — composant intégré<br>
+            5. <strong>flex</strong> — pleine largeur<br>
+            6. <strong>inline-flex</strong> — pastille discrète<br>
+            7. <strong>flex</strong> — section pleine largeur<br>
+            8. <strong>inline-flex</strong> — petit composant
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ 2.2 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 2.2 · Reproduire une barre de navigation <span class="collab-meta">10 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Créez une barre de navigation avec :<br><br>
+            • Un logo (texte) à gauche<br>
+            • 4 liens à droite (Accueil, Services, À propos, Contact)<br>
+            • La barre doit prendre toute la largeur<br>
+            • Le logo et les liens doivent être centrés verticalement<br><br>
+
+            <strong>Contrainte :</strong> utilisez <code>display: flex</code> et <strong>margin auto</strong> pour pousser le logo à gauche et les liens à droite.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS + explication en 3 lignes.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 120)">⏱️ Lancer le temps (120 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">120</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+
+            <strong>HTML :</strong><br>
+            <code>&lt;nav class="navbar"&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;a href="#" class="logo"&gt;🌱 GreenTech&lt;/a&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="nav-links"&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="#"&gt;Accueil&lt;/a&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="#"&gt;Services&lt;/a&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="#"&gt;À propos&lt;/a&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="#"&gt;Contact&lt;/a&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;/div&gt;</code><br>
+            <code>&lt;/nav&gt;</code><br><br>
+
+            <strong>CSS :</strong><br>
+            <code>.navbar { display: flex; align-items: center; padding: 15px 30px; background: white; }</code><br>
+            <code>.logo { margin-right: auto; font-weight: 700; color: #1d5e36; text-decoration: none; font-size: 1.3rem; }</code><br>
+            <code>.nav-links { display: flex; gap: 20px; }</code><br>
+            <code>.nav-links a { color: #333; text-decoration: none; }</code><br><br>
+
+            <strong>Explication :</strong> la propriété <code>margin-right: auto</code> sur le logo absorbe tout l'espace disponible
+            à droite, poussant automatiquement les liens vers la droite. C'est une astuce classique en Flexbox.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 3 · LA DIRECTION (FLEX-DIRECTION)                   -->
+    <!-- ============================================================ -->
+       <!-- ============================================================ -->
+    <!-- SECTION 3 · LA DIRECTION (FLEX-DIRECTION)                   -->
+    <!-- ============================================================ -->
+    <div class="section" id="section3">
+      <h2>3. La direction (flex-direction)</h2>
+
+      <h3>3.1 Définition</h3>
+      <p>
+        La propriété <code>flex-direction</code> définit la <strong>direction de l'axe principal</strong>,
+        c'est-à-dire la direction dans laquelle les enfants flex sont disposés.
+      </p>
+
+      <h3>3.2 Les 4 valeurs possibles</h3>
+      <table>
+        <thead>
+          <tr><th>Valeur</th><th>Axe principal</th><th>Direction</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>row</code> (défaut)</td><td>Horizontal</td><td>Gauche → Droite</td></tr>
+          <tr><td><code>row-reverse</code></td><td>Horizontal</td><td>Droite → Gauche</td></tr>
+          <tr><td><code>column</code></td><td>Vertical</td><td>Haut → Bas</td></tr>
+          <tr><td><code>column-reverse</code></td><td>Vertical</td><td>Bas → Haut</td></tr>
+        </tbody>
+      </table>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration interactive · flex-direction</div>
+        <div class="demo-comparison">
+          <div class="demo-row">
+            <span class="demo-label">row (défaut)</span>
+            <div class="demo-flex" style="flex-direction: row;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">row-reverse</span>
+            <div class="demo-flex" style="flex-direction: row-reverse;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">column</span>
+            <div class="demo-flex" style="flex-direction: column; min-height: 200px;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">column-reverse</span>
+            <div class="demo-flex" style="flex-direction: column-reverse; min-height: 200px;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>3.3 Impact sur les axes</h3>
+      <div class="info-box">
+        <strong>📌 Point crucial :</strong> quand on change <code>flex-direction</code>, <strong>les axes sont inversés</strong> :<br>
+        • En <code>row</code> : axe principal = horizontal, axe secondaire = vertical<br>
+        • En <code>column</code> : axe principal = vertical, axe secondaire = horizontal<br><br>
+        Cela signifie que <code>justify-content</code> et <code>align-items</code> <strong>échangent leurs rôles</strong>.
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>flex-direction</th><th>justify-content agit sur…</th><th>align-items agit sur…</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>row</code></td><td>Horizontal</td><td>Vertical</td></tr>
+          <tr><td><code>column</code></td><td>Vertical</td><td>Horizontal</td></tr>
+        </tbody>
+      </table>
+
+      <h3>3.4 Cas d'usage courants</h3>
+      <ul>
+        <li><strong>row</strong> : navigation, cartes côte à côte, footer multi-colonnes</li>
+        <li><strong>column</strong> : menu vertical, formulaires, listes, sections empilées</li>
+        <li><strong>row-reverse</strong> : rare, mais utile pour inverser visuellement sans changer le HTML</li>
+        <li><strong>column-reverse</strong> : chat (messages récents en haut), timelines</li>
+      </ul>
+
+      <h3>3.5 Exemple pratique : menu vertical</h3>
+      <div class="code-block"><span class="comment">/* HTML */</span>
+<span class="tag">&lt;nav</span> <span class="attr">class</span>=<span class="value">"menu-vertical"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"#"</span><span class="tag">&gt;</span><span class="text">Accueil</span><span class="tag">&lt;/a&gt;</span>
+  <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"#"</span><span class="tag">&gt;</span><span class="text">Services</span><span class="tag">&lt;/a&gt;</span>
+  <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="value">"#"</span><span class="tag">&gt;</span><span class="text">Contact</span><span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;/nav&gt;</span>
+
+<span class="comment">/* CSS */</span>
+<span class="tag">.menu-vertical</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">flex-direction</span>: <span class="value">column</span>;
+  <span class="attr">gap</span>: <span class="value">10px</span>;
+  <span class="attr">width</span>: <span class="value">200px</span>;
+}</div>
+
+      <!-- ACTIVITÉ 3.1 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 3.1 · Prédire le rendu <span class="collab-meta">6 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Pour chaque code, décrivez l'ordre visuel des éléments (1, 2, 3, 4) :<br><br>
+            <strong>1.</strong> <code>flex-direction: row;</code> avec HTML : 1, 2, 3, 4<br>
+            <strong>2.</strong> <code>flex-direction: row-reverse;</code> avec HTML : 1, 2, 3, 4<br>
+            <strong>3.</strong> <code>flex-direction: column;</code> avec HTML : 1, 2, 3, 4<br>
+            <strong>4.</strong> <code>flex-direction: column-reverse;</code> avec HTML : 1, 2, 3, 4<br>
+            <strong>5.</strong> <code>flex-direction: column;</code> avec HTML : 4, 3, 2, 1<br>
+            <strong>6.</strong> <code>flex-direction: row-reverse;</code> avec HTML : 4, 3, 2, 1
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 45)">⏱️ Lancer le temps (45 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">45</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. → 1, 2, 3, 4 (gauche à droite)<br>
+            2. → 4, 3, 2, 1 (droite à gauche)<br>
+            3. → 1, 2, 3, 4 (haut en bas)<br>
+            4. → 4, 3, 2, 1 (bas en haut)<br>
+            5. → 4, 3, 2, 1 (haut en bas, dans l'ordre HTML)<br>
+            6. → 1, 2, 3, 4 (droite à gauche, dans l'ordre HTML)
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ 3.2 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 3.2 · Créer une timeline verticale <span class="collab-meta">10 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Créez une timeline verticale avec :<br><br>
+            • Un conteneur en <code>flex-direction: column</code><br>
+            • 4 étapes chronologiques : "2020 — Création", "2022 — Lancement", "2024 — Expansion", "2025 — International"<br>
+            • Chaque étape dans un bloc stylisé<br>
+            • Un espacement entre les étapes<br><br>
+
+            <strong>Bonus :</strong> ajoutez une bordure gauche verte pour matérialiser la ligne du temps.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 120)">⏱️ Lancer le temps (120 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">120</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+
+            <strong>HTML :</strong><br>
+            <code>&lt;div class="timeline"&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="etape"&gt;&lt;strong&gt;2020&lt;/strong&gt; — Création&lt;/div&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="etape"&gt;&lt;strong&gt;2022&lt;/strong&gt; — Lancement&lt;/div&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="etape"&gt;&lt;strong&gt;2024&lt;/strong&gt; — Expansion&lt;/div&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="etape"&gt;&lt;strong&gt;2025&lt;/strong&gt; — International&lt;/div&gt;</code><br>
+            <code>&lt;/div&gt;</code><br><br>
+
+            <strong>CSS :</strong><br>
+            <code>.timeline {</code><br>
+            <code>&nbsp;&nbsp;display: flex;</code><br>
+            <code>&nbsp;&nbsp;flex-direction: column;</code><br>
+            <code>&nbsp;&nbsp;gap: 15px;</code><br>
+            <code>&nbsp;&nbsp;padding-left: 20px;</code><br>
+            <code>&nbsp;&nbsp;border-left: 3px solid #2e8b57;</code><br>
+            <code>}</code><br>
+            <code>.etape {</code><br>
+            <code>&nbsp;&nbsp;background: white;</code><br>
+            <code>&nbsp;&nbsp;padding: 12px 20px;</code><br>
+            <code>&nbsp;&nbsp;border-radius: 8px;</code><br>
+            <code>&nbsp;&nbsp;box-shadow: 0 3px 10px rgba(0,0,0,0.08);</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 4 · L'ALIGNEMENT PRINCIPAL (JUSTIFY-CONTENT)        -->
+    <!-- ============================================================ -->
+      <!-- ============================================================ -->
+    <!-- SECTION 4 · L'ALIGNEMENT PRINCIPAL (JUSTIFY-CONTENT)        -->
+    <!-- ============================================================ -->
+    <div class="section" id="section4">
+      <h2>4. L'alignement principal (justify-content)</h2>
+
+      <h3>4.1 Définition</h3>
+      <p>
+        La propriété <code>justify-content</code> contrôle la <strong>répartition des enfants flex
+        le long de l'axe principal</strong>. C'est l'une des propriétés les plus utilisées en Flexbox.
+      </p>
+
+      <h3>4.2 Les 6 valeurs principales</h3>
+      <table>
+        <thead>
+          <tr><th>Valeur</th><th>Effet</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>flex-start</code> (défaut)</td><td>Aligner au début de l'axe</td></tr>
+          <tr><td><code>flex-end</code></td><td>Aligner à la fin de l'axe</td></tr>
+          <tr><td><code>center</code></td><td>Centrer sur l'axe</td></tr>
+          <tr><td><code>space-between</code></td><td>Premier au début, dernier à la fin, espace égal entre</td></tr>
+          <tr><td><code>space-around</code></td><td>Espace égal autour de chaque élément</td></tr>
+          <tr><td><code>space-evenly</code></td><td>Espace strictement identique partout</td></tr>
+        </tbody>
+      </table>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration interactive · justify-content</div>
+        <div class="demo-comparison">
+          <div class="demo-row">
+            <span class="demo-label">flex-start</span>
+            <div class="demo-flex" style="justify-content: flex-start;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">flex-end</span>
+            <div class="demo-flex" style="justify-content: flex-end;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">center</span>
+            <div class="demo-flex" style="justify-content: center;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">space-between</span>
+            <div class="demo-flex" style="justify-content: space-between;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">space-around</span>
+            <div class="demo-flex" style="justify-content: space-around;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">space-evenly</span>
+            <div class="demo-flex" style="justify-content: space-evenly;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>4.3 Différence entre space-between, space-around et space-evenly</h3>
+      <div class="info-box">
+        <strong>📌 Comprendre la différence :</strong><br>
+        • <strong>space-between</strong> : le premier élément est collé au début, le dernier à la fin. Aucun espace aux extrémités.<br>
+        • <strong>space-around</strong> : chaque élément a un espace égal de chaque côté. Les extrémités ont un demi-espace.<br>
+        • <strong>space-evenly</strong> : tous les espaces (extrémités incluses) sont strictement identiques.
+      </div>
+
+      <div class="code-block"><span class="comment">/* Les 3 méthodes pour espacer */</span>
+<span class="tag">.space-between</span> { <span class="attr">justify-content</span>: <span class="value">space-between</span>; }
+<span class="tag">.space-around</span>  { <span class="attr">justify-content</span>: <span class="value">space-around</span>; }
+<span class="tag">.space-evenly</span>  { <span class="attr">justify-content</span>: <span class="value">space-evenly</span>; }</div>
+
+      <h3>4.4 Cas d'usage recommandés</h3>
+      <table>
+        <thead>
+          <tr><th>Cas d'usage</th><th>Valeur recommandée</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Navigation : logo à gauche, liens à droite</td><td><code>space-between</code></td></tr>
+          <tr><td>Boutons centrés</td><td><code>center</code></td></tr>
+          <tr><td>Cartes réparties régulièrement</td><td><code>space-around</code> ou <code>space-evenly</code></td></tr>
+          <tr><td>Icônes alignées à droite</td><td><code>flex-end</code></td></tr>
+          <tr><td>Menu d'onglets</td><td><code>space-evenly</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>4.5 Impact de flex-direction</h3>
+      <p>
+        Quand <code>flex-direction: column</code>, <code>justify-content</code> agit
+        <strong>verticalement</strong> au lieu d'horizontalement.
+      </p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration · justify-content avec flex-direction: column</div>
+        <div class="demo-comparison">
+          <div class="demo-row">
+            <span class="demo-label">column + space-between</span>
+            <div class="demo-flex" style="flex-direction: column; justify-content: space-between; height: 200px;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ 4.1 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 4.1 · Choisir la bonne valeur <span class="collab-meta">6 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Pour chaque situation, indiquez la valeur de <code>justify-content</code> la plus adaptée :<br><br>
+            <strong>1.</strong> Logo à gauche, menu à droite<br>
+            <strong>2.</strong> Bouton centré horizontalement<br>
+            <strong>3.</strong> 3 cartes parfaitement espacées<br>
+            <strong>4.</strong> Icônes alignées à droite d'un header<br>
+            <strong>5.</strong> Menu à 4 onglets équidistants<br>
+            <strong>6.</strong> Un seul bouton aligné à gauche<br>
+            <strong>7.</strong> Un titre centré dans un bandeau<br>
+            <strong>8.</strong> 5 étoiles de notation avec espace égal
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 60)">⏱️ Lancer le temps (60 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">60</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. <code>space-between</code><br>
+            2. <code>center</code><br>
+            3. <code>space-around</code> ou <code>space-evenly</code><br>
+            4. <code>flex-end</code><br>
+            5. <code>space-evenly</code><br>
+            6. <code>flex-start</code><br>
+            7. <code>center</code><br>
+            8. <code>space-evenly</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ 4.2 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 4.2 · Reproduire une barre d'outils <span class="collab-meta">10 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Créez une barre d'outils horizontale avec :<br><br>
+            • 5 icônes/emojis : 📝 🎨 💾 🔍 ⚙️<br>
+            • Espacement régulier entre les icônes<br>
+            • Hauteur fixe de 60px<br>
+            • Fond gris clair, coins arrondis<br>
+            • Les icônes doivent être centrées verticalement<br><br>
+
+            <strong>Contrainte :</strong> utilisez <code>justify-content: space-around</code> pour l'espacement.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 120)">⏱️ Lancer le temps (120 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">120</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+
+            <strong>HTML :</strong><br>
+            <code>&lt;div class="toolbar"&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;span&gt;📝&lt;/span&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;span&gt;🎨&lt;/span&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;span&gt;💾&lt;/span&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;span&gt;🔍&lt;/span&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;span&gt;⚙️&lt;/span&gt;</code><br>
+            <code>&lt;/div&gt;</code><br><br>
+
+            <strong>CSS :</strong><br>
+            <code>.toolbar {</code><br>
+            <code>&nbsp;&nbsp;display: flex;</code><br>
+            <code>&nbsp;&nbsp;justify-content: space-around;</code><br>
+            <code>&nbsp;&nbsp;align-items: center;</code><br>
+            <code>&nbsp;&nbsp;height: 60px;</code><br>
+            <code>&nbsp;&nbsp;background: #f1faf4;</code><br>
+            <code>&nbsp;&nbsp;border-radius: 12px;</code><br>
+            <code>&nbsp;&nbsp;padding: 0 20px;</code><br>
+            <code>&nbsp;&nbsp;font-size: 1.5rem;</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 5 · L'ALIGNEMENT SECONDAIRE (ALIGN-ITEMS)           -->
+    <!-- ============================================================ -->
+       <!-- ============================================================ -->
+    <!-- SECTION 5 · L'ALIGNEMENT SECONDAIRE (ALIGN-ITEMS)           -->
+    <!-- ============================================================ -->
+    <div class="section" id="section5">
+      <h2>5. L'alignement secondaire (align-items)</h2>
+
+      <h3>5.1 Définition</h3>
+      <p>
+        La propriété <code>align-items</code> contrôle l'<strong>alignement des enfants flex
+        sur l'axe secondaire</strong> (perpendiculaire à l'axe principal).
+      </p>
+
+      <div class="info-box">
+        <strong>📌 Rappel :</strong><br>
+        • Si <code>flex-direction: row</code> → l'axe secondaire est <strong>vertical</strong><br>
+        • Si <code>flex-direction: column</code> → l'axe secondaire est <strong>horizontal</strong>
+      </div>
+
+      <h3>5.2 Les 5 valeurs principales</h3>
+      <table>
+        <thead>
+          <tr><th>Valeur</th><th>Effet</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>stretch</code> (défaut)</td><td>Étirer les enfants sur toute la hauteur/largeur</td></tr>
+          <tr><td><code>flex-start</code></td><td>Aligner au début de l'axe secondaire</td></tr>
+          <tr><td><code>flex-end</code></td><td>Aligner à la fin de l'axe secondaire</td></tr>
+          <tr><td><code>center</code></td><td>Centrer sur l'axe secondaire</td></tr>
+          <tr><td><code>baseline</code></td><td>Aligner les lignes de base du texte</td></tr>
+        </tbody>
+      </table>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration interactive · align-items</div>
+        <div class="demo-comparison">
+          <div class="demo-row">
+            <span class="demo-label">stretch (défaut)</span>
+            <div class="demo-flex" style="align-items: stretch; min-height: 120px;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">flex-start</span>
+            <div class="demo-flex" style="align-items: flex-start; min-height: 120px;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt" style="padding: 30px 25px;">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">center</span>
+            <div class="demo-flex" style="align-items: center; min-height: 120px;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt" style="padding: 30px 25px;">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">flex-end</span>
+            <div class="demo-flex" style="align-items: flex-end; min-height: 120px;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt" style="padding: 30px 25px;">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">baseline</span>
+            <div class="demo-flex" style="align-items: baseline; min-height: 120px;">
+              <div class="demo-item" style="font-size: 0.8rem;">Petit</div>
+              <div class="demo-item alt" style="font-size: 1.6rem;">Grand</div>
+              <div class="demo-item" style="font-size: 1rem;">Moyen</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>5.3 Le centrage parfait (astuce classique)</h3>
+      <p>
+        En combinant <code>justify-content: center</code> et <code>align-items: center</code>,
+        on obtient un <strong>centrage parfait</strong> horizontal et vertical en 2 lignes.
+      </p>
+
+      <div class="code-block"><span class="comment">/* Centrage parfait en 2 lignes */</span>
+<span class="tag">.centre-parfait</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">justify-content</span>: <span class="value">center</span>;   <span class="comment">/* Horizontal */</span>
+  <span class="attr">align-items</span>: <span class="value">center</span>;       <span class="comment">/* Vertical */</span>
+  <span class="attr">min-height</span>: <span class="value">100vh</span>;         <span class="comment">/* Pleine hauteur pour tester */</span>
+}</div>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration · Centrage parfait</div>
+        <div class="demo-flex" style="justify-content: center; align-items: center; min-height: 200px;">
+          <div class="demo-item" style="padding: 30px 50px; font-size: 1.2rem;">Je suis centré !</div>
+        </div>
+      </div>
+
+      <div class="success-box">
+        <strong>✅ Astuce :</strong> c'est <strong>la méthode la plus simple et moderne</strong> pour centrer un élément
+        dans une page. Elle remplace toutes les techniques anciennes (table, position absolue + translate, etc.).
+      </div>
+
+      <h3>5.4 align-items vs text-align</h3>
+      <table>
+        <thead>
+          <tr><th>Propriété</th><th>Portée</th><th>Usage</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>text-align: center</code></td>
+            <td>Centre le <strong>texte</strong> dans un élément</td>
+            <td>Paragraphes, titres</td>
+          </tr>
+          <tr>
+            <td><code>align-items: center</code></td>
+            <td>Centre les <strong>enfants flex</strong> sur l'axe secondaire</td>
+            <td>Conteneurs flex</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>5.5 Exemple : centrer verticalement un formulaire</h3>
+      <div class="code-block"><span class="comment">/* HTML */</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"page-login"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;form</span> <span class="attr">class</span>=<span class="value">"form-login"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;h2&gt;</span><span class="text">Connexion</span><span class="tag">&lt;/h2&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="value">"email"</span> <span class="attr">placeholder</span>=<span class="value">"Email"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="value">"password"</span> <span class="attr">placeholder</span>=<span class="value">"Mot de passe"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;button&gt;</span><span class="text">Se connecter</span><span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;/form&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">/* CSS */</span>
+<span class="tag">.page-login</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">justify-content</span>: <span class="value">center</span>;
+  <span class="attr">align-items</span>: <span class="value">center</span>;
+  <span class="attr">min-height</span>: <span class="value">100vh</span>;
+  <span class="attr">background</span>: <span class="value">#f1faf4</span>;
+}</div>
+
+      <!-- ACTIVITÉ 5.1 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 5.1 · Prédire le rendu d'align-items <span class="collab-meta">6 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Pour chaque code, décrivez la position verticale des éléments :<br><br>
+            <strong>1.</strong> <code>align-items: stretch;</code> avec des blocs de tailles différentes<br>
+            <strong>2.</strong> <code>align-items: flex-start;</code> avec un conteneur de 200px<br>
+            <strong>3.</strong> <code>align-items: center;</code> avec un conteneur de 200px<br>
+            <strong>4.</strong> <code>align-items: flex-end;</code> avec un conteneur de 200px<br>
+            <strong>5.</strong> <code>align-items: baseline;</code> avec des textes de tailles différentes<br>
+            <strong>6.</strong> <code>justify-content: center; align-items: center;</code> avec un seul enfant
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 60)">⏱️ Lancer le temps (60 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">60</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. Tous les blocs s'étirent sur la même hauteur (le conteneur)<br>
+            2. Tous les blocs sont alignés en haut du conteneur<br>
+            3. Tous les blocs sont centrés verticalement<br>
+            4. Tous les blocs sont alignés en bas du conteneur<br>
+            5. Les textes sont alignés sur leur ligne de base (le bas des lettres, sans les descendantes)<br>
+            6. L'enfant est parfaitement centré horizontalement ET verticalement
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ 5.2 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 5.2 · Créer une section "Hero" centrée <span class="collab-meta">12 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Créez une section "Hero" (bannière d'accueil) avec :<br><br>
+            • Hauteur de 100vh (plein écran)<br>
+            • Fond en dégradé linéaire (vert foncé → vert moyen)<br>
+            • Un titre h1 centré<br>
+            • Un sous-titre centré<br>
+            • Un bouton centré<br>
+            • Tout le contenu parfaitement centré horizontalement ET verticalement<br><br>
+
+            <strong>Contrainte :</strong> utilisez <code>justify-content: center</code> et <code>align-items: center</code>.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 150)">⏱️ Lancer le temps (150 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">150</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+
+            <strong>HTML :</strong><br>
+            <code>&lt;section class="hero"&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="hero-content"&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Bienvenue chez GreenTech&lt;/h1&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Solutions numériques écologiques&lt;/p&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="#" class="btn"&gt;Découvrir&lt;/a&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;/div&gt;</code><br>
+            <code>&lt;/section&gt;</code><br><br>
+
+            <strong>CSS :</strong><br>
+            <code>.hero {</code><br>
+            <code>&nbsp;&nbsp;display: flex;</code><br>
+            <code>&nbsp;&nbsp;justify-content: center;</code><br>
+            <code>&nbsp;&nbsp;align-items: center;</code><br>
+            <code>&nbsp;&nbsp;min-height: 100vh;</code><br>
+            <code>&nbsp;&nbsp;background: linear-gradient(135deg, #144a26, #2e8b57);</code><br>
+            <code>&nbsp;&nbsp;color: white;</code><br>
+            <code>&nbsp;&nbsp;text-align: center;</code><br>
+            <code>}</code><br>
+            <code>.hero-content {</code><br>
+            <code>&nbsp;&nbsp;display: flex;</code><br>
+            <code>&nbsp;&nbsp;flex-direction: column;</code><br>
+            <code>&nbsp;&nbsp;align-items: center;</code><br>
+            <code>&nbsp;&nbsp;gap: 20px;</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 6 · LE RETOUR À LA LIGNE                            -->
+    <!-- ============================================================ -->
+       <!-- ============================================================ -->
+    <!-- SECTION 6 · LE RETOUR À LA LIGNE                            -->
+    <!-- ============================================================ -->
+    <div class="section" id="section6">
+      <h2>6. Le retour à la ligne (flex-wrap / align-content)</h2>
+
+      <h3>6.1 Le problème du débordement</h3>
+      <p>
+        Par défaut, Flexbox dispose tous les enfants sur une <strong>seule ligne</strong>, même si cela
+        provoque un débordement horizontal (les éléments rétrécissent ou débordent du conteneur).
+      </p>
+
+      <div class="info-box">
+        <strong>📌 Comportement par défaut :</strong> <code>flex-wrap: nowrap</code> — les éléments
+        restent sur une seule ligne et peuvent se compresser ou déborder.
+      </div>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration interactive · flex-wrap</div>
+        <div class="demo-comparison">
+          <div class="demo-row">
+            <span class="demo-label">nowrap (défaut)</span>
+            <div class="demo-flex" style="flex-wrap: nowrap;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+              <div class="demo-item alt">4</div>
+              <div class="demo-item">5</div>
+              <div class="demo-item alt">6</div>
+              <div class="demo-item">7</div>
+              <div class="demo-item alt">8</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">wrap</span>
+            <div class="demo-flex" style="flex-wrap: wrap;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+              <div class="demo-item alt">4</div>
+              <div class="demo-item">5</div>
+              <div class="demo-item alt">6</div>
+              <div class="demo-item">7</div>
+              <div class="demo-item alt">8</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">wrap-reverse</span>
+            <div class="demo-flex" style="flex-wrap: wrap-reverse;">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+              <div class="demo-item alt">4</div>
+              <div class="demo-item">5</div>
+              <div class="demo-item alt">6</div>
+              <div class="demo-item">7</div>
+              <div class="demo-item alt">8</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>6.2 La propriété flex-wrap</h3>
+      <table>
+        <thead>
+          <tr><th>Valeur</th><th>Comportement</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>nowrap</code> (défaut)</td><td>Tout sur une seule ligne (compression ou débordement)</td></tr>
+          <tr><td><code>wrap</code></td><td>Les éléments passent à la ligne suivante si nécessaire</td></tr>
+          <tr><td><code>wrap-reverse</code></td><td>Comme wrap, mais les nouvelles lignes vont vers le haut</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="comment">/* Autoriser le retour à la ligne */</span>
+<span class="tag">.galerie</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">flex-wrap</span>: <span class="value">wrap</span>;      <span class="comment">/* Retour à la ligne automatique */</span>
+  <span class="attr">gap</span>: <span class="value">20px</span>;
+}</div>
+
+      <h3>6.3 La propriété align-content</h3>
+      <p>
+        Quand <code>flex-wrap: wrap</code> est activé et qu'il y a plusieurs lignes, la propriété
+        <code>align-content</code> contrôle la <strong>répartition verticale de ces lignes</strong>.
+      </p>
+
+      <div class="warn-box">
+        <strong>⚠️ Attention :</strong> <code>align-content</code> ne fonctionne <strong>que</strong> s'il y a
+        plusieurs lignes (donc avec <code>flex-wrap: wrap</code> et un débordement effectif).
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Valeur</th><th>Effet</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>stretch</code> (défaut)</td><td>Les lignes s'étirent sur toute la hauteur</td></tr>
+          <tr><td><code>flex-start</code></td><td>Lignes groupées en haut</td></tr>
+          <tr><td><code>flex-end</code></td><td>Lignes groupées en bas</td></tr>
+          <tr><td><code>center</code></td><td>Lignes centrées verticalement</td></tr>
+          <tr><td><code>space-between</code></td><td>Première en haut, dernière en bas, espace entre</td></tr>
+          <tr><td><code>space-around</code></td><td>Espace égal autour de chaque ligne</td></tr>
+          <tr><td><code>space-evenly</code></td><td>Espace strictement égal</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block"><span class="comment">/* Plusieurs lignes réparties uniformément */</span>
+<span class="tag">.galerie</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">flex-wrap</span>: <span class="value">wrap</span>;
+  <span class="attr">align-content</span>: <span class="value">space-between</span>;
+  <span class="attr">height</span>: <span class="value">400px</span>;
+}</div>
+
+      <h3>6.4 Différence entre align-items et align-content</h3>
+      <table>
+        <thead>
+          <tr><th>Propriété</th><th>Cible</th><th>Condition</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>align-items</code></td><td>Les enfants dans <strong>une même ligne</strong></td><td>Toujours actif</td></tr>
+          <tr><td><code>align-content</code></td><td>Les <strong>lignes entre elles</strong></td><td>Uniquement avec <code>flex-wrap: wrap</code> + plusieurs lignes</td></tr>
+        </tbody>
+      </table>
+
+      <h3>6.5 La propriété raccourcie flex-flow</h3>
+      <p>
+        Combine <code>flex-direction</code> et <code>flex-wrap</code> en une seule ligne.
+      </p>
+
+      <div class="code-block"><span class="comment">/* Version longue */</span>
+<span class="tag">.conteneur</span> {
+  <span class="attr">flex-direction</span>: <span class="value">row</span>;
+  <span class="attr">flex-wrap</span>: <span class="value">wrap</span>;
+}
+
+<span class="comment">/* Version raccourcie (même résultat) */</span>
+<span class="tag">.conteneur</span> {
+  <span class="attr">flex-flow</span>: <span class="value">row wrap</span>;
+}</div>
+
+      <h3>6.6 Cas d'usage</h3>
+      <ul>
+        <li><strong>Galerie d'images</strong> : wrap pour passer à la ligne automatiquement</li>
+        <li><strong>Cartes de produits</strong> : wrap pour s'adapter à la largeur de l'écran</li>
+        <li><strong>Badges / tags</strong> : wrap pour revenir à la ligne</li>
+        <li><strong>Menu responsive</strong> : wrap pour passer en colonne sur mobile</li>
+      </ul>
+
+      <!-- ACTIVITÉ 6.1 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 6.1 · Prédire le rendu avec wrap <span class="collab-meta">6 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Un conteneur de 500px contient 6 blocs de 200px chacun.<br><br>
+            <strong>1.</strong> Avec <code>flex-wrap: nowrap</code>, que se passe-t-il ?<br>
+            <strong>2.</strong> Avec <code>flex-wrap: wrap</code>, combien de lignes y a-t-il ?<br>
+            <strong>3.</strong> Avec <code>flex-wrap: wrap-reverse</code>, où vont les nouvelles lignes ?<br>
+            <strong>4.</strong> Avec <code>flex-wrap: wrap</code> et <code>align-content: center</code>, comment sont positionnées les lignes ?<br>
+            <strong>5.</strong> Quelle est la différence entre <code>align-items</code> et <code>align-content</code> ?<br>
+            <strong>6.</strong> <code>align-content</code> fonctionne-t-il avec <code>flex-wrap: nowrap</code> ?
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 60)">⏱️ Lancer le temps (60 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">60</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. Les 6 blocs de 200px sont compressés sur une seule ligne (ils rétrécissent ou débordent)<br>
+            2. Avec wrap : 3 lignes de 2 blocs (2 × 200px = 400px, ce qui laisse la place pour un 2ᵉ bloc)<br>
+            3. Avec wrap-reverse : les nouvelles lignes se placent <strong>au-dessus</strong> de la précédente<br>
+            4. Les lignes sont centrées verticalement dans le conteneur<br>
+            5. <code>align-items</code> aligne les éléments dans une ligne ; <code>align-content</code> aligne les lignes entre elles<br>
+            6. Non, <code>align-content</code> ne fonctionne qu'avec plusieurs lignes (donc <code>wrap</code>)
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ 6.2 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 6.2 · Créer une galerie responsive <span class="collab-meta">12 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Créez une galerie d'images responsive avec :<br><br>
+            • Un conteneur <code>display: flex</code> avec <code>flex-wrap: wrap</code><br>
+            • 8 cartes avec fond coloré et un titre<br>
+            • Chaque carte a une largeur minimale de 200px et un <code>flex-grow: 1</code><br>
+            • Un gap de 20px entre les cartes<br>
+            • Les cartes doivent automatiquement passer à la ligne quand l'écran est trop étroit<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 150)">⏱️ Lancer le temps (150 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">150</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+
+            <strong>HTML :</strong><br>
+            <code>&lt;div class="galerie"&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="carte"&gt;Carte 1&lt;/div&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="carte"&gt;Carte 2&lt;/div&gt;</code><br>
+            <code>&nbsp;&nbsp;... (8 cartes au total)</code><br>
+            <code>&lt;/div&gt;</code><br><br>
+
+            <strong>CSS :</strong><br>
+            <code>.galerie {</code><br>
+            <code>&nbsp;&nbsp;display: flex;</code><br>
+            <code>&nbsp;&nbsp;flex-wrap: wrap;</code><br>
+            <code>&nbsp;&nbsp;gap: 20px;</code><br>
+            <code>&nbsp;&nbsp;padding: 20px;</code><br>
+            <code>}</code><br>
+            <code>.carte {</code><br>
+            <code>&nbsp;&nbsp;flex: 1 1 200px;</code> <span style="color: #3f6b4f;">/* grow shrink basis */</span><br>
+            <code>&nbsp;&nbsp;min-height: 150px;</code><br>
+            <code>&nbsp;&nbsp;background: linear-gradient(135deg, #2e8b57, #1d5e36);</code><br>
+            <code>&nbsp;&nbsp;color: white;</code><br>
+            <code>&nbsp;&nbsp;padding: 20px;</code><br>
+            <code>&nbsp;&nbsp;border-radius: 12px;</code><br>
+            <code>&nbsp;&nbsp;font-weight: 700;</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 7 · LES PROPRIÉTÉS DES ENFANTS                      -->
+    <!-- ============================================================ -->
+       <!-- ============================================================ -->
+    <!-- SECTION 7 · LES PROPRIÉTÉS DES ENFANTS                      -->
+    <!-- ============================================================ -->
+    <div class="section" id="section7">
+      <h2>7. Les propriétés des enfants (flex-grow, shrink, basis)</h2>
+
+      <h3>7.1 Le trio fondamental</h3>
+      <p>
+        Chaque enfant flex peut être configuré individuellement avec trois propriétés :
+        <code>flex-grow</code>, <code>flex-shrink</code> et <code>flex-basis</code>.
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>Propriété</th><th>Rôle</th><th>Valeur par défaut</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>flex-grow</code></td><td>Capacité à <strong>grandir</strong> pour occuper l'espace libre</td><td><code>0</code></td></tr>
+          <tr><td><code>flex-shrink</code></td><td>Capacité à <strong>rétrécir</strong> si l'espace manque</td><td><code>1</code></td></tr>
+          <tr><td><code>flex-basis</code></td><td>Taille <strong>de base</strong> avant répartition</td><td><code>auto</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>7.2 flex-grow</h3>
+      <p>
+        Définit la <strong>proportion d'espace libre</strong> que l'élément peut absorber.
+        Un ratio plus élevé signifie plus d'espace.
+      </p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration interactive · flex-grow</div>
+        <div class="demo-comparison">
+          <div class="demo-row">
+            <span class="demo-label">flex-grow: 1 / 1 / 1</span>
+            <div class="demo-flex">
+              <div class="demo-item" style="flex-grow: 1;">1</div>
+              <div class="demo-item alt" style="flex-grow: 1;">2</div>
+              <div class="demo-item" style="flex-grow: 1;">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">flex-grow: 1 / 2 / 1</span>
+            <div class="demo-flex">
+              <div class="demo-item" style="flex-grow: 1;">1</div>
+              <div class="demo-item alt" style="flex-grow: 2;">2</div>
+              <div class="demo-item" style="flex-grow: 1;">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">flex-grow: 3 / 1 / 1</span>
+            <div class="demo-flex">
+              <div class="demo-item" style="flex-grow: 3;">1</div>
+              <div class="demo-item alt" style="flex-grow: 1;">2</div>
+              <div class="demo-item" style="flex-grow: 1;">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">flex-grow: 1 / 0 / 0</span>
+            <div class="demo-flex">
+              <div class="demo-item" style="flex-grow: 1;">1</div>
+              <div class="demo-item alt" style="flex-grow: 0;">2</div>
+              <div class="demo-item" style="flex-grow: 0;">3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>📌 Calcul :</strong> si 3 éléments ont <code>flex-grow: 1</code>, <code>2</code> et <code>1</code>, l'espace libre
+        est réparti en 4 parts (1+2+1). Le 2ᵉ élément reçoit 2/4, les autres 1/4 chacun.
+      </div>
+
+      <h3>7.3 flex-shrink</h3>
+      <p>
+        Définit la <strong>capacité de rétrécissement</strong> quand l'espace manque.
+        Une valeur de <code>0</code> empêche l'élément de rétrécir.
+      </p>
+
+      <div class="code-block"><span class="comment">/* Un élément qui ne doit jamais rétrécir */</span>
+<span class="tag">.sidebar</span> {
+  <span class="attr">flex-shrink</span>: <span class="value">0</span>;      <span class="comment">/* Taille fixe, refuse de rétrécir */</span>
+  <span class="attr">width</span>: <span class="value">250px</span>;
+}
+
+<span class="comment">/* Un élément qui peut rétrécir normalement */</span>
+<span class="tag">.contenu</span> {
+  <span class="attr">flex-shrink</span>: <span class="value">1</span>;      <span class="comment">/* Par défaut */</span>
+}</div>
+
+      <h3>7.4 flex-basis</h3>
+      <p>
+        Définit la <strong>taille initiale</strong> de l'élément avant répartition d'espace.
+        Peut être en <code>px</code>, <code>%</code>, <code>auto</code>, etc.
+      </p>
+
+      <div class="code-block"><span class="comment">/* Taille de base de 200px */</span>
+<span class="tag">.carte</span> {
+  <span class="attr">flex-basis</span>: <span class="value">200px</span>;
+}
+
+<span class="comment">/* Taille basée sur le contenu */</span>
+<span class="tag">.auto</span> {
+  <span class="attr">flex-basis</span>: <span class="value">auto</span>;
+}
+
+<span class="comment">/* Taille proportionnelle au conteneur */</span>
+<span class="tag">.pct</span> {
+  <span class="attr">flex-basis</span>: <span class="value">30%</span>;
+}</div>
+
+      <h3>7.5 La propriété raccourcie flex</h3>
+      <p>
+        Combine les trois propriétés en une seule ligne :
+        <code>flex: &lt;grow&gt; &lt;shrink&gt; &lt;basis&gt;</code>.
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>Syntaxe</th><th>Signification</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>flex: 1</code></td><td><code>flex: 1 1 0</code> — prend une part égale</td></tr>
+          <tr><td><code>flex: auto</code></td><td><code>flex: 1 1 auto</code> — taille selon contenu puis répartition</td></tr>
+          <tr><td><code>flex: none</code></td><td><code>flex: 0 0 auto</code> — taille fixe selon contenu</td></tr>
+          <tr><td><code>flex: 2</code></td><td><code>flex: 2 1 0</code> — prend 2 parts sur l'espace libre</td></tr>
+          <tr><td><code>flex: 1 0 200px</code></td><td>Grow 1, ne rétrécit pas, base 200px</td></tr>
+        </tbody>
+      </table>
+
+      <h3>7.6 Le layout "sidebar + contenu"</h3>
+      <p>
+        Un cas d'usage classique : barre latérale fixe + contenu principal flexible.
+      </p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration · Sidebar fixe + contenu flexible</div>
+        <div class="demo-flex" style="min-height: 150px;">
+          <div style="flex: 0 0 200px; background: #1d5e36; color: white; border-radius: 8px; padding: 15px; font-weight: 700;">Sidebar (200px fixe)</div>
+          <div style="flex: 1; background: #a4d4b3; color: #144a26; border-radius: 8px; padding: 15px; font-weight: 700;">Contenu principal (flexible)</div>
+        </div>
+      </div>
+
+      <div class="code-block"><span class="comment">/* Layout classique */</span>
+<span class="tag">.layout</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">gap</span>: <span class="value">20px</span>;
+}
+
+<span class="tag">.sidebar</span> {
+  <span class="attr">flex</span>: <span class="value">0 0 250px</span>;    <span class="comment">/* Largeur fixe */</span>
+}
+
+<span class="tag">.contenu</span> {
+  <span class="attr">flex</span>: <span class="value">1</span>;              <span class="comment">/* Prend tout l'espace restant */</span>
+}</div>
+
+      <!-- ACTIVITÉ 7.1 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 7.1 · Analyser flex-grow <span class="collab-meta">6 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Contexte :</strong> Un conteneur de 900px contient 3 blocs avec <code>flex-grow: 1 / 2 / 3</code> et <code>flex-basis: 100px</code> chacun.<br><br>
+            <strong>1.</strong> Quelle est la taille de base totale des 3 blocs ?<br>
+            <strong>2.</strong> Quel espace reste-t-il à distribuer ?<br>
+            <strong>3.</strong> Combien de parts au total ?<br>
+            <strong>4.</strong> Quelle est la taille finale de chaque bloc ?<br>
+            <strong>5.</strong> Si on change en <code>1 / 1 / 1</code>, quelle serait la taille de chaque bloc ?<br>
+            <strong>6.</strong> Quel est l'effet de <code>flex-shrink: 0</code> ?
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 90)">⏱️ Lancer le temps (90 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">90</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. Taille de base totale : 3 × 100 = <strong>300px</strong><br>
+            2. Espace libre à distribuer : 900 − 300 = <strong>600px</strong><br>
+            3. Parts totales : 1 + 2 + 3 = <strong>6 parts</strong><br>
+            4. Chaque part = 600 / 6 = 100px. Donc :<br>
+            &nbsp;&nbsp;• Bloc 1 : 100 + 100×1 = <strong>200px</strong><br>
+            &nbsp;&nbsp;• Bloc 2 : 100 + 100×2 = <strong>300px</strong><br>
+            &nbsp;&nbsp;• Bloc 3 : 100 + 100×3 = <strong>400px</strong><br>
+            5. Avec 1/1/1 : 200px pour chacun (300 base + 600 libre / 3)<br>
+            6. <code>flex-shrink: 0</code> empêche l'élément de rétrécir ; il garde sa taille même si l'espace manque
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ 7.2 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 7.2 · Créer un layout dashboard <span class="collab-meta">15 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Créez un layout de dashboard avec :<br><br>
+            • Une <strong>sidebar gauche</strong> fixe de 250px<br>
+            • Une <strong>zone de contenu principal</strong> qui prend le reste de l'espace<br>
+            • Un <strong>widget latéral droit</strong> fixe de 300px<br>
+            • La zone de contenu contient 3 cartes en grille interne<br><br>
+
+            <strong>Contraintes :</strong><br>
+            • Conteneur principal en <code>display: flex</code><br>
+            • Sidebar : <code>flex: 0 0 250px</code><br>
+            • Contenu : <code>flex: 1</code><br>
+            • Widget : <code>flex: 0 0 300px</code><br>
+            • Le contenu utilise <code>flex-wrap: wrap</code> pour ses 3 cartes<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS + capture du rendu.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 180)">⏱️ Lancer le temps (180 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">180</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+
+            <strong>HTML :</strong><br>
+            <code>&lt;div class="dashboard"&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;aside class="sidebar"&gt;Menu&lt;/aside&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;main class="contenu"&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="carte"&gt;Carte 1&lt;/div&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="carte"&gt;Carte 2&lt;/div&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="carte"&gt;Carte 3&lt;/div&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;/main&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;aside class="widget"&gt;Widget&lt;/aside&gt;</code><br>
+            <code>&lt;/div&gt;</code><br><br>
+
+            <strong>CSS :</strong><br>
+            <code>.dashboard { display: flex; gap: 20px; padding: 20px; min-height: 100vh; }</code><br>
+            <code>.sidebar { flex: 0 0 250px; background: #144a26; color: white; padding: 20px; border-radius: 12px; }</code><br>
+            <code>.contenu { flex: 1; display: flex; flex-wrap: wrap; gap: 20px; }</code><br>
+            <code>.contenu .carte { flex: 1 1 200px; background: #f1faf4; padding: 20px; border-radius: 12px; }</code><br>
+            <code>.widget { flex: 0 0 300px; background: #a4d4b3; padding: 20px; border-radius: 12px; }</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 8 · ALIGNEMENT INDIVIDUEL ET ORDRE                  -->
+    <!-- ============================================================ -->
+       <!-- ============================================================ -->
+    <!-- SECTION 8 · ALIGNEMENT INDIVIDUEL ET ORDRE                  -->
+    <!-- ============================================================ -->
+    <div class="section" id="section8">
+      <h2>8. Alignement individuel et ordre</h2>
+
+      <h3>8.1 La propriété align-self</h3>
+      <p>
+        Permet de <strong>surcharger</strong> la valeur de <code>align-items</code> pour un
+        <strong>enfant spécifique</strong>. Utile quand un élément doit être aligné différemment.
+      </p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration interactive · align-self</div>
+        <div class="demo-flex" style="align-items: center; min-height: 200px;">
+          <div class="demo-item" style="align-self: flex-start;">flex-start</div>
+          <div class="demo-item alt" style="align-self: center;">center</div>
+          <div class="demo-item" style="align-self: flex-end;">flex-end</div>
+          <div class="demo-item alt" style="align-self: stretch;">stretch</div>
+        </div>
+        <p style="font-size: 0.85rem; color: #3f6b4f; font-style: italic; text-align: center; margin-top: 0.5rem;">
+          <em>Chaque élément a un align-self différent, indépendamment du align-items: center du conteneur.</em>
+        </p>
+      </div>
+
+      <div class="code-block"><span class="comment">/* align-self sur un enfant spécifique */</span>
+<span class="tag">.conteneur</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">align-items</span>: <span class="value">center</span>;    <span class="comment">/* Alignement par défaut */</span>
+}
+
+<span class="tag">.special</span> {
+  <span class="attr">align-self</span>: <span class="value">flex-end</span>;   <span class="comment">/* Surcharge : cet élément va en bas */</span>
+}</div>
+
+      <table>
+        <thead>
+          <tr><th>Valeur align-self</th><th>Effet</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>auto</code> (défaut)</td><td>Suit la valeur de <code>align-items</code> du parent</td></tr>
+          <tr><td><code>flex-start</code></td><td>Aligné au début de l'axe secondaire</td></tr>
+          <tr><td><code>flex-end</code></td><td>Aligné à la fin</td></tr>
+          <tr><td><code>center</code></td><td>Centré</td></tr>
+          <tr><td><code>stretch</code></td><td>Étiré</td></tr>
+          <tr><td><code>baseline</code></td><td>Aligné sur la ligne de base du texte</td></tr>
+        </tbody>
+      </table>
+
+      <h3>8.2 La propriété order</h3>
+      <p>
+        Permet de <strong>réorganiser visuellement</strong> les enfants flex sans changer
+        l'ordre du HTML. C'est très utile pour le responsive (inverser sur mobile).
+      </p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration interactive · order</div>
+        <div class="demo-comparison">
+          <div class="demo-row">
+            <span class="demo-label">Sans order (ordre HTML : 1, 2, 3)</span>
+            <div class="demo-flex">
+              <div class="demo-item">1</div>
+              <div class="demo-item alt">2</div>
+              <div class="demo-item">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">Avec order: 3 / 1 / 2</span>
+            <div class="demo-flex">
+              <div class="demo-item" style="order: 3;">1</div>
+              <div class="demo-item alt" style="order: 1;">2</div>
+              <div class="demo-item" style="order: 2;">3</div>
+            </div>
+          </div>
+          <div class="demo-row">
+            <span class="demo-label">Avec order: -1 sur le 3ᵉ</span>
+            <div class="demo-flex">
+              <div class="demo-item" style="order: 0;">1</div>
+              <div class="demo-item alt" style="order: 0;">2</div>
+              <div class="demo-item" style="order: -1;">3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block"><span class="comment">/* Réorganisation visuelle */</span>
+<span class="tag">.element-1</span> { <span class="attr">order</span>: <span class="value">3</span>; }
+<span class="tag">.element-2</span> { <span class="attr">order</span>: <span class="value">1</span>; }
+<span class="tag">.element-3</span> { <span class="attr">order</span>: <span class="value">2</span>; }
+
+<span class="comment">/* Résultat visuel : 2, 3, 1 */</span></div>
+
+      <div class="info-box">
+        <strong>📌 Valeur par défaut :</strong> <code>order: 0</code>.<br>
+        • Les valeurs <strong>négatives</strong> placent l'élément avant<br>
+        • Les valeurs <strong>positives</strong> le placent après<br>
+        • À valeurs égales, l'ordre HTML est conservé.
+      </div>
+
+      <h3>8.3 Cas d'usage pour le responsive</h3>
+      <p>
+        Un usage classique : sur desktop, le contenu est à droite de l'image ; sur mobile,
+        on veut mettre l'image en premier.
+      </p>
+
+      <div class="code-block"><span class="comment">/* Desktop : image à gauche, texte à droite */</span>
+<span class="tag">.section</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">gap</span>: <span class="value">20px</span>;
+}
+
+<span class="tag">.section .image</span> { <span class="attr">order</span>: <span class="value">1</span>; }
+<span class="tag">.section .texte</span> { <span class="attr">order</span>: <span class="value">2</span>; }
+
+<span class="comment">/* Mobile : image en premier (par défaut, pas de changement) */</span>
+<span class="tag">@media</span> (<span class="attr">max-width</span>: <span class="value">768px</span>) {
+  <span class="tag">.section</span> { <span class="attr">flex-direction</span>: <span class="value">column</span>; }
+  <span class="tag">.section .image</span> { <span class="attr">order</span>: <span class="value">1</span>; }
+  <span class="tag">.section .texte</span> { <span class="attr">order</span>: <span class="value">2</span>; }
+}</div>
+
+      <!-- ACTIVITÉ 8.1 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 8.1 · Réorganiser avec order <span class="collab-meta">8 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Contexte :</strong> HTML dans cet ordre : A, B, C, D, E.<br><br>
+            <strong>1.</strong> Avec <code>order: 0 / 0 / 0 / 0 / 0</code>, quel est l'ordre visuel ?<br>
+            <strong>2.</strong> Avec <code>order: 1 / 2 / 3 / 4 / 5</code>, quel est l'ordre visuel ?<br>
+            <strong>3.</strong> Avec <code>order: 3 / 1 / 2 / 5 / 4</code>, quel est l'ordre visuel ?<br>
+            <strong>4.</strong> Avec <code>order: 0 / -1 / 0 / 0 / 0</code>, quel est l'ordre visuel ?<br>
+            <strong>5.</strong> Avec <code>order: 0 / 0 / 0 / 0 / -1</code>, quel est l'ordre visuel ?<br>
+            <strong>6.</strong> Quelle est la différence entre changer <code>order</code> et changer l'ordre HTML ?
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 90)">⏱️ Lancer le temps (90 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">90</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. Ordre HTML conservé : <strong>A, B, C, D, E</strong><br>
+            2. Ordre croissant : <strong>A, B, C, D, E</strong> (déjà croissant)<br>
+            3. Trié par order croissant : B(1), C(2), A(3), E(4), D(5) → <strong>B, C, A, E, D</strong><br>
+            4. B a order -1 : <strong>B, A, C, D, E</strong><br>
+            5. E a order -1 : <strong>E, A, B, C, D</strong><br>
+            6. <code>order</code> ne change que l'ordre <strong>visuel</strong> (lecture d'écran et SEO conservent l'ordre HTML). Changer l'HTML modifie aussi la sémantique.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 9 · CAS PRATIQUES COMPLETS                          -->
+    <!-- ============================================================ -->
+       <!-- ============================================================ -->
+    <!-- SECTION 9 · CAS PRATIQUES COMPLETS                          -->
+    <!-- ============================================================ -->
+    <div class="section" id="section9">
+      <h2>9. Cas pratiques complets</h2>
+      <p>
+        Cette section regroupe les <strong>mises en page classiques</strong> que vous rencontrerez
+        en développement web professionnel. Chaque cas est illustré par une démonstration interactive.
+      </p>
+
+      <h3>9.1 Barre de navigation</h3>
+      <p>
+        La barre de navigation est le cas d'usage le plus courant de Flexbox :
+        logo à gauche, menu à droite, alignement vertical centré.
+      </p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration · Barre de navigation classique</div>
+        <div class="demo-flex" style="justify-content: space-between; align-items: center; padding: 15px 25px; background: #1d5e36; border-radius: 10px; min-height: auto;">
+          <div style="color: white; font-weight: 700; font-size: 1.1rem;">🌱 GreenTech</div>
+          <div style="display: flex; gap: 20px;">
+            <a style="color: white; text-decoration: none; font-size: 0.9rem;">Accueil</a>
+            <a style="color: white; text-decoration: none; font-size: 0.9rem;">Services</a>
+            <a style="color: white; text-decoration: none; font-size: 0.9rem;">À propos</a>
+            <a style="color: white; text-decoration: none; font-size: 0.9rem;">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block"><span class="comment">/* Navigation classique */</span>
+<span class="tag">.navbar</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">justify-content</span>: <span class="value">space-between</span>;   <span class="comment">/* Logo à gauche, menu à droite */</span>
+  <span class="attr">align-items</span>: <span class="value">center</span>;            <span class="comment">/* Centrage vertical */</span>
+  <span class="attr">padding</span>: <span class="value">15px 30px</span>;
+  <span class="attr">background</span>: <span class="value">white</span>;
+}
+
+<span class="tag">.navbar .menu</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">gap</span>: <span class="value">25px</span>;
+}</div>
+
+      <h3>9.2 Cartes côte à côte</h3>
+      <p>
+        Disposer plusieurs cartes de tailles égales, avec un espacement régulier.
+      </p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration · 3 cartes égales</div>
+        <div class="demo-flex" style="gap: 20px;">
+          <div style="flex: 1; background: #f1faf4; padding: 20px; border-radius: 12px; border-left: 4px solid #2e8b57;">
+            <strong style="color: #1d5e36;">Carte 1</strong>
+            <p style="font-size: 0.9rem; color: #3f6b4f; margin-top: 8px;">Description courte.</p>
+          </div>
+          <div style="flex: 1; background: #f1faf4; padding: 20px; border-radius: 12px; border-left: 4px solid #2e8b57;">
+            <strong style="color: #1d5e36;">Carte 2</strong>
+            <p style="font-size: 0.9rem; color: #3f6b4f; margin-top: 8px;">Description courte.</p>
+          </div>
+          <div style="flex: 1; background: #f1faf4; padding: 20px; border-radius: 12px; border-left: 4px solid #2e8b57;">
+            <strong style="color: #1d5e36;">Carte 3</strong>
+            <p style="font-size: 0.9rem; color: #3f6b4f; margin-top: 8px;">Description courte.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-block"><span class="comment">/* 3 cartes de même taille */</span>
+<span class="tag">.cartes</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">gap</span>: <span class="value">20px</span>;
+}
+
+<span class="tag">.carte</span> {
+  <span class="attr">flex</span>: <span class="value">1</span>;   <span class="comment">/* Toutes les cartes prennent une part égale */</span>
+}</div>
+
+      <h3>9.3 Centrage parfait</h3>
+      <p>La méthode Flexbox pour centrer horizontalement et verticalement.</p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration · Centrage parfait</div>
+        <div class="demo-flex" style="justify-content: center; align-items: center; min-height: 200px; background: #f1faf4;">
+          <div class="demo-item" style="padding: 30px 50px; font-size: 1.1rem;">Je suis centré</div>
+        </div>
+      </div>
+
+      <div class="code-block"><span class="tag">.centre</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">justify-content</span>: <span class="value">center</span>;
+  <span class="attr">align-items</span>: <span class="value">center</span>;
+  <span class="attr">min-height</span>: <span class="value">100vh</span>;
+}</div>
+
+      <h3>9.4 Layout "sidebar + contenu"</h3>
+      <p>Barre latérale fixe à gauche, contenu principal flexible à droite.</p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration · Sidebar + contenu</div>
+        <div class="demo-flex" style="gap: 20px;">
+          <div style="flex: 0 0 200px; background: #1d5e36; color: white; padding: 20px; border-radius: 10px; font-weight: 700;">Sidebar</div>
+          <div style="flex: 1; background: #a4d4b3; color: #144a26; padding: 20px; border-radius: 10px; font-weight: 700;">Contenu principal</div>
+        </div>
+      </div>
+
+      <div class="code-block"><span class="tag">.layout</span> {
+  <span class="attr">display</span>: <span class="value">flex</span>;
+  <span class="attr">gap</span>: <span class="value">20px</span>;
+}
+
+<span class="tag">.sidebar</span> {
+  <span class="attr">flex</span>: <span class="value">0 0 250px</span>;
+}
+
+<span class="tag">.contenu</span> {
+  <span class="attr">flex</span>: <span class="value">1</span>;
+}</div>
+
+      <h3>9.5 Footer multi-colonnes</h3>
+      <p>Un pied de page classique avec 3 colonnes de tailles égales.</p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration · Footer 3 colonnes</div>
+        <div class="demo-flex" style="gap: 30px; background: #144a26; padding: 25px; border-radius: 10px;">
+          <div style="flex: 1; color: #d4ecd9; font-size: 0.9rem;">
+            <strong style="color: #a4d4b3; display: block; margin-bottom: 8px;">GreenTech</strong>
+            Adresse et contact
+          </div>
+          <div style="flex: 1; color: #d4ecd9; font-size: 0.9rem;">
+            <strong style="color: #a4d4b3; display: block; margin-bottom: 8px;">Liens</strong>
+            Accueil · Services
+          </div>
+          <div style="flex: 1; color: #d4ecd9; font-size: 0.9rem;">
+            <strong style="color: #a4d4b3; display: block; margin-bottom: 8px;">Contact</strong>
+            Email · Téléphone
+          </div>
+        </div>
+      </div>
+
+      <h3>9.6 Galerie responsive</h3>
+      <p>Des cartes qui s'adaptent à la largeur de l'écran grâce à <code>flex-wrap</code>.</p>
+
+      <div class="demo-container">
+        <div class="demo-title">🧪 Démonstration · Galerie responsive (redimensionnez la fenêtre)</div>
+        <div class="demo-flex" style="flex-wrap: wrap; gap: 15px;">
+          <div style="flex: 1 1 180px; height: 100px; background: linear-gradient(135deg, #2e8b57, #1d5e36); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">1</div>
+          <div style="flex: 1 1 180px; height: 100px; background: linear-gradient(135deg, #a4d4b3, #7aae8b); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #144a26; font-weight: 700;">2</div>
+          <div style="flex: 1 1 180px; height: 100px; background: linear-gradient(135deg, #2e8b57, #1d5e36); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">3</div>
+          <div style="flex: 1 1 180px; height: 100px; background: linear-gradient(135deg, #a4d4b3, #7aae8b); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #144a26; font-weight: 700;">4</div>
+          <div style="flex: 1 1 180px; height: 100px; background: linear-gradient(135deg, #2e8b57, #1d5e36); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">5</div>
+          <div style="flex: 1 1 180px; height: 100px; background: linear-gradient(135deg, #a4d4b3, #7aae8b); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #144a26; font-weight: 700;">6</div>
+        </div>
+      </div>
+
+      <h3>9.7 Récapitulatif des cas pratiques</h3>
+      <table>
+        <thead>
+          <tr><th>Cas d'usage</th><th>Propriétés principales</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Navigation</td><td><code>justify-content: space-between</code> + <code>align-items: center</code></td></tr>
+          <tr><td>Cartes égales</td><td><code>flex: 1</code> sur chaque carte + <code>gap</code></td></tr>
+          <tr><td>Centrage parfait</td><td><code>justify-content: center</code> + <code>align-items: center</code></td></tr>
+          <tr><td>Sidebar + contenu</td><td><code>flex: 0 0 250px</code> + <code>flex: 1</code></td></tr>
+          <tr><td>Footer 3 colonnes</td><td><code>flex: 1</code> sur chaque colonne</td></tr>
+          <tr><td>Galerie responsive</td><td><code>flex-wrap: wrap</code> + <code>flex: 1 1 180px</code></td></tr>
+        </tbody>
+      </table>
+
+      <!-- ACTIVITÉ 9.1 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 9.1 · Identifier la bonne propriété <span class="collab-meta">5 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Pour chaque cas, indiquez la propriété Flexbox à utiliser :<br><br>
+            <strong>1.</strong> Logo à gauche, menu à droite<br>
+            <strong>2.</strong> Centrer un titre verticalement et horizontalement<br>
+            <strong>3.</strong> 3 cartes de tailles égales<br>
+            <strong>4.</strong> Sidebar fixe de 250px + contenu flexible<br>
+            <strong>5.</strong> Cartes qui passent à la ligne sur mobile<br>
+            <strong>6.</strong> Éléments alignés verticalement au centre<br>
+            <strong>7.</strong> Un footer avec 3 colonnes égales<br>
+            <strong>8.</strong> Une carte plus large que les autres
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 45)">⏱️ Lancer le temps (45 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">45</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. <code>justify-content: space-between</code><br>
+            2. <code>justify-content: center</code> + <code>align-items: center</code><br>
+            3. <code>flex: 1</code> sur chaque carte<br>
+            4. <code>flex: 0 0 250px</code> sur sidebar + <code>flex: 1</code> sur contenu<br>
+            5. <code>flex-wrap: wrap</code><br>
+            6. <code>align-items: center</code><br>
+            7. <code>flex: 1</code> sur chaque colonne<br>
+            8. <code>flex: 2</code> ou <code>flex-grow: 2</code> sur la carte en question
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ 9.2 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 9.2 · Reproduire une page complète <span class="collab-meta">20 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Reproduisez la structure suivante en Flexbox :<br><br>
+            • <strong>Header</strong> : logo à gauche + menu à droite<br>
+            • <strong>Section Hero</strong> : titre + sous-titre + bouton, tout centré verticalement et horizontalement<br>
+            • <strong>Section Services</strong> : 3 cartes de tailles égales avec <code>flex: 1</code><br>
+            • <strong>Section À propos</strong> : image + texte côte à côte (flex: 1 sur chaque)<br>
+            • <strong>Footer</strong> : 3 colonnes égales<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS complet.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 240)">⏱️ Lancer le temps (240 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">240</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Structure de la solution :</strong><br><br>
+
+            <strong>HTML :</strong><br>
+            <code>&lt;header class="navbar"&gt;...&lt;/header&gt;</code><br>
+            <code>&lt;section class="hero"&gt;&lt;div&gt;...&lt;/div&gt;&lt;/section&gt;</code><br>
+            <code>&lt;section class="services"&gt;&lt;div class="carte"&gt;...&lt;/div&gt;×3&lt;/section&gt;</code><br>
+            <code>&lt;section class="apropos"&gt;&lt;div&gt;Image&lt;/div&gt;&lt;div&gt;Texte&lt;/div&gt;&lt;/section&gt;</code><br>
+            <code>&lt;footer class="footer"&gt;&lt;div&gt;×3&lt;/div&gt;&lt;/footer&gt;</code><br><br>
+
+            <strong>CSS :</strong><br>
+            <code>.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; }</code><br>
+            <code>.hero { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 60vh; }</code><br>
+            <code>.services { display: flex; gap: 20px; padding: 40px 30px; }</code><br>
+            <code>.services .carte { flex: 1; }</code><br>
+            <code>.apropos { display: flex; gap: 30px; padding: 40px 30px; align-items: center; }</code><br>
+            <code>.apropos &gt; div { flex: 1; }</code><br>
+            <code>.footer { display: flex; gap: 30px; background: #144a26; color: white; padding: 40px 30px; }</code><br>
+            <code>.footer &gt; div { flex: 1; }</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITÉ 9.3 -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 9.3 · Convertir un layout float en Flexbox <span class="collab-meta">15 min · groupe de 3</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Contexte :</strong> Voici un ancien layout utilisant <code>float</code> :<br><br>
+
+            <code>.sidebar { float: left; width: 25%; }</code><br>
+            <code>.contenu { float: right; width: 75%; }</code><br>
+            <code>.clearfix::after { content: ""; display: table; clear: both; }</code><br><br>
+
+            <strong>Consigne :</strong> Convertissez ce layout en Flexbox moderne. Que devient le <em>clearfix</em> ?<br><br>
+
+            <strong>Livrable :</strong> Code CSS converti + explication.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 120)">⏱️ Lancer le temps (120 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">120</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+
+            <strong>Code converti :</strong><br>
+            <code>.layout {</code><br>
+            <code>&nbsp;&nbsp;display: flex;</code><br>
+            <code>&nbsp;&nbsp;gap: 20px;</code><br>
+            <code>}</code><br>
+            <code>.sidebar { flex: 0 0 25%; }</code><br>
+            <code>.contenu { flex: 1; }</code><br><br>
+
+            <strong>Explication :</strong> le <em>clearfix</em> devient <strong>inutile</strong>, car
+            Flexbox n'utilise plus de <code>float</code>. Le parent s'adapte automatiquement à ses
+            enfants, plus besoin de "nettoyer" les flottants.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION 10 · PROJET FINAL                                   -->
+    <!-- ============================================================ -->
+       <!-- ============================================================ -->
+    <!-- SECTION 10 · PROJET FINAL                                   -->
+    <!-- ============================================================ -->
+    <div class="section" id="section10">
+      <h2>10. Projet final</h2>
+      <p style="color: #3f6b4f; font-style: italic; margin-bottom: 1.5rem;">
+        Ce projet mobilise l'ensemble des notions du Chapitre 5. Il constitue le livrable principal
+        pour valider la compétence « Maîtriser Flexbox pour créer des mises en page modernes ».
+      </p>
+
+      <div class="projet-box">
+        <h3>📌 Site GreenTech Solutions · Version responsive Flexbox</h3>
+        <p>
+          <strong>Contexte :</strong> Vous devez <strong>refondre</strong> le site GreenTech Solutions
+          (créé lors du Chapitre 4) en utilisant <strong>massivement Flexbox</strong> pour toutes les
+          mises en page. Le site doit être <strong>entièrement responsive</strong> et moderne.
+        </p>
+
+        <h4 style="margin-top: 1.2rem;">🎯 Objectifs pédagogiques</h4>
+        <ul>
+          <li>Appliquer Flexbox à toutes les sections du site</li>
+          <li>Créer une mise en page moderne et responsive</li>
+          <li>Maîtriser les propriétés avancées (<code>flex</code>, <code>flex-wrap</code>, <code>gap</code>)</li>
+          <li>Structurer le code CSS de manière maintenable</li>
+          <li>Valider le code selon les normes W3C</li>
+        </ul>
+
+        <h4 style="margin-top: 1.2rem;">📁 Structure attendue</h4>
+        <div class="code-block"><span class="text">greentech-flexbox/</span>
+├── <span class="text">index.html</span>
+├── <span class="text">services.html</span>
+├── <span class="text">contact.html</span>
+├── 📁 css/
+│   └── <span class="text">style.css</span>
+├── 📁 images/
+│   └── (optionnel)
+└── <span class="text">README.md</span></div>
+
+        <h4 style="margin-top: 1.2rem;">📋 Exigences Flexbox obligatoires</h4>
+        <table style="margin-top: 0.5rem;">
+          <thead>
+            <tr><th>Élément du site</th><th>Propriétés Flexbox attendues</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Header / Navigation</td><td><code>display: flex</code> + <code>justify-content: space-between</code> + <code>align-items: center</code></td></tr>
+            <tr><td>Section Hero</td><td><code>display: flex</code> + <code>flex-direction: column</code> + <code>justify-content: center</code> + <code>align-items: center</code></td></tr>
+            <tr><td>Grille de services</td><td><code>display: flex</code> + <code>flex-wrap: wrap</code> + <code>gap</code> + <code>flex: 1 1 300px</code></td></tr>
+            <tr><td>Section À propos</td><td><code>display: flex</code> + <code>gap</code> + <code>flex: 1</code> sur chaque colonne</td></tr>
+            <tr><td>Section Témoignages</td><td><code>display: flex</code> + <code>flex-wrap: wrap</code> + <code>flex: 1 1 280px</code></td></tr>
+            <tr><td>Footer</td><td><code>display: flex</code> + <code>flex-wrap: wrap</code> + <code>flex: 1</code> sur chaque colonne</td></tr>
+            <tr><td>Formulaire contact</td><td><code>display: flex</code> + <code>flex-direction: column</code> + <code>gap</code></td></tr>
+            <tr><td>Barre latérale (services)</td><td><code>display: flex</code> + <code>flex: 0 0 250px</code> (sidebar fixe) + <code>flex: 1</code> (contenu)</td></tr>
+          </tbody>
+        </table>
+
+        <h4 style="margin-top: 1.2rem;">📋 Exigences techniques</h4>
+        <ul>
+          <li>Utilisation de Flexbox sur <strong>au moins 8 sections</strong></li>
+          <li>Utilisation de <code>gap</code> au lieu de <code>margin</code> pour les espacements</li>
+          <li>Utilisation de <code>flex</code> raccourci (ex : <code>flex: 1</code>)</li>
+          <li>Utilisation de <code>flex-wrap</code> pour la responsivité</li>
+          <li>Au moins 2 <code>@media queries</code> (tablette et mobile)</li>
+          <li>Respect de la charte graphique du Chapitre 4</li>
+          <li>Code validé W3C</li>
+          <li>Commentaires dans le CSS (au moins 10)</li>
+        </ul>
+
+        <h4 style="margin-top: 1.2rem;">📦 Livrables attendus</h4>
+        <div class="livrables">
+          <ol style="padding-left: 1.5rem;">
+            <li><strong>Dossier compressé</strong> <code>greentech-flexbox.zip</code></li>
+            <li><strong>Captures d'écran</strong> desktop (1200px), tablette (768px), mobile (375px)</li>
+            <li><strong>Rapport de validation W3C</strong></li>
+            <li><strong>Fichier README.md</strong> avec :
+              <ul>
+                <li>Description du projet</li>
+                <li>Liste des sections utilisant Flexbox</li>
+                <li>Propriétés Flexbox utilisées</li>
+                <li>Difficultés rencontrées</li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+
+        <h4 style="margin-top: 1.2rem;">🎯 Barème d'évaluation (40 points)</h4>
+        <table style="margin-top: 0.5rem;">
+          <thead>
+            <tr>
+              <th>Critère</th>
+              <th>Description</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Utilisation de Flexbox</strong></td><td>Flexbox appliqué sur au moins 8 sections</td><td>/5</td></tr>
+            <tr><td><strong>Navigation</strong></td><td>Header flex avec space-between + align-items center</td><td>/3</td></tr>
+            <tr><td><strong>Hero</strong></td><td>Centrage parfait vertical + horizontal</td><td>/3</td></tr>
+            <tr><td><strong>Cartes / Grille</strong></td><td>Utilisation de flex-wrap + gap + flex: 1 1 Npx</td><td>/4</td></tr>
+            <tr><td><strong>Footer</strong></td><td>3 colonnes flexibles avec wrap</td><td>/3</td></tr>
+            <tr><td><strong>Responsive design</strong></td><td>Media queries fonctionnelles, tout s'adapte</td><td>/4</td></tr>
+            <tr><td><strong>Usage de gap</strong></td><td>Espacements via gap plutôt que margin</td><td>/3</td></tr>
+            <tr><td><strong>Code CSS propre</strong></td><td>Commentaires, organisation, pas de redondance</td><td>/4</td></tr>
+            <tr><td><strong>Respect charte graphique</strong></td><td>Couleurs, polices, style cohérents</td><td>/3</td></tr>
+            <tr><td><strong>Accessibilité</strong></td><td>Attributs alt, contrastes, sémantique</td><td>/3</td></tr>
+            <tr><td><strong>Validation W3C</strong></td><td>HTML et CSS valides</td><td>/3</td></tr>
+            <tr><td><strong>Soin et finition</strong></td><td>README complet, captures d'écran fournies</td><td>/2</td></tr>
+            <tr style="background: #d4ecd9; font-weight: 700;">
+              <td colspan="2" style="text-align: right;">TOTAL</td>
+              <td><strong>/40</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4 style="margin-top: 1.2rem;">📅 Planning conseillé (3 semaines)</h4>
+        <table style="margin-top: 0.5rem;">
+          <thead>
+            <tr><th>Semaine</th><th>Tâches</th><th>Livrable intermédiaire</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Semaine 1</strong></td>
+              <td>Analyse, refonte du HTML si nécessaire, identification des sections à flexer</td>
+              <td>Structure HTML validée</td>
+            </tr>
+            <tr>
+              <td><strong>Semaine 2</strong></td>
+              <td>Application de Flexbox sur toutes les sections, mise en place du responsive</td>
+              <td>Site fonctionnel sans responsive</td>
+            </tr>
+            <tr>
+              <td><strong>Semaine 3</strong></td>
+              <td>Responsive complet, tests multi-écrans, validation W3C, README</td>
+              <td>Livrable final</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4 style="margin-top: 1.2rem;">✅ Checklist de validation</h4>
+        <div class="info-box" style="margin-top: 0.5rem;">
+          <strong>Avant de rendre votre projet, vérifiez que :</strong>
+          <ul style="margin-top: 0.5rem;">
+            <li>☐ Le header utilise <code>display: flex</code> + <code>justify-content: space-between</code></li>
+            <li>☐ Le hero est parfaitement centré avec <code>justify-content: center</code> + <code>align-items: center</code></li>
+            <li>☐ Les cartes utilisent <code>flex: 1</code> ou <code>flex: 1 1 Npx</code></li>
+            <li>☐ Les galeries utilisent <code>flex-wrap: wrap</code></li>
+            <li>☐ Les espacements utilisent <code>gap</code> et non <code>margin</code></li>
+            <li>☐ Au moins 2 media queries fonctionnelles</li>
+            <li>☐ Le site est testé sur 3 tailles d'écran</li>
+            <li>☐ Le code est validé W3C (HTML + CSS)</li>
+            <li>☐ Le CSS est commenté (au moins 10 commentaires)</li>
+            <li>☐ Le README.md est complet</li>
+            <li>☐ Les captures d'écran sont fournies</li>
+          </ul>
+        </div>
+
+        <h4 style="margin-top: 1.2rem;">🎁 Bonus (points supplémentaires)</h4>
+        <table style="margin-top: 0.5rem;">
+          <thead>
+            <tr><th>Bonus</th><th>Points</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Animations CSS sur les cartes (hover, transitions)</td><td>+1</td></tr>
+            <tr><td>Utilisation de <code>align-self</code> ou <code>order</code> (au moins 2 fois)</td><td>+1</td></tr>
+            <tr><td>Layout "dashboard" avec sidebar fixe</td><td>+1</td></tr>
+            <tr><td>Site entièrement responsive (mobile + tablette + desktop)</td><td>+2</td></tr>
+            <tr><td>Hébergement en ligne (GitHub Pages, Netlify)</td><td>+2</td></tr>
+          </tbody>
+        </table>
+
+        <div class="warn-box" style="margin-top: 1rem;">
+          <strong>⚠️ Rappel :</strong> les bonus s'ajoutent au barème /40 mais ne peuvent pas dépasser
+          <strong>+7 points</strong>. Le total maximal est de <strong>47/40</strong>, ramené à 40/40.
+        </div>
+      </div>
+
+      <div class="success-box" style="margin-top: 1.5rem;">
+        <strong>🎉 Félicitations !</strong> En réalisant ce projet, vous aurez maîtrisé
+        <strong>Flexbox en profondeur</strong>, compétence indispensable pour tout développeur web moderne.
+        Ce projet peut enrichir votre <strong>portfolio professionnel</strong>.
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- EXERCICES PRATIQUES                                          -->
+    <!-- ============================================================ -->
+      <!-- ============================================================ -->
+    <!-- EXERCICES PRATIQUES                                          -->
+    <!-- ============================================================ -->
+    <div class="section" id="exercices">
+      <h2>✏️ Exercices pratiques</h2>
+      <p style="color: #3f6b4f; font-style: italic; margin-bottom: 1.5rem;">
+        12 exercices progressifs pour maîtriser Flexbox. Chaque exercice est accompagné de son énoncé,
+        des consignes techniques et d'une solution de référence.
+      </p>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 1 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 1 · Premier conteneur flex <span class="collab-meta">15 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Activer Flexbox et observer le comportement par défaut.<br><br>
+            <strong>Énoncé :</strong><br>
+            1. Créez un <code>&lt;div class="conteneur"&gt;</code> avec 3 <code>&lt;div class="item"&gt;</code> dedans.<br>
+            2. Appliquez <code>display: flex</code> au conteneur.<br>
+            3. Ajoutez un fond vert clair et un padding au conteneur.<br>
+            4. Stylez les items avec un fond vert foncé, du texte blanc, un padding de 20px et un border-radius.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS + capture du rendu.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 90)">⏱️ Lancer le temps (90 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">90</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+
+            <strong>HTML :</strong><br>
+            <code>&lt;div class="conteneur"&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="item"&gt;1&lt;/div&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="item"&gt;2&lt;/div&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="item"&gt;3&lt;/div&gt;</code><br>
+            <code>&lt;/div&gt;</code><br><br>
+
+            <strong>CSS :</strong><br>
+            <code>.conteneur { display: flex; background: #f1faf4; padding: 20px; gap: 15px; }</code><br>
+            <code>.item { background: #1d5e36; color: white; padding: 20px 30px; border-radius: 8px; }</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 2 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 2 · Direction column <span class="collab-meta">15 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Utiliser <code>flex-direction</code>.<br><br>
+            <strong>Énoncé :</strong> Reprenez l'exercice 1 et transformez la disposition en colonne verticale. Ajoutez un espacement vertical entre les items.<br><br>
+
+            <strong>Livrable :</strong> Code CSS modifié.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 60)">⏱️ Lancer le temps (60 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">60</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+            <code>.conteneur {</code><br>
+            <code>&nbsp;&nbsp;display: flex;</code><br>
+            <code>&nbsp;&nbsp;flex-direction: column;</code> <span style="color: #3f6b4f;">/* Passage en colonne */</span><br>
+            <code>&nbsp;&nbsp;gap: 15px;</code><br>
+            <code>&nbsp;&nbsp;background: #f1faf4;</code><br>
+            <code>&nbsp;&nbsp;padding: 20px;</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 3 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 3 · Les 6 justify-content <span class="collab-meta">25 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Maîtriser les 6 valeurs de <code>justify-content</code>.<br><br>
+            <strong>Énoncé :</strong> Créez 6 conteneurs identiques, chacun avec une valeur de <code>justify-content</code> différente (<code>flex-start</code>, <code>flex-end</code>, <code>center</code>, <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code>). Ajoutez un titre avant chaque conteneur.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS + capture du rendu.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 150)">⏱️ Lancer le temps (150 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">150</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution (structure) :</strong><br><br>
+
+            <strong>HTML :</strong><br>
+            <code>&lt;div class="demo"&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;h3&gt;flex-start&lt;/h3&gt;</code><br>
+            <code>&nbsp;&nbsp;&lt;div class="flex-demo flex-start"&gt;</code><br>
+            <code>&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="item"&gt;1&lt;/div&gt;×3</code><br>
+            <code>&nbsp;&nbsp;&lt;/div&gt;</code><br>
+            <code>&lt;/div&gt;</code><br>
+            <em>(répéter pour chaque valeur)</em><br><br>
+
+            <strong>CSS :</strong><br>
+            <code>.flex-demo { display: flex; gap: 10px; background: #f1faf4; padding: 15px; border-radius: 8px; }</code><br>
+            <code>.flex-start { justify-content: flex-start; }</code><br>
+            <code>.flex-end { justify-content: flex-end; }</code><br>
+            <code>.center { justify-content: center; }</code><br>
+            <code>.space-between { justify-content: space-between; }</code><br>
+            <code>.space-around { justify-content: space-around; }</code><br>
+            <code>.space-evenly { justify-content: space-evenly; }</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 4 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 4 · Les 5 align-items <span class="collab-meta">25 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Maîtriser les 5 valeurs de <code>align-items</code>.<br><br>
+            <strong>Énoncé :</strong> Créez 5 conteneurs de 150px de hauteur, chacun avec une valeur de <code>align-items</code> différente (<code>stretch</code>, <code>flex-start</code>, <code>center</code>, <code>flex-end</code>, <code>baseline</code>). À l'intérieur, placez 3 blocs de tailles différentes.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS + capture.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 150)">⏱️ Lancer le temps (150 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">150</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution (structure) :</strong><br><br>
+            <code>.demo-align { display: flex; height: 150px; gap: 10px; background: #f1faf4; padding: 15px; border-radius: 8px; }</code><br>
+            <code>.stretch { align-items: stretch; }</code><br>
+            <code>.flex-start { align-items: flex-start; }</code><br>
+            <code>.center { align-items: center; }</code><br>
+            <code>.flex-end { align-items: flex-end; }</code><br>
+            <code>.baseline { align-items: baseline; }</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 5 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 5 · Barre de navigation <span class="collab-meta">20 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Créer une barre de navigation avec Flexbox.<br><br>
+            <strong>Énoncé :</strong> Créez une barre avec :<br>
+            • Un logo à gauche (texte "🌱 GreenTech")<br>
+            • 4 liens à droite (Accueil, Services, À propos, Contact)<br>
+            • Fond blanc avec ombre légère<br>
+            • Alignement vertical centré<br>
+            • Les liens doivent être espacés de 20px<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 120)">⏱️ Lancer le temps (120 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">120</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+            <code>.navbar {</code><br>
+            <code>&nbsp;&nbsp;display: flex;</code><br>
+            <code>&nbsp;&nbsp;justify-content: space-between;</code><br>
+            <code>&nbsp;&nbsp;align-items: center;</code><br>
+            <code>&nbsp;&nbsp;padding: 15px 30px;</code><br>
+            <code>&nbsp;&nbsp;background: white;</code><br>
+            <code>&nbsp;&nbsp;box-shadow: 0 2px 8px rgba(0,0,0,0.08);</code><br>
+            <code>}</code><br>
+            <code>.menu { display: flex; gap: 20px; }</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 6 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 6 · Centrage parfait <span class="collab-meta">15 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Centrer un élément horizontalement et verticalement.<br><br>
+            <strong>Énoncé :</strong> Créez une page avec un conteneur prenant <code>100vh</code>. À l'intérieur, placez une carte avec un titre et un bouton. La carte doit être parfaitement centrée (horizontal + vertical).<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 90)">⏱️ Lancer le temps (90 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">90</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+            <code>.page {</code><br>
+            <code>&nbsp;&nbsp;display: flex;</code><br>
+            <code>&nbsp;&nbsp;justify-content: center;</code><br>
+            <code>&nbsp;&nbsp;align-items: center;</code><br>
+            <code>&nbsp;&nbsp;min-height: 100vh;</code><br>
+            <code>&nbsp;&nbsp;background: #f1faf4;</code><br>
+            <code>}</code><br>
+            <code>.carte {</code><br>
+            <code>&nbsp;&nbsp;background: white;</code><br>
+            <code>&nbsp;&nbsp;padding: 40px;</code><br>
+            <code>&nbsp;&nbsp;border-radius: 16px;</code><br>
+            <code>&nbsp;&nbsp;box-shadow: 0 10px 30px rgba(0,0,0,0.1);</code><br>
+            <code>&nbsp;&nbsp;text-align: center;</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 7 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 7 · Cartes égales <span class="collab-meta">20 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Créer 3 cartes de tailles égales.<br><br>
+            <strong>Énoncé :</strong> Créez un conteneur avec 3 cartes. Chaque carte contient un titre, un texte court et un lien. Les cartes doivent avoir la <strong>même largeur</strong> et être espacées régulièrement.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 120)">⏱️ Lancer le temps (120 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">120</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+            <code>.cartes { display: flex; gap: 20px; }</code><br>
+            <code>.carte {</code><br>
+            <code>&nbsp;&nbsp;flex: 1;</code> <span style="color: #3f6b4f;">/* Toutes les cartes prennent une part égale */</span><br>
+            <code>&nbsp;&nbsp;background: white;</code><br>
+            <code>&nbsp;&nbsp;padding: 25px;</code><br>
+            <code>&nbsp;&nbsp;border-radius: 12px;</code><br>
+            <code>&nbsp;&nbsp;box-shadow: 0 4px 12px rgba(0,0,0,0.08);</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 8 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 8 · Layout sidebar + contenu <span class="collab-meta">25 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Créer un layout à deux colonnes avec sidebar fixe.<br><br>
+            <strong>Énoncé :</strong> Créez un layout avec :<br>
+            • Une sidebar gauche de 250px fixes<br>
+            • Une zone de contenu flexible qui prend le reste<br>
+            • Un gap de 20px entre les deux<br>
+            • La sidebar a un fond vert foncé<br>
+            • Le contenu a un fond vert clair<br><br>
+
+            <strong>Contrainte :</strong> utilisez <code>flex: 0 0 250px</code> pour la sidebar et <code>flex: 1</code> pour le contenu.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 120)">⏱️ Lancer le temps (120 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">120</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+            <code>.layout { display: flex; gap: 20px; padding: 20px; }</code><br>
+            <code>.sidebar {</code><br>
+            <code>&nbsp;&nbsp;flex: 0 0 250px;</code><br>
+            <code>&nbsp;&nbsp;background: #144a26;</code><br>
+            <code>&nbsp;&nbsp;color: white;</code><br>
+            <code>&nbsp;&nbsp;padding: 20px;</code><br>
+            <code>&nbsp;&nbsp;border-radius: 12px;</code><br>
+            <code>}</code><br>
+            <code>.contenu {</code><br>
+            <code>&nbsp;&nbsp;flex: 1;</code><br>
+            <code>&nbsp;&nbsp;background: #f1faf4;</code><br>
+            <code>&nbsp;&nbsp;padding: 20px;</code><br>
+            <code>&nbsp;&nbsp;border-radius: 12px;</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 9 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 9 · Galerie responsive <span class="collab-meta">25 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Créer une galerie avec <code>flex-wrap</code>.<br><br>
+            <strong>Énoncé :</strong> Créez une galerie de 8 cartes :<br>
+            • Chaque carte fait minimum 200px de large<br>
+            • Les cartes doivent passer à la ligne si l'écran est trop petit<br>
+            • Les cartes ont une taille minimale mais peuvent grandir<br>
+            • Un gap de 15px entre les cartes<br><br>
+
+            <strong>Contrainte :</strong> utilisez <code>flex: 1 1 200px</code>.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS + capture du rendu.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 120)">⏱️ Lancer le temps (120 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">120</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+            <code>.galerie { display: flex; flex-wrap: wrap; gap: 15px; }</code><br>
+            <code>.carte {</code><br>
+            <code>&nbsp;&nbsp;flex: 1 1 200px;</code> <span style="color: #3f6b4f;">/* grow=1, shrink=1, basis=200px */</span><br>
+            <code>&nbsp;&nbsp;height: 150px;</code><br>
+            <code>&nbsp;&nbsp;background: #2e8b57;</code><br>
+            <code>&nbsp;&nbsp;border-radius: 10px;</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 10 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 10 · Footer 3 colonnes <span class="collab-meta">20 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Créer un footer avec Flexbox.<br><br>
+            <strong>Énoncé :</strong> Créez un footer avec :<br>
+            • 3 colonnes de tailles égales<br>
+            • Colonne 1 : nom de l'entreprise + adresse<br>
+            • Colonne 2 : liens rapides (3 liens)<br>
+            • Colonne 3 : coordonnées (email, téléphone)<br>
+            • Fond vert foncé, texte blanc<br>
+            • Flex-wrap pour s'adapter au mobile<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 120)">⏱️ Lancer le temps (120 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">120</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+            <code>.footer {</code><br>
+            <code>&nbsp;&nbsp;display: flex;</code><br>
+            <code>&nbsp;&nbsp;flex-wrap: wrap;</code><br>
+            <code>&nbsp;&nbsp;gap: 30px;</code><br>
+            <code>&nbsp;&nbsp;background: #144a26;</code><br>
+            <code>&nbsp;&nbsp;color: white;</code><br>
+            <code>&nbsp;&nbsp;padding: 40px 30px;</code><br>
+            <code>}</code><br>
+            <code>.footer-col {</code><br>
+            <code>&nbsp;&nbsp;flex: 1 1 200px;</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 11 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 11 · Carte de profil avec order <span class="collab-meta">25 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Utiliser <code>order</code> et <code>align-self</code>.<br><br>
+            <strong>Énoncé :</strong> Créez une carte de profil avec 3 éléments dans cet ordre HTML :<br>
+            1. Biographie<br>
+            2. Photo de profil<br>
+            3. Réseaux sociaux<br><br>
+
+            Sur <strong>desktop</strong>, la photo doit apparaître en <strong>premier</strong>, la bio au milieu, les réseaux en bas.<br>
+            Sur <strong>mobile</strong>, l'ordre HTML doit être respecté.<br><br>
+
+            <strong>Contrainte :</strong> utilisez <code>order</code> et une <code>media query</code>.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 150)">⏱️ Lancer le temps (150 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">150</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br><br>
+            <code>.carte { display: flex; flex-direction: column; }</code><br>
+            <code>.bio { order: 2; }</code><br>
+            <code>.photo { order: 1; }</code><br>
+            <code>.reseaux { order: 3; }</code><br><br>
+            <code>@media (max-width: 768px) {</code><br>
+            <code>&nbsp;&nbsp;.bio { order: 1; }</code><br>
+            <code>&nbsp;&nbsp;.photo { order: 2; }</code><br>
+            <code>&nbsp;&nbsp;.reseaux { order: 3; }</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- EXERCICE 12 -->
+      <!-- ============================================================ -->
+      <div class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">📝 Exercice 12 · Reproduire une page complète <span class="collab-meta">60 min · individuel</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Objectif :</strong> Synthèse complète de toutes les notions Flexbox.<br><br>
+            <strong>Énoncé :</strong> Reproduisez une page complète (type site vitrine) en utilisant Flexbox partout :<br><br>
+            • <strong>Header sticky</strong> : logo à gauche, menu à droite<br>
+            • <strong>Hero</strong> : contenu centré verticalement et horizontalement (100vh)<br>
+            • <strong>Section services</strong> : 3 cartes égales avec <code>flex: 1</code><br>
+            • <strong>Section "à propos"</strong> : image + texte en 2 colonnes égales<br>
+            • <strong>Section témoignages</strong> : 3 blocs avec <code>flex-wrap: wrap</code><br>
+            • <strong>Section FAQ</strong> : liste verticale en column<br>
+            • <strong>Footer</strong> : 3 colonnes égales<br><br>
+
+            <strong>Bonus :</strong> ajoutez 2 media queries pour le responsive.<br><br>
+
+            <strong>Livrable :</strong> Code HTML + CSS + captures (desktop, tablette, mobile).
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 240)">⏱️ Lancer le temps (240 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">240</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution (structure complète) :</strong><br><br>
+
+            <strong>HTML :</strong><br>
+            <code>&lt;header class="navbar"&gt;...&lt;/header&gt;</code><br>
+            <code>&lt;section class="hero"&gt;&lt;div&gt;...&lt;/div&gt;&lt;/section&gt;</code><br>
+            <code>&lt;section class="services"&gt;&lt;div class="carte"&gt;×3&lt;/section&gt;</code><br>
+            <code>&lt;section class="apropos"&gt;&lt;div&gt;Image&lt;/div&gt;&lt;div&gt;Texte&lt;/div&gt;&lt;/section&gt;</code><br>
+            <code>&lt;section class="temoignages"&gt;&lt;blockquote&gt;×3&lt;/section&gt;</code><br>
+            <code>&lt;section class="faq"&gt;&lt;div&gt;×5&lt;/section&gt;</code><br>
+            <code>&lt;footer class="footer"&gt;&lt;div&gt;×3&lt;/footer&gt;</code><br><br>
+
+            <strong>CSS (extraits) :</strong><br>
+            <code>.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; position: sticky; top: 0; background: white; z-index: 100; }</code><br>
+            <code>.hero { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; text-align: center; }</code><br>
+            <code>.services { display: flex; flex-wrap: wrap; gap: 20px; padding: 60px 30px; }</code><br>
+            <code>.services .carte { flex: 1 1 300px; }</code><br>
+            <code>.apropos { display: flex; flex-wrap: wrap; gap: 30px; padding: 60px 30px; align-items: center; }</code><br>
+            <code>.apropos &gt; * { flex: 1 1 300px; }</code><br>
+            <code>.temoignages { display: flex; flex-wrap: wrap; gap: 20px; padding: 60px 30px; }</code><br>
+            <code>.temoignages blockquote { flex: 1 1 280px; }</code><br>
+            <code>.faq { display: flex; flex-direction: column; gap: 15px; padding: 60px 30px; max-width: 800px; margin: 0 auto; }</code><br>
+            <code>.footer { display: flex; flex-wrap: wrap; gap: 30px; padding: 40px 30px; background: #144a26; color: white; }</code><br>
+            <code>.footer &gt; * { flex: 1 1 200px; }</code><br><br>
+
+            <code>@media (max-width: 768px) {</code><br>
+            <code>&nbsp;&nbsp;.navbar { flex-direction: column; gap: 15px; }</code><br>
+            <code>&nbsp;&nbsp;.hero h1 { font-size: 2rem; }</code><br>
+            <code>}</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- RÉCAPITULATIF DES EXERCICES                                 -->
+      <!-- ============================================================ -->
+      <div class="info-box" style="margin-top: 2rem;">
+        <strong>📊 Récapitulatif des 12 exercices Flexbox</strong>
+        <table style="margin-top: 0.8rem;">
+          <thead>
+            <tr><th>#</th><th>Titre</th><th>Durée</th><th>Notions couvertes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Premier conteneur flex</td><td>15 min</td><td>display: flex</td></tr>
+            <tr><td>2</td><td>Direction column</td><td>15 min</td><td>flex-direction</td></tr>
+            <tr><td>3</td><td>Les 6 justify-content</td><td>25 min</td><td>justify-content</td></tr>
+            <tr><td>4</td><td>Les 5 align-items</td><td>25 min</td><td>align-items</td></tr>
+            <tr><td>5</td><td>Barre de navigation</td><td>20 min</td><td>space-between + align-items</td></tr>
+            <tr><td>6</td><td>Centrage parfait</td><td>15 min</td><td>justify-content + align-items</td></tr>
+            <tr><td>7</td><td>Cartes égales</td><td>20 min</td><td>flex: 1</td></tr>
+            <tr><td>8</td><td>Layout sidebar + contenu</td><td>25 min</td><td>flex: 0 0 Npx + flex: 1</td></tr>
+            <tr><td>9</td><td>Galerie responsive</td><td>25 min</td><td>flex-wrap + flex: 1 1 Npx</td></tr>
+            <tr><td>10</td><td>Footer 3 colonnes</td><td>20 min</td><td>flex-wrap + flex: 1</td></tr>
+            <tr><td>11</td><td>Carte de profil avec order</td><td>25 min</td><td>order + media queries</td></tr>
+            <tr><td>12</td><td>Reproduire une page complète</td><td>60 min</td><td>Synthèse complète</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top: 0.8rem; font-style: italic;">
+          <strong>Durée totale estimée :</strong> environ 5 heures de pratique.
+        </p>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- QCM DE VÉRIFICATION                                          -->
+    <!-- ============================================================ -->
+       <!-- ============================================================ -->
+    <!-- QCM DE VÉRIFICATION                                          -->
+    <!-- ============================================================ -->
+    <div class="section" id="qcm">
+      <h2>📝 QCM de vérification</h2>
+      <p style="color: #3f6b4f; font-style: italic; margin-bottom: 0.5rem;">
+        10 questions pour vérifier votre compréhension des notions de base de Flexbox.
+      </p>
+
+      <div id="qcmApp" class="qcm-container">
+        <div id="qcmList"></div>
+        <div style="display:flex; gap:1rem; margin-top:1.2rem; align-items:center; flex-wrap:wrap;">
+          <button class="btn" id="checkQcmBtn">✔ Vérifier mes réponses</button>
+          <span id="qcmScore" class="score-badge">0 / 10</span>
+        </div>
+      </div>
+
+      <div class="info-box" style="margin-top: 1.2rem;">
+        <strong>💡 Conseil :</strong> refaites le QCM autant de fois que nécessaire.
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- QUIZ SOMMATIF                                                -->
+    <!-- ============================================================ -->
+    <div class="section" id="quiz">
+      <h2>🎯 Quiz sommatif</h2>
+      <div id="quizApp" class="qcm-container">
+    <div id="quizList"></div>  <!-- ⬅️ INDISPENSABLE -->
+    <div>
+      <button class="btn" id="checkQuizBtn">✔ Vérifier le quiz complet</button>
+      <span id="quizScore" class="score-badge">0 / 20</span>
+    </div>
+  </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PIED DE PAGE                                                 -->
+    <!-- ============================================================ -->
+    <footer>
+      <p>
+        <strong>OFPPT</strong> · ISMO<br>
+        Support pédagogique créé par <strong>KELLOUCH Mahdi</strong> · Année 2025 – 2026
+      </p>
+      <p style="margin-top: 0.5rem;">
+        Module M104 · Développement Digital · Chapitre 5
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SCRIPTS                                                      -->
+  <!-- ============================================================ -->
+   <!-- ============================================================ -->
+  <!-- SCRIPTS                                                      -->
+  <!-- ============================================================ -->
+  <script>
+    /* ============================================================
+       ACTIVITÉS COLLAPSIBLES
+       ============================================================ */
+    function toggleCollab(btn) {
+      const box = btn.closest('.collab-box');
+      const content = box.querySelector('.collab-content');
+      content.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+
+    /* ============================================================
+       TIMER + RÉVÉLATION SOLUTION
+       ============================================================ */
+    function startTimer(btn, duration) {
+      const box = btn.closest('.collab-content');
+      const timerDisplay = box.querySelector('.timer-display');
+      const timerValue = box.querySelector('.timer-value');
+      const solution = box.querySelector('.solution-content');
+
+      let remaining = duration;
+      btn.disabled = true;
+      btn.textContent = '⏳ Temps en cours…';
+      timerDisplay.style.display = 'inline-flex';
+      timerDisplay.classList.add('counting');
+      timerDisplay.classList.remove('done');
+      timerValue.textContent = remaining;
+
+      const interval = setInterval(() => {
+        remaining--;
+        timerValue.textContent = remaining;
+        if (remaining <= 0) {
+          clearInterval(interval);
+          timerDisplay.classList.remove('counting');
+          timerDisplay.classList.add('done');
+          timerDisplay.innerHTML = '✅ Temps écoulé';
+          btn.textContent = '👁️ Afficher la solution';
+          btn.disabled = false;
+          btn.onclick = () => {
+            solution.classList.add('open');
+            btn.disabled = true;
+            btn.textContent = '✔ Solution affichée';
+          };
+        }
+      }, 1000);
+    }
+
+    /* ============================================================
+       TOUT DÉPLIER / TOUT REPLIER
+       ============================================================ */
+    function expandAll() {
+      document.querySelectorAll('.collab-box').forEach(box => {
+        box.querySelector('.collab-content').classList.add('open');
+        box.querySelector('.collab-toggle').classList.add('open');
+      });
+    }
+    function collapseAll() {
+      document.querySelectorAll('.collab-box').forEach(box => {
+        box.querySelector('.collab-content').classList.remove('open');
+        box.querySelector('.collab-toggle').classList.remove('open');
+      });
+    }
+
+    /* ============================================================
+       DONNÉES DU QCM (10 questions)
+       ============================================================ */
+    const qcmData = [
+      {
+        question: "Que signifie Flexbox ?",
+        options: ["Flexible Box Layout", "Flexible Border Box", "Flex Block Layout", "Flexible Body Layout"],
+        correct: 0
+      },
+      {
+        question: "Quelle propriété active Flexbox sur un conteneur ?",
+        options: ["position: flex", "display: flex", "flex: on", "layout: flex"],
+        correct: 1
+      },
+      {
+        question: "Quelle est la direction par défaut de flex-direction ?",
+        options: ["column", "row", "row-reverse", "column-reverse"],
+        correct: 1
+      },
+      {
+        question: "Quelle propriété aligne les enfants sur l'axe principal ?",
+        options: ["align-items", "justify-content", "align-content", "text-align"],
+        correct: 1
+      },
+      {
+        question: "Quelle propriété aligne les enfants sur l'axe secondaire ?",
+        options: ["align-items", "justify-content", "align-content", "vertical-align"],
+        correct: 0
+      },
+      {
+        question: "Quelle valeur de justify-content met le premier au début, le dernier à la fin ?",
+        options: ["space-around", "space-evenly", "space-between", "center"],
+        correct: 2
+      },
+      {
+        question: "Quelle propriété permet le retour à la ligne automatique ?",
+        options: ["flex-wrap", "flex-flow", "flex-line", "flex-break"],
+        correct: 0
+      },
+      {
+        question: "Quelle propriété contrôle la proportion d'espace occupée par un enfant ?",
+        options: ["flex-size", "flex-grow", "flex-expand", "flex-share"],
+        correct: 1
+      },
+      {
+        question: "Comment centrer parfaitement un élément avec Flexbox ?",
+        options: [
+          "justify-content: center; align-items: center;",
+          "text-align: center; vertical-align: middle;",
+          "margin: auto; padding: auto;",
+          "align-content: center;"
+        ],
+        correct: 0
+      },
+      {
+        question: "Quelle propriété réorganise visuellement les enfants sans changer le HTML ?",
+        options: ["align-self", "flex-order", "order", "position"],
+        correct: 2
+      }
+    ];
+
+    /* ============================================================
+       DONNÉES DU QUIZ SOMMATIF (20 questions)
+       ============================================================ */
+    const quizData = [
+      {
+        question: "1. Flexbox est particulièrement adapté pour :",
+        options: ["Les mises en page 2D (grilles)", "Les mises en page 1D (lignes ou colonnes)", "Uniquement les tableaux", "Uniquement les images"],
+        correct: 1
+      },
+      {
+        question: "2. Combien d'axes Flexbox utilise-t-il ?",
+        options: ["1", "2", "3", "4"],
+        correct: 1
+      },
+      {
+        question: "3. Quelle propriété définit la direction de l'axe principal ?",
+        options: ["flex-direction", "flex-wrap", "flex-flow", "direction"],
+        correct: 0
+      },
+      {
+        question: "4. Avec flex-direction: column, justify-content agit :",
+        options: ["Horizontalement", "Verticalement", "En diagonale", "Il ne fonctionne pas"],
+        correct: 1
+      },
+      {
+        question: "5. Quelle valeur de justify-content place les éléments au centre ?",
+        options: ["middle", "center", "middle-center", "space-center"],
+        correct: 1
+      },
+      {
+        question: "6. Quelle est la valeur par défaut de align-items ?",
+        options: ["flex-start", "center", "stretch", "baseline"],
+        correct: 2
+      },
+      {
+        question: "7. Quelle propriété permet de passer à la ligne si l'espace manque ?",
+        options: ["flex-break", "flex-wrap", "wrap-flex", "flex-line"],
+        correct: 1
+      },
+      {
+        question: "8. Quelle propriété aligne les lignes entre elles quand il y en a plusieurs ?",
+        options: ["align-items", "align-content", "justify-content", "align-lines"],
+        correct: 1
+      },
+      {
+        question: "9. Quelle propriété raccourcie combine flex-direction et flex-wrap ?",
+        options: ["flex", "flex-flow", "flex-wrap-all", "flex-direction-wrap"],
+        correct: 1
+      },
+      {
+        question: "10. Quelle est la valeur par défaut de flex-grow ?",
+        options: ["0", "1", "2", "auto"],
+        correct: 0
+      },
+      {
+        question: "11. Que fait flex-shrink: 0 ?",
+        options: [
+          "Empêche l'élément de rétrécir",
+          "Empêche l'élément de grandir",
+          "Réduit l'élément à 0",
+          "Empêche le wrap"
+        ],
+        correct: 0
+      },
+      {
+        question: "12. Quelle est la signification de flex: 1 ?",
+        options: [
+          "flex-grow: 1, flex-shrink: 1, flex-basis: 0",
+          "flex-grow: 1, flex-shrink: 0, flex-basis: auto",
+          "flex-grow: 0, flex-shrink: 1, flex-basis: 100%",
+          "flex-grow: 1, flex-shrink: 1, flex-basis: auto"
+        ],
+        correct: 0
+      },
+      {
+        question: "13. Comment créer un layout 'sidebar fixe + contenu flexible' ?",
+        options: [
+          "flex: 0 0 250px + flex: 1",
+          "width: 250px + width: auto",
+          "flex: 1 + flex: 1",
+          "position: absolute + static"
+        ],
+        correct: 0
+      },
+      {
+        question: "14. Quelle propriété surcharge align-items pour un enfant spécifique ?",
+        options: ["align-child", "align-self", "align-item-specific", "self-align"],
+        correct: 1
+      },
+      {
+        question: "15. Quelle est la valeur par défaut de order ?",
+        options: ["0", "1", "auto", "-1"],
+        correct: 0
+      },
+      {
+        question: "16. Que fait order: -1 sur un élément ?",
+        options: [
+          "Le place avant les autres",
+          "Le place après les autres",
+          "Le supprime",
+          "Le masque"
+        ],
+        correct: 0
+      },
+      {
+        question: "17. Quelle est la différence entre align-items et align-content ?",
+        options: [
+          "align-items aligne dans une ligne, align-content aligne les lignes",
+          "align-items est pour les colonnes, align-content pour les lignes",
+          "Ils font la même chose",
+          "align-content est déprécié"
+        ],
+        correct: 0
+      },
+      {
+        question: "18. Peut-on centrer parfaitement un élément en 2 lignes avec Flexbox ?",
+        options: [
+          "Non, impossible",
+          "Oui avec justify-content + align-items",
+          "Oui seulement avec Grid",
+          "Non, il faut utiliser position absolute"
+        ],
+        correct: 1
+      },
+      {
+        question: "19. Quelle propriété permet d'utiliser moins de margin pour l'espacement ?",
+        options: ["space", "gap", "spacing", "padding"],
+        correct: 1
+      },
+      {
+        question: "20. Quelle méthode est recommandée pour un layout 2D complexe ?",
+        options: ["Flexbox", "CSS Grid", "float", "table"],
+        correct: 1
+      }
+    ];
+
+    /* ============================================================
+       FONCTION GÉNÉRIQUE DE RENDU ET VÉRIFICATION D'UN QCM
+       ============================================================ */
+    function renderQCM(data, containerId, selections) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      data.forEach((item, idx) => {
+        const div = document.createElement('div');
+        div.className = 'qcm-item';
+
+        const p = document.createElement('p');
+        p.textContent = item.question;
+        div.appendChild(p);
+
+        const optsDiv = document.createElement('div');
+        optsDiv.className = 'qcm-options';
+
+        item.options.forEach((opt, optIdx) => {
+          const label = document.createElement('label');
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = `${containerId}_q${idx}`;
+          radio.value = optIdx;
+          radio.addEventListener('change', (e) => {
+            selections[idx] = parseInt(e.target.value);
+            const siblings = label.parentElement.querySelectorAll('label');
+            siblings.forEach(l => l.classList.remove('correct', 'wrong'));
+          });
+          label.appendChild(radio);
+          label.appendChild(document.createTextNode(' ' + opt));
+          optsDiv.appendChild(label);
+        });
+
+        div.appendChild(optsDiv);
+        container.appendChild(div);
+      });
+    }
+
+    function checkQCM(data, containerId, selections, scoreId) {
+      let correctCount = 0;
+      const container = document.getElementById(containerId);
+      const items = container.querySelectorAll('.qcm-item');
+
+      items.forEach((item, idx) => {
+        const selected = selections[idx];
+        const labels = item.querySelectorAll('.qcm-options label');
+        labels.forEach(l => l.classList.remove('correct', 'wrong'));
+
+        if (selected === null || selected === undefined) return;
+
+        const isCorrect = (selected === data[idx].correct);
+        if (isCorrect) correctCount++;
+
+        labels.forEach((label, optIdx) => {
+          if (optIdx === data[idx].correct) label.classList.add('correct');
+          else if (optIdx === selected && !isCorrect) label.classList.add('wrong');
+        });
+      });
+
+      document.getElementById(scoreId).textContent = `${correctCount} / ${data.length}`;
+    }
+
+    /* ============================================================
+       INITIALISATION DU QCM ET DU QUIZ
+       ============================================================ */
+    (function() {
+      const qcmSelections = new Array(qcmData.length).fill(null);
+      renderQCM(qcmData, 'qcmList', qcmSelections);
+
+      document.getElementById('checkQcmBtn').addEventListener('click', () => {
+        checkQCM(qcmData, 'qcmList', qcmSelections, 'qcmScore');
+      });
+
+      const quizSelections = new Array(quizData.length).fill(null);
+      renderQCM(quizData, 'quizList', quizSelections);
+
+      document.getElementById('checkQuizBtn').addEventListener('click', () => {
+        checkQCM(quizData, 'quizList', quizSelections, 'quizScore');
+      });
+    })();
+  </script>
+
+</body>
+</html>

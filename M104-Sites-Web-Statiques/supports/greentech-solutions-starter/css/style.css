@@ -1,0 +1,401 @@
+/* ============================================================
+   GREEN TECH SOLUTIONS - Feuille de style principale
+   ============================================================
+   À COMPLÉTER PAR LE STAGIAIRE
+   ------------------------------------------------------------
+   Ce fichier contient la structure de base à compléter.
+   Suivez les commentaires pour écrire les règles CSS.
+   ============================================================ */
+
+
+/* ============================================================
+   1. RESET ET CONFIGURATION DE BASE
+   ============================================================ */
+
+/* À COMPLÉTER :
+   - Appliquer box-sizing: border-box à tous les éléments
+   - Retirer les marges et paddings par défaut
+   - Définir la police système sur le body
+   - Définir la couleur de texte et l'interligne
+*/
+
+/* Indice : utilisez le sélecteur universel *, *::before, *::after */
+
+
+/* ============================================================
+   2. VARIABLES CSS (optionnel mais recommandé)
+   ============================================================ */
+
+/* À COMPLÉTER : définir les variables de couleurs dans :root
+   Exemple :
+   :root {
+     --couleur-principale: #144a26;
+     --couleur-secondaire: #2e8b57;
+     --couleur-accent: #a4d4b3;
+     --couleur-fond: #f8fcf9;
+     --couleur-texte: #333333;
+   }
+*/
+
+
+/* ============================================================
+   3. HEADER
+   ============================================================ */
+
+/* À COMPLÉTER :
+   - Position sticky en haut de la page
+   - Display flex pour aligner logo et navigation
+   - Justify-content: space-between
+   - Padding intérieur
+   - Fond blanc
+   - Ombre légère (box-shadow)
+   - z-index élevé pour rester au-dessus
+*/
+
+/* À COMPLÉTER : styles pour .logo
+   - Texte stylisé (taille, poids, couleur)
+   - Sans soulignement
+*/
+
+/* À COMPLÉTER : styles pour .nav
+   - Display flex pour aligner les liens horizontalement
+   - Gap ou margin entre les liens
+*/
+
+/* À COMPLÉTER : styles pour .nav-link
+   - Sans soulignement
+   - Couleur de texte
+   - Padding intérieur
+   - Effet au survol
+   - Classe .active plus foncée
+*/
+
+
+/* ============================================================
+   4. SECTION HERO
+   ============================================================ */
+
+/* À COMPLÉTER : .hero
+   - Hauteur minimale (60vh)
+   - Display flex pour centrer le contenu
+   - Justify-content: center
+   - Align-items: center
+   - Fond en dégradé linéaire (vert foncé vers vert moyen)
+   - Texte centré
+   - Couleur de texte blanche
+   - Padding généreux
+*/
+
+/* À COMPLÉTER : .hero-title
+   - Grande taille (2.5rem à 3rem)
+   - Marge inférieure
+*/
+
+/* À COMPLÉTER : .hero-subtitle
+   - Taille moyenne
+   - Marge inférieure
+   - Italique
+*/
+
+
+/* ============================================================
+   5. BOUTONS
+   ============================================================ */
+
+/* À COMPLÉTER : .btn
+   - Display inline-block
+   - Padding intérieur
+   - Coins arrondis
+   - Sans soulignement
+   - Curseur pointer
+   - Transition pour effet fluide
+*/
+
+/* À COMPLÉTER : .btn-primary
+   - Fond vert
+   - Texte blanc
+   - Effet au survol (couleur plus foncée)
+*/
+
+
+/* ============================================================
+   6. SECTIONS GÉNÉRALES
+   ============================================================ */
+
+/* À COMPLÉTER : .section-title
+   - Taille de titre h2
+   - Couleur verte
+   - Centré
+   - Marge inférieure
+*/
+
+
+/* ============================================================
+   7. SECTION SERVICES (page d'accueil)
+   ============================================================ */
+
+/* À COMPLÉTER : .services
+   - Padding vertical
+   - Fond clair
+*/
+
+/* À COMPLÉTER : .services-grid
+   - Display flex ou grid
+   - 3 colonnes
+   - Gap entre les cartes
+   - Centré
+*/
+
+/* À COMPLÉTER : .service-card
+   - Fond blanc
+   - Padding intérieur
+   - Coins arrondis
+   - Ombre légère
+   - Effet au survol (translation vers le haut + ombre plus forte)
+*/
+
+/* À COMPLÉTER : .service-image
+   - Hauteur fixe
+   - Fond gris clair ou image placeholder
+   - Coins arrondis
+*/
+
+
+/* ============================================================
+   8. SECTION À PROPOS
+   ============================================================ */
+
+/* À COMPLÉTER : .apropos
+   - Display flex
+   - 2 colonnes
+   - Gap
+   - Padding vertical
+   - Centré
+*/
+
+/* À COMPLÉTER : .apropos-image
+   - Fond placeholder
+   - Hauteur fixe
+   - Coins arrondis
+*/
+
+/* À COMPLÉTER : .apropos-content
+   - Texte justifié
+   - Line-height confortable
+*/
+
+
+/* ============================================================
+   9. SECTION TÉMOIGNAGES
+   ============================================================ */
+
+/* À COMPLÉTER : .temoignages
+   - Padding vertical
+   - Fond légèrement gris
+*/
+
+/* À COMPLÉTER : .temoignages-grid
+   - 3 colonnes
+   - Gap
+*/
+
+/* À COMPLÉTER : .temoignage
+   - Fond blanc
+   - Bordure gauche verte
+   - Padding
+   - Coins arrondis
+   - Italique
+*/
+
+/* À COMPLÉTER : .temoignage cite
+   - Style du nom de l'auteur
+   - Couleur grise
+   - Taille plus petite
+*/
+
+
+/* ============================================================
+   10. FOOTER
+   ============================================================ */
+
+/* À COMPLÉTER : .footer
+   - Fond vert foncé
+   - Texte blanc
+   - Padding
+*/
+
+/* À COMPLÉTER : .footer-content
+   - Display flex ou grid
+   - 3 colonnes
+   - Gap
+   - Alignement en haut
+*/
+
+/* À COMPLÉTER : .footer-col
+   - Style des colonnes
+*/
+
+/* À COMPLÉTER : .footer-col h4
+   - Titre de colonne
+   - Couleur accent
+   - Marge inférieure
+*/
+
+/* À COMPLÉTER : .footer-col a
+   - Liens en blanc
+   - Sans soulignement
+   - Effet au survol
+*/
+
+/* À COMPLÉTER : .footer-bottom
+   - Bordure supérieure fine
+   - Texte centré
+   - Taille plus petite
+*/
+
+
+/* ============================================================
+   11. PAGE SERVICES
+   ============================================================ */
+
+/* À COMPLÉTER : .page-title
+   - Fond vert clair ou dégradé
+   - Texte centré
+   - Padding généreux
+*/
+
+/* À COMPLÉTER : .page-title h1
+   - Grande taille
+   - Couleur verte foncée
+*/
+
+/* À COMPLÉTER : .intro
+   - Paragraphe d'introduction
+   - Centré
+   - Largeur maximale
+   - Padding
+*/
+
+/* À COMPLÉTER : .services-full-grid
+   - Display grid ou flex avec wrap
+   - 3 colonnes
+   - Gap
+*/
+
+/* À COMPLÉTER : .service-item
+   - Fond blanc
+   - Bordure légère
+   - Padding
+   - Coins arrondis
+   - Effet au survol
+*/
+
+/* À COMPLÉTER : .service-icon
+   - Taille de police élevée (2rem)
+   - Marge inférieure
+*/
+
+
+/* ============================================================
+   12. FAQ
+   ============================================================ */
+
+/* À COMPLÉTER : .faq
+   - Padding vertical
+*/
+
+/* À COMPLÉTER : .faq-item
+   - Bordure inférieure
+   - Padding vertical
+*/
+
+/* À COMPLÉTER : .faq-question
+   - Couleur verte
+   - Marge inférieure
+*/
+
+
+/* ============================================================
+   13. PAGE CONTACT
+   ============================================================ */
+
+/* À COMPLÉTER : .contact
+   - Padding vertical
+*/
+
+/* À COMPLÉTER : .contact-grid
+   - Display grid ou flex
+   - 2 colonnes
+   - Gap
+*/
+
+/* À COMPLÉTER : .contact-form
+   - Style du formulaire
+*/
+
+/* À COMPLÉTER : .form-group
+   - Marge inférieure
+*/
+
+/* À COMPLÉTER : .form-group label
+   - Display block
+   - Marge inférieure
+   - Font-weight
+*/
+
+/* À COMPLÉTER : .form-group input, .form-group textarea
+   - Largeur 100%
+   - Padding
+   - Bordure 1px solid
+   - Coins arrondis
+   - Font-family héritée
+   - Effet au focus (bordure verte)
+*/
+
+/* À COMPLÉTER : .contact-info
+   - Style des coordonnées
+*/
+
+/* À COMPLÉTER : .info-item
+   - Marge inférieure
+*/
+
+
+/* ============================================================
+   14. SECTION CARTE (NOUS TROUVER)
+   ============================================================ */
+
+/* À COMPLÉTER : .map-section
+   - Padding vertical
+*/
+
+/* À COMPLÉTER : .map-placeholder
+   - Fond gris clair
+   - Hauteur fixe (300px)
+   - Coins arrondis
+   - Centré
+*/
+
+
+/* ============================================================
+   15. RESPONSIVE DESIGN (MEDIA QUERIES)
+   ============================================================ */
+
+/* À COMPLÉTER : @media (max-width: 768px)
+   - Adapter le header (nav en colonne ?)
+   - Passer les grilles en 1 colonne
+   - Réduire les paddings
+   - Réduire les tailles de titres
+*/
+
+/* Indice :
+   @media (max-width: 768px) {
+     .services-grid { flex-direction: column; }
+     ...
+   }
+*/
+
+
+/* ============================================================
+   FIN DU FICHIER - BON TRAVAIL !
+   ============================================================ */

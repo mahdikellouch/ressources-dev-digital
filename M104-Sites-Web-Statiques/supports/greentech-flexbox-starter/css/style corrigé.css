@@ -1,0 +1,742 @@
+
+---
+
+## 📄 B. Exemple corrigé — `css/style.css`
+
+Voici le **fichier CSS corrigé complet** (la version de référence formateur). Les fichiers HTML restent identiques (ceux du starter).
+
+```css
+/* ============================================================
+   GREEN TECH SOLUTIONS - Feuille de style principale
+   VERSION CORRIGÉE - Référence formateur (Flexbox)
+   ============================================================ */
+
+
+/* ============================================================
+   1. RESET ET BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #333333;
+  line-height: 1.6;
+  background: #f8fcf9;
+}
+
+img, picture {
+  max-width: 100%;
+  display: block;
+}
+
+
+/* ============================================================
+   2. VARIABLES CSS
+   ============================================================ */
+:root {
+  --couleur-principale: #144a26;
+  --couleur-secondaire: #2e8b57;
+  --couleur-accent: #a4d4b3;
+  --couleur-fond: #f8fcf9;
+  --couleur-texte: #333333;
+  --rayon: 12px;
+  --ombre: 0 6px 20px rgba(0, 0, 0, 0.08);
+  --transition: 0.3s ease;
+}
+
+
+/* ============================================================
+   3. HEADER / NAVIGATION
+   ============================================================ */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--couleur-principale);
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--couleur-texte);
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: color var(--transition), background var(--transition);
+}
+
+.nav-link:hover {
+  color: var(--couleur-secondaire);
+  background: #f1faf4;
+}
+
+.nav-link.active {
+  font-weight: 700;
+  color: var(--couleur-principale);
+  border-bottom: 2px solid var(--couleur-secondaire);
+}
+
+
+/* ============================================================
+   4. HERO
+   ============================================================ */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  background: linear-gradient(135deg, #144a26 0%, #2e8b57 100%);
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 700px;
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  line-height: 1.2;
+  margin-bottom: 0;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  font-style: italic;
+  opacity: 0.95;
+  margin-bottom: 0;
+}
+
+
+/* ============================================================
+   5. BOUTONS
+   ============================================================ */
+.btn {
+  display: inline-block;
+  padding: 12px 30px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: transform var(--transition), background var(--transition);
+}
+
+.btn-primary {
+  background: white;
+  color: var(--couleur-principale);
+}
+
+.btn-primary:hover {
+  background: var(--couleur-accent);
+  transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   6. SECTIONS GÉNÉRALES
+   ============================================================ */
+.section-title {
+  font-size: 2rem;
+  color: var(--couleur-principale);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-title-left {
+  text-align: left;
+}
+
+
+/* ============================================================
+   7. SERVICES (page d'accueil)
+   ============================================================ */
+.services {
+  padding: 80px 30px;
+}
+
+.services-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.service-card {
+  flex: 1 1 300px;
+  max-width: 400px;
+  background: white;
+  padding: 30px;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.service-image {
+  font-size: 3rem;
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #e6f5eb, #d4ecd9);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.service-card h3 {
+  color: var(--couleur-principale);
+  margin-bottom: 10px;
+}
+
+.service-card p {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+.service-link {
+  color: var(--couleur-secondaire);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+.service-link:hover {
+  color: var(--couleur-principale);
+  text-decoration: underline;
+}
+
+
+/* ============================================================
+   8. À PROPOS
+   ============================================================ */
+.apropos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px;
+  padding: 80px 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.apropos-image {
+  flex: 1 1 300px;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6rem;
+  background: linear-gradient(135deg, #d4ecd9, #a4d4b3);
+  border-radius: var(--rayon);
+}
+
+.apropos-content {
+  flex: 1 1 300px;
+}
+
+.apropos-content .section-title {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.apropos-content p {
+  margin-bottom: 15px;
+  color: #666;
+}
+
+
+/* ============================================================
+   9. TÉMOIGNAGES
+   ============================================================ */
+.temoignages {
+  padding: 80px 30px;
+  background: #f1faf4;
+}
+
+.temoignages-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.temoignage {
+  flex: 1 1 280px;
+  max-width: 380px;
+  background: white;
+  border-left: 4px solid var(--couleur-secondaire);
+  border-radius: var(--rayon);
+  padding: 25px 30px;
+  box-shadow: var(--ombre);
+}
+
+.temoignage p {
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+.temoignage cite {
+  display: block;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-style: normal;
+}
+
+
+/* ============================================================
+   10. FOOTER
+   ============================================================ */
+.footer {
+  background: var(--couleur-principale);
+  color: white;
+  padding: 50px 30px 20px 30px;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 30px;
+}
+
+.footer-col {
+  flex: 1 1 200px;
+}
+
+.footer-col h4 {
+  color: var(--couleur-accent);
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.footer-col p,
+.footer-col li {
+  color: #d4ecd9;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col a {
+  color: #d4ecd9;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.footer-col a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: center;
+  font-size: 0.85rem;
+  color: #a4d4b3;
+}
+
+
+/* ============================================================
+   11. PAGE TITRE (services.html et contact.html)
+   ============================================================ */
+.page-title {
+  background: linear-gradient(135deg, #e6f5eb, #d4ecd9);
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.page-title h1 {
+  font-size: 2.5rem;
+  color: var(--couleur-principale);
+  margin-bottom: 10px;
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: var(--couleur-secondaire);
+  font-style: italic;
+}
+
+
+/* ============================================================
+   12. GRILLE SERVICES COMPLÈTE (services.html)
+   ============================================================ */
+.intro {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+  text-align: center;
+  color: #666;
+}
+
+.services-full {
+  padding: 20px 30px 80px 30px;
+}
+
+.services-full-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.service-item {
+  flex: 1 1 300px;
+  max-width: 380px;
+  background: white;
+  border: 1px solid #d4ecd9;
+  border-radius: var(--rayon);
+  padding: 30px;
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.service-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.service-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.service-item h3 {
+  color: var(--couleur-principale);
+  margin-bottom: 10px;
+}
+
+.service-item p {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+
+/* ============================================================
+   13. FAQ
+   ============================================================ */
+.faq {
+  padding: 80px 30px;
+  background: #f1faf4;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid #d4ecd9;
+  padding: 20px 0;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  color: var(--couleur-principale);
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
+
+.faq-answer {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+
+/* ============================================================
+   14. CONTACT
+   ============================================================ */
+.contact {
+  padding: 80px 30px;
+}
+
+.contact-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-form-wrapper {
+  flex: 1 1 400px;
+}
+
+.contact-info {
+  flex: 1 1 300px;
+  background: white;
+  padding: 30px;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+}
+
+.contact-title {
+  color: var(--couleur-principale);
+  font-size: 1.3rem;
+  margin-bottom: 25px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: white;
+  padding: 30px;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--couleur-principale);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px 15px;
+  border: 1px solid #d4ecd9;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--couleur-secondaire);
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.info-item {
+  margin-bottom: 20px;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-item strong {
+  display: block;
+  color: var(--couleur-principale);
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+}
+
+.info-item p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+
+/* ============================================================
+   15. SECTION NOUS TROUVER
+   ============================================================ */
+.map-section {
+  padding: 0 30px 80px 30px;
+}
+
+.map-placeholder {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e6f5eb, #d4ecd9);
+  border-radius: var(--rayon);
+  color: var(--couleur-principale);
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   16. RESPONSIVE - TABLETTE
+   ============================================================ */
+@media (max-width: 992px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .services-grid,
+  .temoignages-grid,
+  .services-full-grid {
+    gap: 20px;
+  }
+}
+
+
+/* ============================================================
+   17. RESPONSIVE - MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Header */
+  .navbar {
+    flex-direction: column;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 50vh;
+    padding: 40px 15px;
+  }
+
+  .hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  /* Sections */
+  .services,
+  .temoignages,
+  .contact,
+  .faq {
+    padding: 50px 15px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+
+  /* Grilles : passer en colonne */
+  .services-grid,
+  .temoignages-grid,
+  .services-full-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-card,
+  .temoignage,
+  .service-item {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* À propos */
+  .apropos {
+    flex-direction: column;
+    padding: 50px 15px;
+    gap: 20px;
+  }
+
+  .apropos-image {
+    min-height: 200px;
+    font-size: 4rem;
+  }
+
+  /* Page titre */
+  .page-title {
+    padding: 40px 15px;
+  }
+
+  .page-title h1 {
+    font-size: 1.8rem;
+  }
+
+  /* Contact */
+  .contact-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-form,
+  .contact-info {
+    padding: 20px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 30px 15px 15px 15px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .map-section {
+    padding: 0 15px 50px 15px;
+  }
+
+  .map-placeholder {
+    height: 200px;
+  }
+}

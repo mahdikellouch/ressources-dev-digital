@@ -3,181 +3,93 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ressources pédagogiques · Développement Digital · OFPPT</title>
+  <title>Ressources pédagogiques · Développement Digital · OFPPT ISMO</title>
   <style>
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: 'Segoe UI', Calibri, Roboto, system-ui, sans-serif;
-      background: #eaf3ec;
+      background: linear-gradient(135deg, #eaf3ec 0%, #d4ecd9 100%);
       color: #143522;
       line-height: 1.6;
       padding: 2rem 1rem;
       min-height: 100vh;
     }
+
     .container { max-width: 1100px; margin: 0 auto; }
 
-    .page-header {
-      background: white;
-      border-radius: 20px;
+    /* En-tête */
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
       padding: 2rem;
-      margin-bottom: 2rem;
-      border-left: 6px solid #2e8b57;
-      box-shadow: 0 6px 20px rgba(20, 50, 30, 0.08);
+      background: white;
+      border-radius: 24px;
+      border-left: 8px solid #2e8b57;
+      box-shadow: 0 10px 30px rgba(20, 50, 30, 0.08);
     }
-    .badge {
-      display: inline-block;
-      background: #e6f5eb;
-      color: #1d5e36;
-      padding: 0.3rem 1rem;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-      letter-spacing: 0.5px;
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #1d5e36, #2e8b57);
+      border-radius: 20px;
+      margin: 0 auto 1.5rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(29, 94, 54, 0.3);
     }
-    .page-header h1 {
-      font-size: 2rem;
+
+    .logo::before {
+      content: "";
+      width: 40px;
+      height: 40px;
+      border: 4px solid #a4d4b3;
+      border-radius: 50%;
+      border-top-color: white;
+      border-right-color: white;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
       color: #144a26;
       margin-bottom: 0.5rem;
-      letter-spacing: -0.3px;
-      line-height: 1.2;
+      letter-spacing: -0.5px;
     }
-    .page-header .sous-titre {
+
+    header .sous-titre {
+      font-size: 1.1rem;
       color: #3f6b4f;
       font-style: italic;
-      font-size: 1rem;
-    }
-    .meta-info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-top: 0.8rem;
-      font-size: 0.85rem;
-    }
-    .meta-info span {
-      background: #f1faf4;
-      padding: 0.2rem 0.9rem;
-      border-radius: 20px;
-      color: #1a5e33;
-      font-weight: 500;
     }
 
-    .section {
-      background: white;
-      border-radius: 20px;
-      padding: 1.8rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 6px 20px rgba(20, 50, 30, 0.06);
-      border-top: 3px solid #d4ecd9;
-    }
-    .section h2 {
-      font-size: 1.4rem;
-      color: #1d5e36;
-      margin-bottom: 0.3rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid #d4ecd9;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .section .section-desc {
-      font-size: 0.9rem;
-      color: #3f6b4f;
-      font-style: italic;
-      margin-bottom: 1rem;
-    }
-    .section ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    .section li {
-      padding: 0.7rem 0;
-      border-bottom: 1px solid #f1faf4;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-    .section li:last-child { border-bottom: none; }
-    .section a {
-      color: #1d6e3f;
-      text-decoration: none;
-      font-weight: 600;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: color 0.15s;
-    }
-    .section a:hover {
-      color: #0f542f;
-      text-decoration: underline;
-    }
-    .section a::before {
-      content: "📄";
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
-    .section a.dossier::before { content: "📁"; }
-    .section a.pdf::before { content: "📕"; }
-    .section a.html::before { content: "🌐"; }
-    .section a.docx::before { content: "📘"; }
-    .section a.pptx::before { content: "📊"; }
-    .section a.sql::before { content: "🗃️"; }
-    .section a.zip::before { content: "📦"; }
-    .section a.js::before { content: "⚡"; }
-    .section a.css::before { content: "🎨"; }
-
-    .file-size {
-      font-size: 0.75rem;
-      color: #7aae8b;
-      margin-left: auto;
-      white-space: nowrap;
-    }
-    .empty-section {
-      color: #7aae8b;
-      font-style: italic;
-      font-size: 0.9rem;
-      padding: 0.5rem 0;
-    }
-
-    .back {
-      display: inline-block;
+    header .meta {
       margin-top: 1rem;
-      color: #1d6e3f;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.5rem 1.2rem;
-      border-radius: 30px;
-      background: #f1faf4;
-      transition: 0.15s;
-    }
-    .back:hover {
-      background: #d4ecd9;
-      transform: translateX(-3px);
+      font-size: 0.9rem;
+      color: #7aae8b;
     }
 
-    footer {
-      text-align: center;
-      margin-top: 3rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #cae0d0;
-      font-size: 0.85rem;
-      color: #3f6b4f;
+    /* Section modules */
+    .section-titre {
+      font-size: 1.6rem;
+      color: #1d5e36;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #cae0d0;
     }
-    footer a { color: #1d5e36; text-decoration: none; font-weight: 600; }
-    footer a:hover { text-decoration: underline; }
 
     .modules-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 1.5rem;
-      margin-top: 1.5rem;
+      margin-bottom: 3rem;
     }
+
     .module-card {
       background: white;
       border-radius: 20px;
-      padding: 1.8rem;
+      padding: 2rem;
       box-shadow: 0 6px 20px rgba(20, 50, 30, 0.08);
       border-left: 5px solid #2e8b57;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -186,14 +98,12 @@
       display: flex;
       flex-direction: column;
     }
+
     .module-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 30px rgba(20, 50, 30, 0.15);
     }
-    .module-card .icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
+
     .module-card .code {
       display: inline-block;
       background: #e6f5eb;
@@ -205,127 +115,217 @@
       margin-bottom: 0.6rem;
       width: fit-content;
     }
+
     .module-card h2 {
       font-size: 1.3rem;
       color: #144a26;
       margin-bottom: 0.5rem;
-      line-height: 1.3;
     }
+
     .module-card p {
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       color: #3f6b4f;
-      line-height: 1.5;
       flex: 1;
       margin-bottom: 1rem;
     }
-    .module-card .btn {
+
+    .module-card .chapitres {
+      font-size: 0.85rem;
+      color: #2e8b57;
+      font-weight: 600;
+    }
+
+    /* Section chapitres disponibles */
+    .chapitres-liste {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 6px 20px rgba(20, 50, 30, 0.06);
+      margin-bottom: 2rem;
+    }
+
+    .chapitre-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #e6f5eb;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .chapitre-item:last-child { border-bottom: none; }
+
+    .chapitre-info h3 {
+      font-size: 1.05rem;
+      color: #1d5e36;
+      margin-bottom: 0.2rem;
+    }
+
+    .chapitre-info p {
+      font-size: 0.85rem;
+      color: #7aae8b;
+    }
+
+    .chapitre-liens {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
       display: inline-block;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .btn-html {
       background: #1d6e3f;
       color: white;
-      padding: 0.5rem 1.5rem;
-      border-radius: 40px;
+    }
+
+    .btn-html:hover {
+      background: #0f542f;
+      transform: translateY(-1px);
+    }
+
+    .btn-docx {
+      background: #e6f5eb;
+      color: #1d5e36;
+      border: 1px solid #7aae8b;
+    }
+
+    .btn-docx:hover {
+      background: #d4ecd9;
+      transform: translateY(-1px);
+    }
+
+    /* Pied de page */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(20, 50, 30, 0.06);
+      font-size: 0.9rem;
+      color: #3f6b4f;
+    }
+
+    footer a {
+      color: #1d5e36;
+      text-decoration: none;
       font-weight: 600;
-      font-size: 0.85rem;
-      width: fit-content;
     }
 
-    @media (max-width: 600px) {
-      .page-header h1 { font-size: 1.5rem; }
-      .section h2 { font-size: 1.15rem; }
-      .section { padding: 1.2rem; }
-    }
+    footer a:hover { text-decoration: underline; }
 
+    @media (max-width: 700px) {
+      header h1 { font-size: 1.6rem; }
+      .chapitre-item { flex-direction: column; align-items: flex-start; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
 
-    <div class="page-header">
-      <span class="badge">OFPPT · ISMO</span>
-      <h1>📚 Ressources pédagogiques</h1>
-      <p class="sous-titre">Développement Digital · 1ère année (tronc commun)</p>
-      <div class="meta-info">
-        <span>📅 2025 – 2026</span>
-        <span>👨‍🏫 KELLOUCH Mahdi</span>
-        <span>📖 4 modules</span>
-      </div>
-    </div>
+    <header>
+      <div class="logo"></div>
+      <h1>Ressources pédagogiques</h1>
+      <p class="sous-titre">Filière Développement Digital · OFPPT ISMO</p>
+      <p class="meta">Année de formation 2025 – 2026 · Formateur : KELLOUCH Mahdi</p>
+    </header>
 
-    <div class="section">
-      <h2>🎯 Bienvenue</h2>
-      <p class="section-desc">
-        Ce site regroupe l'ensemble des supports de cours, exercices, projets et évaluations
-        pour les modules encadrés par <strong>KELLOUCH Mahdi</strong> à
-        <strong>ISMO</strong>. Cliquez sur un module pour accéder à son contenu.
-      </p>
-    </div>
+    <!-- Liste des modules -->
+    <h2 class="section-titre">📚 Modules disponibles</h2>
 
     <div class="modules-grid">
 
-      <a href="M101-Metier-Formation/" class="module-card" >
-        <div class="icon">🎯</div>
-        <span class="code">M101 · 15 h</span>
+      <a href="M101-Metier-Formation/" class="module-card">
+        <span class="code">M101</span>
         <h2>Métier & Formation</h2>
-        <p>Découvrir le métier de développeur digital, le programme de formation et le règlement intérieur de l'OFPPT.</p>
-        <span class="btn">Accéder au module →</span>
+        <p>Découvrir le métier de développeur digital, le programme de formation et le règlement intérieur.</p>
+        <span class="chapitres">📖 Supports disponibles</span>
       </a>
 
-      <a href="M104-Sites-Web-Statiques/" class="module-card" >
-        <div class="icon">🌐</div>
-        <span class="code">M104 · 110 h</span>
-        <h2>Développer des sites web statiques</h2>
-        <p>Créer des sites web modernes avec HTML5 et CSS3 : structure, mise en forme, responsive design.</p>
-        <span class="btn">Accéder au module →</span>
+      <a href="M104-Sites-Web-Statiques/" class="module-card">
+        <span class="code">M104</span>
+        <h2>Sites Web Statiques</h2>
+        <p>Créer des sites web avec HTML5 et CSS3. Du HTML de base à Flexbox approfondi.</p>
+        <span class="chapitres">📖 3 chapitres disponibles</span>
       </a>
 
-      <a href="M105-JavaScript/" class="module-card" >
-        <div class="icon">⚡</div>
-        <span class="code">M105 · 110 h</span>
+      <a href="M105-JavaScript/" class="module-card">
+        <span class="code">M105</span>
         <h2>Programmer en JavaScript</h2>
-        <p>Maîtriser le langage JavaScript : variables, fonctions, DOM, événements et API.</p>
-        <span class="btn">Accéder au module →</span>
+        <p>Maîtriser le langage JavaScript et le DOM.</p>
+        <span class="chapitres">📖 À venir</span>
       </a>
 
-      <a href="M106-Bases-De-Donnees/" class="module-card" >
-        <div class="icon">🗄️</div>
-        <span class="code">M106 · 100 h</span>
-        <h2>Manipuler des bases de données</h2>
-        <p>Concevoir et manipuler des bases de données relationnelles avec SQL.</p>
-        <span class="btn">Accéder au module →</span>
+      <a href="M106-Bases-De-Donnees/" class="module-card">
+        <span class="code">M106</span>
+        <h2>Bases de Données</h2>
+        <p>Concevoir et manipuler des bases de données relationnelles.</p>
+        <span class="chapitres">📖 À venir</span>
       </a>
+
     </div>
 
-    <div class="section" style="margin-top: 2rem;">
-      <h2>ℹ️ Informations pratiques</h2>
-      <ul>
-        <li>
-          <a href="https://github.com/ismO-ofppt/ressources-dev-digital" class="dossier">
-            📂 Dépôt GitHub (code source et ressources)
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/ismO-ofppt/ressources-dev-digital/blob/main/CONTRIBUTING.md" class="dossier">
-            📝 Guide de contribution
-          </a>
-        </li>
-        <li>
-          <a href="https://github.com/ismO-ofppt/ressources-dev-digital/issues" class="dossier">
-            ❓ Poser une question (Issues GitHub)
-          </a>
-        </li>
-      </ul>
+    <!-- Chapitres du M104 -->
+    <h2 class="section-titre">📘 Chapitres disponibles · M104</h2>
+
+    <div class="chapitres-liste">
+
+      <div class="chapitre-item">
+        <div class="chapitre-info">
+          <h3>Chapitre 3 · Éléments basiques d'une page HTML</h3>
+          <p>Structure HTML5 · Balises · Attributs · Normes W3C · Sémantique</p>
+        </div>
+        <div class="chapitre-liens">
+          <a href="M104-Sites-Web-Statiques/supports/chapitre3-elements-html.html" class="btn btn-html">🌐 Support interactif</a>
+        </div>
+      </div>
+
+      <div class="chapitre-item">
+        <div class="chapitre-info">
+          <h3>Chapitre 4 · Introduction au CSS</h3>
+          <p>Sélecteurs · Mise en forme · Couleurs · Cascade · Box model</p>
+        </div>
+        <div class="chapitre-liens">
+          <a href="M104-Sites-Web-Statiques/supports/chapitre4-introduction-css.html" class="btn btn-html">🌐 Support interactif</a>
+          <a href="M104-Sites-Web-Statiques/supports/Chapitre4_Introduction_CSS_FORMATEUR.docx" class="btn btn-docx">📄 Formateur</a>
+          <a href="M104-Sites-Web-Statiques/supports/Chapitre4_Introduction_CSS_ELEVE.docx" class="btn btn-docx">📄 Élève</a>
+        </div>
+      </div>
+
+      <div class="chapitre-item">
+        <div class="chapitre-info">
+          <h3>Chapitre 5 · Flexbox approfondi</h3>
+          <p>Conteneur flex · Direction · Alignement · flex-grow · Cas pratiques · Responsive</p>
+        </div>
+        <div class="chapitre-liens">
+          <a href="M104-Sites-Web-Statiques/supports/chapitre5-flexbox-approfondi.html" class="btn btn-html">🌐 Support interactif</a>
+          <a href="M104-Sites-Web-Statiques/supports/Chapitre5_Flexbox_FORMATEUR.docx" class="btn btn-docx">📄 Formateur</a>
+          <a href="M104-Sites-Web-Statiques/supports/Chapitre5_Flexbox_ELEVE.docx" class="btn btn-docx">📄 Élève</a>
+        </div>
+      </div>
+
     </div>
+
+    <footer>
+      <p>
+        <strong>OFPPT · ISMO</strong> · Direction de la Formation<br>
+        Formateur : <strong>KELLOUCH Mahdi</strong> · Année 2025 – 2026
+      </p>
+      <p style="margin-top: 0.5rem;">
+        <a href="https://github.com/ismO-ofppt/ressources-dev-digital">📂 Code source sur GitHub</a>
+      </p>
+    </footer>
+
   </div>
-
-  <footer>
-    <p>
-      <strong>OFPPT</strong> · ISMO<br>
-      Créé par <strong>KELLOUCH Mahdi</strong> · Formateur en Développement Digital<br>
-      Année de formation 2025 – 2026
-    </p>
-    <p style="margin-top: 0.5rem;">
-      <a href="https://github.com/ismO-ofppt/ressources-dev-digital">📂 Code source sur GitHub</a>
-    </p>
-  </footer>
 </body>
 </html>

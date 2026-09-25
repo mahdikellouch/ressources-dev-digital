@@ -1,0 +1,762 @@
+/* ============================================================
+   GREEN TECH SOLUTIONS - Feuille de style principale
+   VERSION CORRIGÉE - Référence formateur
+   ============================================================ */
+
+/* ============================================================
+   1. RESET ET CONFIGURATION DE BASE
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #333333;
+  line-height: 1.6;
+  background: #f8fcf9;
+}
+
+img, picture, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* ============================================================
+   2. VARIABLES CSS
+   ============================================================ */
+:root {
+  --couleur-principale: #144a26;
+  --couleur-secondaire: #2e8b57;
+  --couleur-accent: #a4d4b3;
+  --couleur-fond: #f8fcf9;
+  --couleur-texte: #333333;
+  --couleur-gris: #666666;
+  --couleur-gris-clair: #eeeeee;
+  --ombre-standard: 0 6px 20px rgba(0, 0, 0, 0.08);
+  --ombre-hover: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --rayon: 12px;
+  --transition: 0.3s ease;
+}
+
+
+/* ============================================================
+   3. HEADER
+   ============================================================ */
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--couleur-principale);
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--couleur-texte);
+  font-weight: 500;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  transition: color var(--transition), background var(--transition);
+}
+
+.nav-link:hover {
+  color: var(--couleur-secondaire);
+  background: #f1faf4;
+}
+
+.nav-link.active {
+  color: var(--couleur-principale);
+  font-weight: 700;
+  border-bottom: 2px solid var(--couleur-secondaire);
+}
+
+
+/* ============================================================
+   4. SECTION HERO
+   ============================================================ */
+.hero {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #144a26 0%, #2e8b57 100%);
+}
+
+.hero-content {
+  max-width: 700px;
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  font-style: italic;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+
+/* ============================================================
+   5. BOUTONS
+   ============================================================ */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: transform var(--transition), background var(--transition);
+}
+
+.btn-primary {
+  background: white;
+  color: var(--couleur-principale);
+}
+
+.btn-primary:hover {
+  background: var(--couleur-accent);
+  transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   6. SECTIONS GÉNÉRALES
+   ============================================================ */
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--couleur-principale);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  letter-spacing: -0.3px;
+}
+
+.section-title-left {
+  text-align: left;
+}
+
+
+/* ============================================================
+   7. SECTION SERVICES (page d'accueil)
+   ============================================================ */
+.services {
+  padding: 5rem 3rem;
+  background: var(--couleur-fond);
+}
+
+.services-grid {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.service-card {
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+  background: white;
+  border-radius: var(--rayon);
+  padding: 1.8rem;
+  box-shadow: var(--ombre-standard);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--ombre-hover);
+}
+
+.service-image {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #e6f5eb, #d4ecd9);
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.service-card h3 {
+  color: var(--couleur-principale);
+  margin-bottom: 0.6rem;
+  font-size: 1.15rem;
+}
+
+.service-card p {
+  color: var(--couleur-gris);
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.service-link {
+  color: var(--couleur-secondaire);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+.service-link:hover {
+  color: var(--couleur-principale);
+  text-decoration: underline;
+}
+
+
+/* ============================================================
+   8. SECTION À PROPOS
+   ============================================================ */
+.apropos {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  padding: 5rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.apropos-image {
+  flex: 1;
+  min-width: 280px;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6rem;
+  background: linear-gradient(135deg, #d4ecd9, #a4d4b3);
+  border-radius: var(--rayon);
+}
+
+.apropos-content {
+  flex: 1;
+  min-width: 280px;
+}
+
+.apropos-content .section-title {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.apropos-content p {
+  margin-bottom: 1rem;
+  color: var(--couleur-gris);
+  text-align: justify;
+}
+
+
+/* ============================================================
+   9. SECTION TÉMOIGNAGES
+   ============================================================ */
+.temoignages {
+  padding: 5rem 3rem;
+  background: #f1faf4;
+}
+
+.temoignages-grid {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.temoignage {
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+  background: white;
+  border-left: 4px solid var(--couleur-secondaire);
+  border-radius: var(--rayon);
+  padding: 1.5rem 1.8rem;
+  box-shadow: var(--ombre-standard);
+}
+
+.temoignage p {
+  font-style: italic;
+  color: var(--couleur-texte);
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+
+.temoignage cite {
+  display: block;
+  color: var(--couleur-gris);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   10. FOOTER
+   ============================================================ */
+.footer {
+  background: var(--couleur-principale);
+  color: white;
+  padding: 3rem 3rem 1rem 3rem;
+}
+
+.footer-content {
+  display: flex;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.footer-col {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-col h4 {
+  color: var(--couleur-accent);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.footer-col p,
+.footer-col li {
+  color: #d4ecd9;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col a {
+  color: #d4ecd9;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.footer-col a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: center;
+  font-size: 0.85rem;
+  color: #a4d4b3;
+}
+
+
+/* ============================================================
+   11. PAGE TITRE (services.html, contact.html)
+   ============================================================ */
+.page-title {
+  background: linear-gradient(135deg, #e6f5eb, #d4ecd9);
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.page-title h1 {
+  font-size: 2.5rem;
+  color: var(--couleur-principale);
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: var(--couleur-secondaire);
+  font-style: italic;
+}
+
+
+/* ============================================================
+   12. PAGE SERVICES - INTRODUCTION ET GRILLE
+   ============================================================ */
+.intro {
+  max-width: 800px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+  text-align: center;
+  font-size: 1.05rem;
+  color: var(--couleur-gris);
+}
+
+.services-full {
+  padding: 2rem 3rem 5rem 3rem;
+}
+
+.services-full-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-item {
+  background: white;
+  border: 1px solid #d4ecd9;
+  border-radius: var(--rayon);
+  padding: 1.8rem;
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.service-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ombre-hover);
+}
+
+.service-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.service-item h3 {
+  color: var(--couleur-principale);
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+}
+
+.service-item p {
+  color: var(--couleur-gris);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+
+/* ============================================================
+   13. FAQ
+   ============================================================ */
+.faq {
+  padding: 5rem 3rem;
+  background: #f1faf4;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid #d4ecd9;
+  padding: 1.5rem 0;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+.faq-question {
+  color: var(--couleur-principale);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.faq-answer {
+  color: var(--couleur-gris);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+
+/* ============================================================
+   14. PAGE CONTACT
+   ============================================================ */
+.contact {
+  padding: 5rem 3rem;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-title {
+  color: var(--couleur-principale);
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-form {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre-standard);
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--couleur-principale);
+  margin-bottom: 0.4rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid #d4ecd9;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--couleur-secondaire);
+  box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.contact-info {
+  background: white;
+  padding: 2rem;
+  border-radius: var(--rayon);
+  box-shadow: var(--ombre-standard);
+}
+
+.info-item {
+  margin-bottom: 1.5rem;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.info-item strong {
+  display: block;
+  color: var(--couleur-principale);
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+.info-item p {
+  color: var(--couleur-gris);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   15. SECTION NOUS TROUVER
+   ============================================================ */
+.map-section {
+  padding: 0 3rem 5rem 3rem;
+}
+
+.map-placeholder {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 300px;
+  background: linear-gradient(135deg, #e6f5eb, #d4ecd9);
+  border-radius: var(--rayon);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--couleur-principale);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.map-hint {
+  font-size: 0.85rem;
+  color: var(--couleur-gris);
+  font-weight: 400;
+  margin-top: 0.5rem;
+}
+
+
+/* ============================================================
+   16. RESPONSIVE - TABLETTE
+   ============================================================ */
+@media (max-width: 992px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+
+  .services-grid,
+  .temoignages-grid {
+    gap: 1.5rem;
+  }
+
+  .services-full-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+}
+
+
+/* ============================================================
+   17. RESPONSIVE - MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.8rem;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .hero {
+    min-height: 50vh;
+    padding: 3rem 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .services,
+  .temoignages,
+  .contact,
+  .faq {
+    padding: 3rem 1.2rem;
+  }
+
+  .services-grid,
+  .temoignages-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-card,
+  .temoignage {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .services-full {
+    padding: 1rem 1.2rem 3rem 1.2rem;
+  }
+
+  .services-full-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .apropos {
+    flex-direction: column;
+    padding: 3rem 1.2rem;
+    gap: 1.5rem;
+  }
+
+  .apropos-image {
+    min-height: 200px;
+    font-size: 4rem;
+  }
+
+  .page-title {
+    padding: 3rem 1.2rem;
+  }
+
+  .page-title h1 {
+    font-size: 1.8rem;
+  }
+
+  .contact {
+    padding: 3rem 1.2rem;
+  }
+
+  .contact-form,
+  .contact-info {
+    padding: 1.5rem;
+  }
+
+  .map-section {
+    padding: 0 1.2rem 3rem 1.2rem;
+  }
+
+  .footer {
+    padding: 2rem 1.2rem 1rem 1.2rem;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
