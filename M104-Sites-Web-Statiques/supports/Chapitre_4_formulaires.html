@@ -1,0 +1,2406 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapitre 4 · Formulaires HTML5 · Code + Rendu + Quiz</title>
+  <style>
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Calibri, Roboto, system-ui, sans-serif;
+      background: #eef4fa;
+      color: #1a2d45;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* ============================================================
+       EN-TÊTE DE PAGE
+       ============================================================ */
+    .page-header {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      border-left: 8px solid #2c5282;
+      box-shadow: 0 10px 30px rgba(30, 58, 95, 0.08);
+    }
+    .chapter-badge {
+      display: inline-block;
+      background: #dbe7f3;
+      color: #1e3a5f;
+      padding: 0.3rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+    }
+    .page-header h1 {
+      font-size: 2.4rem;
+      color: #1e3a5f;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+    }
+    .page-header .sous-titre {
+      font-size: 1.1rem;
+      color: #4a6a8f;
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+    .meta-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .meta-info span {
+      background: #eef4fa;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      color: #1e3a5f;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+
+    /* ============================================================
+       SECTIONS
+       ============================================================ */
+    .section {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 6px 20px rgba(30, 58, 95, 0.06);
+      border-top: 4px solid #dbe7f3;
+    }
+    .section h2 {
+      font-size: 1.6rem;
+      color: #1e3a5f;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #dbe7f3;
+    }
+    .section h3 {
+      font-size: 1.2rem;
+      color: #2c5282;
+      margin: 1.5rem 0 0.6rem 0;
+    }
+    .section h4 {
+      font-size: 1.05rem;
+      color: #2c5282;
+      margin: 1rem 0 0.4rem 0;
+      font-weight: 600;
+    }
+    .section p { margin-bottom: 0.8rem; color: #1a2d45; }
+    .section ul, .section ol { padding-left: 1.5rem; margin-bottom: 0.8rem; }
+    .section li { margin-bottom: 0.3rem; }
+
+    /* ============================================================
+       BLOCS DE CODE SIMPLES
+       ============================================================ */
+    .code-block {
+      background: #1a2d45;
+      color: #dbe7f3;
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin: 1rem 0;
+      border-left: 4px solid #d97706;
+      white-space: pre;
+    }
+
+    code {
+      background: #eef4fa;
+      color: #1e3a5f;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.9em;
+      font-weight: 600;
+      border: 1px solid #dbe7f3;
+    }
+
+    /* ============================================================
+       CARTES CODE + RENDU
+       ============================================================ */
+    .code-demo {
+      border: 2px solid #b8cfe5;
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 12px rgba(30, 58, 95, 0.06);
+      background: #ffffff;
+    }
+    .code-demo-header {
+      display: flex;
+      background: #eef4fa;
+      border-bottom: 2px solid #b8cfe5;
+    }
+    .code-demo-header .label {
+      flex: 1;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1e3a5f;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .code-demo-header .label:first-child { border-right: 2px solid #b8cfe5; }
+    .code-demo-body { display: flex; align-items: stretch; }
+    .code-demo-code {
+      flex: 1;
+      background: #1a2d45;
+      color: #dbe7f3;
+      padding: 1.2rem 1.5rem;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      border-right: 2px solid #b8cfe5;
+      white-space: pre;
+    }
+    .code-demo-render {
+      flex: 1;
+      background: #ffffff;
+      padding: 1.2rem 1.5rem;
+      overflow-x: auto;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.95rem;
+    }
+    .code-demo.stacked .code-demo-body { display: block; }
+    .code-demo.stacked .code-demo-section { display: block; }
+    .code-demo.stacked .code-demo-section + .code-demo-section { border-top: 2px solid #b8cfe5; }
+    .code-demo.stacked .code-demo-code,
+    .code-demo.stacked .code-demo-render { border-right: none; }
+    .code-demo.stacked .code-demo-header { border-bottom: 1px solid #dbe7f3; }
+    .code-demo.stacked .code-demo-header .label:first-child { border-right: none; }
+
+    /* ============================================================
+       STYLES POUR LE RENDU
+       ============================================================ */
+    .code-demo-render h1 { font-size: 2rem; margin: 0.3rem 0; font-weight: bold; }
+    .code-demo-render h2 { font-size: 1.5rem; margin: 0.3rem 0; font-weight: bold; }
+    .code-demo-render h3 { font-size: 1.17rem; margin: 0.3rem 0; font-weight: bold; }
+    .code-demo-render p { margin: 0.3rem 0; }
+    .code-demo-render ul, .code-demo-render ol { padding-left: 1.5rem; margin: 0.3rem 0; }
+    .code-demo-render li { margin-bottom: 0.15rem; }
+    .code-demo-render a { color: #2c5282; text-decoration: underline; }
+
+    .code-demo-render table {
+      border-collapse: collapse;
+      margin: 0.5rem 0;
+      width: auto;
+    }
+    .code-demo-render table th,
+    .code-demo-render table td {
+      border: 1px solid #999;
+      padding: 0.4rem 0.8rem;
+      text-align: left;
+    }
+    .code-demo-render table th { background: #eef4fa; font-weight: bold; color: #1e3a5f; }
+
+    .code-demo-render img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0.5rem 0;
+      border: 1px dashed #ccc;
+      border-radius: 4px;
+      padding: 4px;
+      background: #fafafa;
+    }
+
+    .code-demo-render form { margin: 0.5rem 0; }
+    .code-demo-render label {
+      display: block;
+      font-weight: 600;
+      color: #1e3a5f;
+      margin-top: 0.6rem;
+      margin-bottom: 0.2rem;
+      font-size: 0.9rem;
+    }
+    .code-demo-render input,
+    .code-demo-render select,
+    .code-demo-render textarea {
+      width: 100%;
+      padding: 0.5rem 0.7rem;
+      border: 1px solid #b8cfe5;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: #fafcff;
+      transition: 0.15s;
+    }
+    .code-demo-render input:focus,
+    .code-demo-render select:focus,
+    .code-demo-render textarea:focus {
+      outline: none;
+      border-color: #2c5282;
+      box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.12);
+    }
+    .code-demo-render input[type="radio"],
+    .code-demo-render input[type="checkbox"] {
+      width: auto;
+      margin-right: 0.4rem;
+    }
+    .code-demo-render button,
+    .code-demo-render input[type="submit"],
+    .code-demo-render input[type="reset"] {
+      background: #1e3a5f;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-top: 0.8rem;
+      transition: 0.15s;
+      width: auto;
+    }
+    .code-demo-render button:hover,
+    .code-demo-render input[type="submit"]:hover,
+    .code-demo-render input[type="reset"]:hover { background: #2c5282; }
+    .code-demo-render input[type="reset"] {
+      background: #eef4fa;
+      color: #1e3a5f;
+      border: 1px solid #b8cfe5;
+    }
+
+    /* ============================================================
+       ENCADRÉS PÉDAGOGIQUES
+       ============================================================ */
+    .info-box {
+      background: #eef4fa;
+      border-left: 4px solid #2c5282;
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    .info-box strong { color: #1e3a5f; }
+
+    .warn-box {
+      background: #fff8e1;
+      border-left: 4px solid #eab308;
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+      color: #7a5f00;
+      font-size: 0.9rem;
+    }
+    .warn-box strong { color: #92400e; }
+
+    .success-box {
+      background: #e8f5ec;
+      border-left: 4px solid #16a34a;
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+      color: #14532d;
+      font-size: 0.9rem;
+    }
+
+    /* ============================================================
+       TABLEAUX GÉNÉRAUX
+       ============================================================ */
+    .section table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    .section table th {
+      background: #1e3a5f;
+      color: white;
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .section table td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid #dbe7f3;
+    }
+    .section table tr:nth-child(even) td { background: #f6faff; }
+
+    /* ============================================================
+       ACTIVITÉS COLLAPSIBLES
+       ============================================================ */
+    .collab-box {
+      background: #eef4fa;
+      border-radius: 16px;
+      margin: 1.5rem 0;
+      border: 1px solid #b8cfe5;
+      overflow: hidden;
+    }
+    .collab-toggle {
+      background: transparent;
+      border: none;
+      color: #1e3a5f;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .collab-toggle:hover { background: #dbe7f3; }
+    .collab-toggle .collab-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .collab-toggle .collab-meta {
+      background: #dbe7f3;
+      color: #1e3a5f;
+      font-size: 0.7rem;
+      padding: 0.15rem 0.7rem;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .collab-toggle .arrow {
+      transition: transform 0.25s;
+      font-size: 0.85rem;
+      color: #d97706;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .collab-toggle.open .arrow { transform: rotate(90deg); }
+
+    .collab-content {
+      display: none;
+      padding: 0 1.5rem 1.2rem 1.5rem;
+      border-top: 1px dashed #b8cfe5;
+    }
+    .collab-content.open { display: block; animation: fadeIn 0.25s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .collab-enonce {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #1a2d45;
+      margin: 0.9rem 0;
+    }
+    .collab-enonce strong { color: #1e3a5f; }
+
+    .solution-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      margin-top: 0.8rem;
+      padding-top: 0.6rem;
+      border-top: 1px dotted #b8cfe5;
+    }
+    .btn-solution {
+      background: #d97706;
+      color: white;
+      border: none;
+      padding: 0.4rem 1.4rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: 0.15s;
+      border: 1px solid #b45309;
+    }
+    .btn-solution:hover { background: #b45309; transform: scale(0.97); }
+    .btn-solution:disabled {
+      background: #cbd8e6;
+      color: #6a80a0;
+      cursor: not-allowed;
+      border-color: #b8cfe5;
+    }
+
+    .timer-display {
+      font-size: 0.85rem;
+      color: #4a6a8f;
+      font-weight: 600;
+      background: #eef4fa;
+      padding: 0.25rem 0.9rem;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .timer-display.counting { background: #fff3cd; color: #856404; }
+    .timer-display.done { background: #dbe7f3; color: #1e3a5f; }
+
+    .solution-content {
+      display: none;
+      background: #eef4fa;
+      padding: 1rem 1.3rem;
+      border-radius: 12px;
+      margin-top: 0.6rem;
+      border-left: 4px solid #1e3a5f;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .solution-content.open { display: block; animation: fadeIn 0.25s ease; }
+    .solution-content strong { color: #1e3a5f; }
+
+    /* ============================================================
+       QCM
+       ============================================================ */
+    .qcm-item {
+      background: #f6faff;
+      border-left: 4px solid #2c5282;
+      border-radius: 10px;
+      padding: 1rem 1.3rem;
+      margin: 1rem 0;
+    }
+    .qcm-question {
+      font-weight: 600;
+      color: #1e3a5f;
+      margin-bottom: 0.6rem;
+    }
+    .qcm-options {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .qcm-options li {
+      padding: 0.35rem 0.8rem;
+      margin: 0.25rem 0;
+      border-radius: 6px;
+      background: white;
+      border: 1px solid #dbe7f3;
+      font-size: 0.9rem;
+    }
+
+    /* ============================================================
+       QUIZ SÉQUENTIEL
+       ============================================================ */
+    .quiz-progress {
+      background: #dbe7f3;
+      height: 8px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+    .quiz-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #2c5282, #1e3a5f);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    .quiz-progress-text {
+      text-align: right;
+      font-size: 0.8rem;
+      color: #4a6a8f;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+    }
+
+    .quiz-card {
+      background: #f6faff;
+      border-left: 5px solid #2c5282;
+      border-radius: 14px;
+      padding: 1.6rem 1.8rem;
+      animation: fadeIn 0.3s ease;
+    }
+    .quiz-card .quiz-question-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1e3a5f;
+      margin-bottom: 1rem;
+    }
+    .quiz-card .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .quiz-btn-option {
+      background: white;
+      border: 2px solid #dbe7f3;
+      border-radius: 10px;
+      padding: 0.8rem 1.1rem;
+      text-align: left;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #1a2d45;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .quiz-btn-option:hover:not(:disabled) {
+      background: #eef4fa;
+      border-color: #2c5282;
+      transform: translateX(4px);
+    }
+    .quiz-btn-option:disabled { cursor: default; opacity: 0.85; }
+    .quiz-btn-option.correct {
+      background: #d4f0dd !important;
+      border-color: #16a34a !important;
+      color: #14532d;
+      font-weight: 600;
+    }
+    .quiz-btn-option.incorrect {
+      background: #ffe5e5 !important;
+      border-color: #dc2626 !important;
+      color: #7f1d1d;
+      font-weight: 600;
+    }
+
+    .quiz-feedback {
+      margin-top: 1.2rem;
+      padding: 1rem 1.3rem;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      animation: fadeIn 0.3s ease;
+    }
+    .quiz-feedback.correct {
+      background: #e8f5ec;
+      border-left: 4px solid #16a34a;
+      color: #14532d;
+    }
+    .quiz-feedback.incorrect {
+      background: #ffe5e5;
+      border-left: 4px solid #dc2626;
+      color: #7f1d1d;
+    }
+    .quiz-feedback strong { display: block; margin-bottom: 0.3rem; }
+    .quiz-feedback .explanation {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed rgba(0,0,0,0.15);
+      font-style: italic;
+    }
+    .quiz-next-bar {
+      margin-top: 1.2rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .quiz-btn-next {
+      background: #1e3a5f;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.8rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .quiz-btn-next:hover { background: #2c5282; transform: translateX(3px); }
+
+    /* Écran de résultats */
+    .quiz-final {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      background: #f6faff;
+      border-radius: 16px;
+      border-left: 6px solid #1e3a5f;
+      animation: fadeIn 0.4s ease;
+    }
+    .quiz-final .emoji { font-size: 3rem; margin-bottom: 0.5rem; }
+    .quiz-final .score { font-size: 2.4rem; font-weight: 800; color: #1e3a5f; margin: 0.3rem 0; }
+    .quiz-final .message { font-size: 1.05rem; color: #1e3a5f; font-weight: 600; margin-bottom: 1rem; }
+    .quiz-final .recap {
+      text-align: left;
+      max-width: 600px;
+      margin: 1.2rem auto 0;
+      background: white;
+      border-radius: 12px;
+      padding: 1rem 1.3rem;
+      font-size: 0.88rem;
+      border: 1px solid #dbe7f3;
+    }
+    .quiz-final .recap-item {
+      padding: 0.35rem 0;
+      border-bottom: 1px solid #eef4fa;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .quiz-final .recap-item:last-child { border-bottom: none; }
+    .quiz-final .recap-item .ok { color: #16a34a; font-weight: 700; }
+    .quiz-final .recap-item .ko { color: #dc2626; font-weight: 700; }
+
+    /* ============================================================
+       BOUTON IMPRESSION
+       ============================================================ */
+    .print-bar {
+      max-width: 1100px;
+      margin: 1rem auto;
+      text-align: center;
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-print {
+      background: #1e3a5f;
+      color: white;
+      border: none;
+      padding: 0.6rem 2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .btn-print:hover { background: #2c5282; }
+    .btn-print.secondary {
+      background: #eef4fa;
+      color: #1e3a5f;
+      border: 1px solid #b8cfe5;
+    }
+    .btn-print.secondary:hover { background: #dbe7f3; }
+
+    /* ============================================================
+       PIED DE PAGE
+       ============================================================ */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #b8cfe5;
+      font-size: 0.85rem;
+      color: #4a6a8f;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .section { padding: 1.3rem; }
+      .page-header { padding: 1.5rem; }
+      .page-header h1 { font-size: 1.6rem; }
+      .section h2 { font-size: 1.3rem; }
+
+      .code-demo-body { flex-direction: column; }
+      .code-demo-code {
+        border-right: none;
+        border-bottom: 2px solid #b8cfe5;
+      }
+      .code-demo-header { flex-direction: column; }
+      .code-demo-header .label:first-child {
+        border-right: none;
+        border-bottom: 1px solid #dbe7f3;
+      }
+    }
+
+    /* ============================================================
+       IMPRESSION
+       ============================================================ */
+    @media print {
+      body { background: white; }
+      .print-bar { display: none; }
+      .collab-content { display: block !important; }
+      .solution-content { display: block !important; }
+      .btn-solution, .timer-display { display: none !important; }
+      .collab-toggle { pointer-events: none; }
+      .collab-toggle .arrow { transform: rotate(90deg); }
+      .section { box-shadow: none; border: 1px solid #dbe7f3; page-break-inside: avoid; }
+      .code-demo { page-break-inside: avoid; }
+    }
+
+    /* ============================================================
+       PRISM.JS · Coloration syntaxique ISMO
+       ============================================================ */
+    pre[class*="language-"],
+    code[class*="language-"] {
+      color: #24292E;
+      background: #F6F8FA;
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      white-space: pre;
+      tab-size: 4;
+      border-radius: 8px;
+      margin: 0;
+    }
+    pre[class*="language-"] {
+      padding: 1.2rem 1.4rem;
+      overflow: auto;
+      border-left: 4px solid #D97706;
+      margin: 1rem 0;
+    }
+    :not(pre) > code[class*="language-"] {
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+    .token.comment, .token.prolog, .token.doctype, .token.cdata { color: #6A737D; font-style: italic; }
+    .token.punctuation { color: #24292E; }
+    .token.tag, .token.selector, .token.keyword { color: #22863A; font-weight: 600; }
+    .token.attr-name { color: #6F42C1; }
+    .token.attr-value, .token.string, .token.char { color: #032F62; }
+    .token.property, .token.builtin { color: #005CC5; }
+    .token.number, .token.boolean, .token.constant { color: #005CC5; }
+    .token.function, .token.class-name { color: #6F42C1; }
+    .token.operator, .token.entity, .token.url { color: #D73A49; }
+    .token.variable { color: #E36209; }
+    .token.regex, .token.important { color: #E36209; }
+    .token.title, .token.bold { font-weight: bold; }
+    .token.italic { font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <!-- Barre d'action -->
+  <div class="print-bar">
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimer le support</button>
+    <button class="btn-print secondary" onclick="expandAll()">📖 Tout déplier</button>
+    <button class="btn-print secondary" onclick="collapseAll()">📕 Tout replier</button>
+  </div>
+
+  <div class="container">
+
+    <!-- ============================================================
+         EN-TÊTE DU CHAPITRE
+         ============================================================ -->
+    <div class="page-header">
+      <div class="chapter-badge">CHAPITRE 4</div>
+      <h1>Formulaires HTML5</h1>
+      <p class="sous-titre">Collecter, valider et traiter les données utilisateur</p>
+      <div class="meta-info">
+        <span>📘 Module M104</span>
+        <span>🎯 Développement Digital</span>
+        <span>⏱️ Durée : 6 h</span>
+        <span>👨‍🏫 KELLOUCH Mahdi</span>
+        <span>🏛️ ISMO · OFPPT</span>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         OBJECTIFS
+         ============================================================ -->
+    <div class="section">
+      <h2>🎯 Objectifs pédagogiques</h2>
+      <p>À l'issue de ce chapitre, vous serez capable de :</p>
+      <ul>
+        <li><strong>Comprendre</strong> le rôle et l'anatomie d'un formulaire HTML5.</li>
+        <li><strong>Utiliser</strong> la balise <code>&lt;form&gt;</code> et ses attributs (<code>action</code>, <code>method</code>, <code>enctype</code>).</li>
+        <li><strong>Maîtriser</strong> les champs de saisie : <code>text</code>, <code>email</code>, <code>password</code>, <code>number</code>, <code>date</code>, <code>file</code>, etc.</li>
+        <li><strong>Créer</strong> des listes déroulantes, des boutons radio, des cases à cocher et des zones de texte.</li>
+        <li><strong>Associer</strong> correctement les étiquettes <code>&lt;label&gt;</code> aux champs.</li>
+        <li><strong>Appliquer</strong> les attributs de validation HTML5 : <code>required</code>, <code>pattern</code>, <code>min</code>, <code>max</code>, <code>placeholder</code>.</li>
+        <li><strong>Structurer</strong> un formulaire avec <code>&lt;fieldset&gt;</code> et <code>&lt;legend&gt;</code>.</li>
+        <li><strong>Créer</strong> un formulaire complet d'inscription valide W3C.</li>
+      </ul>
+      <div class="info-box">
+        <strong>💡 Prérequis :</strong> avoir suivi le Chapitre 3 (Éléments basiques d'une page HTML).
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SOMMAIRE
+         ============================================================ -->
+    <div class="section">
+      <h2>📋 Sommaire du chapitre</h2>
+      <ol style="columns: 2; column-gap: 2rem; line-height: 1.9;">
+        <li><a href="#section1" style="color: #2c5282; text-decoration: none;">Anatomie d'un formulaire</a></li>
+        <li><a href="#section2" style="color: #2c5282; text-decoration: none;">Champs de saisie essentiels</a></li>
+        <li><a href="#section3" style="color: #2c5282; text-decoration: none;">Listes, boutons et zones de texte</a></li>
+        <li><a href="#section4" style="color: #2c5282; text-decoration: none;">Validation HTML5</a></li>
+        <li><a href="#section5" style="color: #2c5282; text-decoration: none;">Structure et accessibilité</a></li>
+        <li><a href="#section6" style="color: #2c5282; text-decoration: none;">Exercices pratiques</a></li>
+        <li><a href="#section7" style="color: #2c5282; text-decoration: none;">Bonnes pratiques & pièges</a></li>
+        <li><a href="#section8" style="color: #2c5282; text-decoration: none;">Glossaire des attributs</a></li>
+        <li><a href="#section9" style="color: #2c5282; text-decoration: none;">Ressources complémentaires</a></li>
+        <li><a href="#section10" style="color: #2c5282; text-decoration: none;">Auto-évaluation</a></li>
+        <li><a href="#qcm" style="color: #b8860b; text-decoration: none; font-weight: 600;">📝 QCM · 10 questions</a></li>
+        <li><a href="#quiz" style="color: #b8860b; text-decoration: none; font-weight: 600;">🎮 Quiz interactif séquentiel</a></li>
+        <li><a href="#projet" style="color: #b8860b; text-decoration: none; font-weight: 600;">🏗️ Projet final</a></li>
+      </ol>
+      <div class="info-box" style="margin-top: 1.2rem;">
+        <strong>📌 Chapitre complet :</strong> 10 sections théoriques et pratiques, 1 QCM, 1 quiz interactif séquentiel et 1 projet final. Bonne lecture !
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION 1 · ANATOMIE D'UN FORMULAIRE
+         ============================================================ -->
+    <div class="section" id="section1">
+      <h2>1. Anatomie d'un formulaire</h2>
+
+      <h3>1.1 La balise &lt;form&gt;</h3>
+      <p>Un formulaire HTML est un conteneur qui regroupe des champs de saisie. Il est délimité par la balise <code>&lt;form&gt;</code> et possède plusieurs attributs essentiels.</p>
+
+<pre class="code-block language-html"><code class="language-html">&lt;form action="/traitement.php" method="post"&gt;
+  &lt;!-- Champs du formulaire --&gt;
+&lt;/form&gt;</code></pre>
+
+      <h3>1.2 Les attributs de &lt;form&gt;</h3>
+      <table>
+        <thead>
+          <tr><th>Attribut</th><th>Rôle</th><th>Valeurs possibles</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>action</code></td><td>URL de destination des données</td><td>Chemin relatif ou absolu</td></tr>
+          <tr><td><code>method</code></td><td>Méthode d'envoi HTTP</td><td><code>get</code> ou <code>post</code></td></tr>
+          <tr><td><code>enctype</code></td><td>Encodage des données</td><td><code>application/x-www-form-urlencoded</code>, <code>multipart/form-data</code></td></tr>
+          <tr><td><code>name</code></td><td>Nom du formulaire</td><td>Chaîne de caractères</td></tr>
+          <tr><td><code>target</code></td><td>Où afficher la réponse</td><td><code>_blank</code>, <code>_self</code>, etc.</td></tr>
+          <tr><td><code>novalidate</code></td><td>Désactive la validation HTML5</td><td>Présence (booléen)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">
+        <strong>📌 Différence <code>GET</code> vs <code>POST</code> :</strong><br>
+        • <strong>GET</strong> : les données sont visibles dans l'URL, limitées en taille, utilisées pour les recherches.<br>
+        • <strong>POST</strong> : les données sont envoyées dans le corps de la requête, plus sécurisées, utilisées pour les inscriptions.
+      </div>
+
+      <div id="section1_Activité1" class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 1 · Créer la coquille d'un formulaire <span class="collab-meta">5 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Écrivez la balise <code>&lt;form&gt;</code> pour un formulaire de contact qui envoie les données vers <code>traitement.php</code> en méthode POST.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 30)">⏱️ Lancer le temps (30 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">30</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            <pre class="code-block language-html" style="margin-top:0.5rem;"><code class="language-html">&lt;form action="traitement.php" method="post"&gt;
+  &lt;!-- Champs à ajouter --&gt;
+&lt;/form&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION 2 · CHAMPS DE SAISIE ESSENTIELS
+         ============================================================ -->
+    <div class="section" id="section2">
+      <h2>2. Champs de saisie essentiels</h2>
+      <p>La balise <code>&lt;input&gt;</code> est auto-fermante. Son attribut <code>type</code> détermine le type de champ affiché.</p>
+
+      <h3>2.1 Champ texte : type="text"</h3>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;label for="nom"&gt;Nom :&lt;/label&gt;
+&lt;input type="text" id="nom" name="nom"
+       placeholder="Votre nom" maxlength="50"&gt;</code></pre>
+          <div class="code-demo-render">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" placeholder="Votre nom" maxlength="50">
+          </div>
+        </div>
+      </div>
+
+      <h3>2.2 Champ email : type="email"</h3>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;label for="email"&gt;Email :&lt;/label&gt;
+&lt;input type="email" id="email" name="email"
+       placeholder="vous@exemple.com"&gt;</code></pre>
+          <div class="code-demo-render">
+            <label for="email">Email :</label>
+            <input type="email" id="email" name="email" placeholder="vous@exemple.com">
+          </div>
+        </div>
+      </div>
+
+      <h3>2.3 Champ mot de passe : type="password"</h3>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;label for="mdp"&gt;Mot de passe :&lt;/label&gt;
+&lt;input type="password" id="mdp" name="mdp"
+       placeholder="••••••••"&gt;</code></pre>
+          <div class="code-demo-render">
+            <label for="mdp">Mot de passe :</label>
+            <input type="password" id="mdp" name="mdp" placeholder="••••••••">
+          </div>
+        </div>
+      </div>
+
+      <h3>2.4 Champ nombre : type="number"</h3>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;label for="age"&gt;Âge :&lt;/label&gt;
+&lt;input type="number" id="age" name="age"
+       min="18" max="99" step="1"&gt;</code></pre>
+          <div class="code-demo-render">
+            <label for="age">Âge :</label>
+            <input type="number" id="age" name="age" min="18" max="99" step="1">
+          </div>
+        </div>
+      </div>
+
+      <h3>2.5 Champ date : type="date"</h3>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;label for="naissance"&gt;Date de naissance :&lt;/label&gt;
+&lt;input type="date" id="naissance" name="naissance"
+       min="1900-01-01" max="2025-12-31"&gt;</code></pre>
+          <div class="code-demo-render">
+            <label for="naissance">Date de naissance :</label>
+            <input type="date" id="naissance" name="naissance" min="1900-01-01" max="2025-12-31">
+          </div>
+        </div>
+      </div>
+
+      <h3>2.6 Champ fichier : type="file"</h3>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;label for="cv"&gt;CV (PDF) :&lt;/label&gt;
+&lt;input type="file" id="cv" name="cv"
+       accept=".pdf,.doc,.docx"&gt;</code></pre>
+          <div class="code-demo-render">
+            <label for="cv">CV (PDF) :</label>
+            <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx">
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-box">
+        <strong>⚠️ Important :</strong> pour l'envoi de fichiers, le formulaire doit avoir <code>enctype="multipart/form-data"</code> et <code>method="post"</code>.
+      </div>
+
+      <h3>2.7 Autres types HTML5</h3>
+      <table>
+        <thead>
+          <tr><th>Type</th><th>Description</th><th>Exemple</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>tel</code></td><td>Numéro de téléphone</td><td><code>&lt;input type="tel"&gt;</code></td></tr>
+          <tr><td><code>url</code></td><td>Adresse web</td><td><code>&lt;input type="url"&gt;</code></td></tr>
+          <tr><td><code>color</code></td><td>Sélecteur de couleur</td><td><code>&lt;input type="color"&gt;</code></td></tr>
+          <tr><td><code>range</code></td><td>Curseur de valeur</td><td><code>&lt;input type="range" min="0" max="10"&gt;</code></td></tr>
+          <tr><td><code>search</code></td><td>Champ de recherche</td><td><code>&lt;input type="search"&gt;</code></td></tr>
+          <tr><td><code>time</code></td><td>Heure</td><td><code>&lt;input type="time"&gt;</code></td></tr>
+          <tr><td><code>datetime-local</code></td><td>Date et heure locales</td><td><code>&lt;input type="datetime-local"&gt;</code></td></tr>
+          <tr><td><code>week</code></td><td>Semaine de l'année</td><td><code>&lt;input type="week"&gt;</code></td></tr>
+        </tbody>
+      </table>
+
+      <div id="section2_Activité2" class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 2 · Choisir le bon type de champ <span class="collab-meta">5 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Associez chaque donnée au type d'<code>&lt;input&gt;</code> le plus approprié :<br>
+            1. Adresse email professionnelle.<br>
+            2. Site web personnel.<br>
+            3. Numéro de téléphone.<br>
+            4. Date de naissance.<br>
+            5. Mot de passe sécurisé.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 45)">⏱️ Lancer le temps (45 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">45</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. <code>type="email"</code><br>
+            2. <code>type="url"</code><br>
+            3. <code>type="tel"</code><br>
+            4. <code>type="date"</code><br>
+            5. <code>type="password"</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION 3 · LISTES, BOUTONS ET ZONES DE TEXTE
+         ============================================================ -->
+    <div class="section" id="section3">
+      <h2>3. Listes, boutons et zones de texte</h2>
+
+      <h3>3.1 Liste déroulante : &lt;select&gt; et &lt;option&gt;</h3>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;label for="pays"&gt;Pays :&lt;/label&gt;
+&lt;select id="pays" name="pays"&gt;
+  &lt;option value=""&gt;-- Choisir --&lt;/option&gt;
+  &lt;option value="ma"&gt;Maroc&lt;/option&gt;
+  &lt;option value="fr"&gt;France&lt;/option&gt;
+  &lt;option value="es"&gt;Espagne&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+          <div class="code-demo-render">
+            <label for="pays">Pays :</label>
+            <select id="pays" name="pays">
+              <option value="">-- Choisir --</option>
+              <option value="ma">Maroc</option>
+              <option value="fr">France</option>
+              <option value="es">Espagne</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <h3>3.2 Boutons radio : &lt;input type="radio"&gt;</h3>
+      <p>Les boutons radio permettent de choisir <strong>une seule option</strong> parmi plusieurs. Tous les boutons d'un même groupe doivent partager le même attribut <code>name</code>.</p>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;p&gt;Genre :&lt;/p&gt;
+&lt;label&gt;&lt;input type="radio" name="genre" value="f"&gt; Femme&lt;/label&gt;
+&lt;label&gt;&lt;input type="radio" name="genre" value="h"&gt; Homme&lt;/label&gt;
+&lt;label&gt;&lt;input type="radio" name="genre" value="a"&gt; Autre&lt;/label&gt;</code></pre>
+          <div class="code-demo-render">
+            <p>Genre :</p>
+            <label><input type="radio" name="genre" value="f"> Femme</label>
+            <label><input type="radio" name="genre" value="h"> Homme</label>
+            <label><input type="radio" name="genre" value="a"> Autre</label>
+          </div>
+        </div>
+      </div>
+
+      <h3>3.3 Cases à cocher : &lt;input type="checkbox"&gt;</h3>
+      <p>Les cases à cocher permettent de sélectionner <strong>plusieurs options</strong>.</p>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;p&gt;Compétences :&lt;/p&gt;
+&lt;label&gt;&lt;input type="checkbox" name="html" value="html"&gt; HTML5&lt;/label&gt;
+&lt;label&gt;&lt;input type="checkbox" name="css" value="css"&gt; CSS3&lt;/label&gt;
+&lt;label&gt;&lt;input type="checkbox" name="js" value="js"&gt; JavaScript&lt;/label&gt;</code></pre>
+          <div class="code-demo-render">
+            <p>Compétences :</p>
+            <label><input type="checkbox" name="html" value="html"> HTML5</label>
+            <label><input type="checkbox" name="css" value="css"> CSS3</label>
+            <label><input type="checkbox" name="js" value="js"> JavaScript</label>
+          </div>
+        </div>
+      </div>
+
+      <h3>3.4 Zone de texte : &lt;textarea&gt;</h3>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;label for="message"&gt;Message :&lt;/label&gt;
+&lt;textarea id="message" name="message"
+          rows="4" cols="30"
+          placeholder="Votre message..."&gt;&lt;/textarea&gt;</code></pre>
+          <div class="code-demo-render">
+            <label for="message">Message :</label>
+            <textarea id="message" name="message" rows="4" cols="30" placeholder="Votre message..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <h3>3.5 Boutons d'envoi et de réinitialisation</h3>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;input type="submit" value="Envoyer"&gt;
+&lt;input type="reset" value="Réinitialiser"&gt;
+&lt;button type="button"&gt;Annuler&lt;/button&gt;</code></pre>
+          <div class="code-demo-render">
+            <input type="submit" value="Envoyer">
+            <input type="reset" value="Réinitialiser">
+            <button type="button">Annuler</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="section3_Activité3" class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 3 · Radio ou checkbox ? <span class="collab-meta">5 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Indiquez pour chaque cas s'il faut utiliser des boutons radio ou des cases à cocher :<br>
+            1. Choix de la civilité (M./Mme).<br>
+            2. Choix des langues parlées.<br>
+            3. Choix du niveau d'études (Bac, Bac+2, Bac+3, Bac+5).<br>
+            4. Acceptation des conditions d'utilisation.<br>
+            5. Choix des centres d'intérêt.
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 45)">⏱️ Lancer le temps (45 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">45</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            1. Radio (un seul choix)<br>
+            2. Checkbox (plusieurs choix possibles)<br>
+            3. Radio (un seul niveau)<br>
+            4. Checkbox (une seule case à cocher, mais fonctionne comme un booléen)<br>
+            5. Checkbox (plusieurs choix possibles)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION 4 · VALIDATION HTML5
+         ============================================================ -->
+    <div class="section" id="section4">
+      <h2>4. Validation HTML5</h2>
+      <p>HTML5 intègre une validation native côté client. Le navigateur vérifie automatiquement certaines contraintes avant l'envoi du formulaire.</p>
+
+      <h3>4.1 Attributs de validation</h3>
+      <table>
+        <thead>
+          <tr><th>Attribut</th><th>Rôle</th><th>Exemple</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>required</code></td><td>Champ obligatoire</td><td><code>&lt;input required&gt;</code></td></tr>
+          <tr><td><code>pattern</code></td><td>Expression régulière</td><td><code>pattern="[0-9]{5}"</code></td></tr>
+          <tr><td><code>min</code> / <code>max</code></td><td>Valeurs minimales et maximales</td><td><code>min="0" max="100"</code></td></tr>
+          <tr><td><code>minlength</code> / <code>maxlength</code></td><td>Longueur du texte</td><td><code>minlength="3" maxlength="20"</code></td></tr>
+          <tr><td><code>step</code></td><td>Pas d'incrémentation</td><td><code>step="0.01"</code></td></tr>
+          <tr><td><code>placeholder</code></td><td>Texte indicatif</td><td><code>placeholder="Votre nom"</code></td></tr>
+          <tr><td><code>autocomplete</code></td><td>Suggestions de saisie</td><td><code>autocomplete="email"</code></td></tr>
+          <tr><td><code>autofocus</code></td><td>Focus automatique</td><td><code>&lt;input autofocus&gt;</code></td></tr>
+          <tr><td><code>disabled</code></td><td>Champ désactivé</td><td><code>&lt;input disabled&gt;</code></td></tr>
+          <tr><td><code>readonly</code></td><td>Champ en lecture seule</td><td><code>&lt;input readonly&gt;</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3>4.2 Exemple de validation complète</h3>
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;form&gt;
+  &lt;label for="cp"&gt;Code postal (5 chiffres) :&lt;/label&gt;
+  &lt;input type="text" id="cp" name="cp"
+         required pattern="[0-9]{5}"
+         title="5 chiffres exactement"
+         placeholder="75001"&gt;
+
+  &lt;label for="satisfaction"&gt;Satisfaction (0 à 10) :&lt;/label&gt;
+  &lt;input type="number" id="satisfaction" name="satisfaction"
+         min="0" max="10" step="1" value="5"&gt;
+
+  &lt;label for="pseudo"&gt;Pseudo (3 à 15 caractères) :&lt;/label&gt;
+  &lt;input type="text" id="pseudo" name="pseudo"
+         minlength="3" maxlength="15" required&gt;
+
+  &lt;button type="submit"&gt;Valider&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+          <div class="code-demo-render">
+            <form onsubmit="event.preventDefault(); alert('Formulaire soumis ! (démo)');">
+              <label for="cp">Code postal (5 chiffres) :</label>
+              <input type="text" id="cp" name="cp" required pattern="[0-9]{5}" title="5 chiffres exactement" placeholder="75001">
+
+              <label for="satisfaction">Satisfaction (0 à 10) :</label>
+              <input type="number" id="satisfaction" name="satisfaction" min="0" max="10" step="1" value="5">
+
+              <label for="pseudo">Pseudo (3 à 15 caractères) :</label>
+              <input type="text" id="pseudo" name="pseudo" minlength="3" maxlength="15" required>
+
+              <button type="submit">Valider</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>💡 Astuce :</strong> l'attribut <code>title</code> s'affiche dans une info-bulle lorsque la validation échoue, expliquant le format attendu.
+      </div>
+
+      <div id="section4_Activité4" class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 4 · Ajouter la validation <span class="collab-meta">7 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Ajoutez les attributs de validation appropriés au champ suivant pour qu'il accepte uniquement un numéro de téléphone marocain au format <code>06XXXXXXXX</code> (10 chiffres commençant par 06).
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 60)">⏱️ Lancer le temps (60 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">60</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            <pre class="code-block language-html" style="margin-top:0.5rem;"><code class="language-html">&lt;label for="tel"&gt;Téléphone :&lt;/label&gt;
+&lt;input type="tel" id="tel" name="tel"
+       required
+       pattern="^06[0-9]{8}$"
+       title="Format : 06XXXXXXXX (10 chiffres)"
+       placeholder="0612345678"&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION 5 · STRUCTURE ET ACCESSIBILITÉ
+         ============================================================ -->
+    <div class="section" id="section5">
+      <h2>5. Structure et accessibilité</h2>
+
+      <h3>5.1 Grouper les champs : &lt;fieldset&gt; et &lt;legend&gt;</h3>
+      <p>La balise <code>&lt;fieldset&gt;</code> permet de regrouper des champs apparentés. La balise <code>&lt;legend&gt;</code> donne un titre à ce groupe.</p>
+
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">💻 Code</span>
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <pre class="code-demo-code language-html"><code class="language-html">&lt;fieldset&gt;
+  &lt;legend&gt;Informations personnelles&lt;/legend&gt;
+
+  &lt;label for="prenom"&gt;Prénom :&lt;/label&gt;
+  &lt;input type="text" id="prenom" name="prenom"&gt;
+
+  &lt;label for="nom2"&gt;Nom :&lt;/label&gt;
+  &lt;input type="text" id="nom2" name="nom2"&gt;
+&lt;/fieldset&gt;</code></pre>
+          <div class="code-demo-render">
+            <fieldset>
+              <legend>Informations personnelles</legend>
+              <label for="prenom">Prénom :</label>
+              <input type="text" id="prenom" name="prenom">
+              <label for="nom2">Nom :</label>
+              <input type="text" id="nom2" name="nom2">
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+      <h3>5.2 Accessibilité : l'élément &lt;label&gt;</h3>
+      <p>L'élément <code>&lt;label&gt;</code> améliore l'accessibilité en associant un texte descriptif à un champ. Deux méthodes :</p>
+      <ul>
+        <li><strong>Avec <code>for</code> et <code>id</code> :</strong> <code>&lt;label for="email"&gt;Email&lt;/label&gt;&lt;input id="email"&gt;</code></li>
+        <li><strong>Par imbrication :</strong> <code>&lt;label&gt;Email &lt;input&gt;&lt;/label&gt;</code></li>
+      </ul>
+
+      <div class="warn-box">
+        <strong>⚠️ Règle W3C :</strong> chaque champ de formulaire doit être associé à une étiquette <code>&lt;label&gt;</code>. Cela permet aux lecteurs d'écran de décrire le champ et améliore l'ergonomie (clic sur le label = focus sur le champ).
+      </div>
+
+      <h3>5.3 Attributs d'accessibilité</h3>
+      <table>
+        <thead>
+          <tr><th>Attribut</th><th>Rôle</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>aria-label</code></td><td>Étiquette invisible pour les lecteurs d'écran</td></tr>
+          <tr><td><code>aria-describedby</code></td><td>Référence à un texte descriptif</td></tr>
+          <tr><td><code>role</code></td><td>Rôle de l'élément (ex : <code>role="search"</code>)</td></tr>
+        </tbody>
+      </table>
+
+      <div  id="section5_Activité5" class="collab-box">
+        <button class="collab-toggle" onclick="toggleCollab(this)">
+          <span class="collab-label">🤝 Activité 5 · Améliorer l'accessibilité <span class="collab-meta">5 min · binôme</span></span>
+          <span class="arrow">▶</span>
+        </button>
+        <div class="collab-content">
+          <div class="collab-enonce">
+            <strong>Consigne :</strong> Corrigez ce code pour le rendre accessible :<br>
+            <code>&lt;input type="text" placeholder="Nom"&gt;</code>
+          </div>
+          <div class="solution-bar">
+            <button class="btn-solution" onclick="startTimer(this, 30)">⏱️ Lancer le temps (30 s)</button>
+            <span class="timer-display" style="display:none;">⏳ <span class="timer-value">30</span> s</span>
+          </div>
+          <div class="solution-content">
+            <strong>💡 Solution :</strong><br>
+            <pre class="code-block language-html" style="margin-top:0.5rem;"><code class="language-html">&lt;label for="nom"&gt;Nom :&lt;/label&gt;
+&lt;input type="text" id="nom" name="nom" placeholder="Votre nom"&gt;</code></pre>
+            Le <code>placeholder</code> ne remplace pas le <code>&lt;label&gt;</code> : il disparaît à la saisie.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION 6 · EXERCICES PRATIQUES
+         ============================================================ -->
+    <div class="section" id="section6">
+      <h2>6. Exercices pratiques</h2>
+
+      <h3>Exercice 1 · Formulaire de contact</h3>
+      <p>Créez un formulaire de contact contenant :</p>
+      <ul>
+        <li>Champ nom (texte, obligatoire).</li>
+        <li>Champ email (type email, obligatoire).</li>
+        <li>Champ sujet (texte, obligatoire).</li>
+        <li>Zone de texte message (obligatoire, 5 lignes).</li>
+        <li>Bouton envoyer et bouton réinitialiser.</li>
+      </ul>
+
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <div class="code-demo-render">
+            <form onsubmit="event.preventDefault(); alert('Formulaire soumis ! (démo)');">
+              <label for="nom">Nom :</label>
+              <input type="text" id="nom" name="nom" required>
+
+              <label for="email">Email :</label>
+              <input type="email" id="email" name="email" required>
+
+              <label for="sujet">Sujet :</label>
+              <input type="text" id="sujet" name="sujet" required>
+
+              <label for="message">Message :</label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+
+              <button type="submit">Envoyer</button>
+              <button type="reset">Réinitialiser</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <h3>Exercice 2 · Formulaire d'inscription</h3>
+      <p>Créez un formulaire d'inscription contenant :</p>
+      <ul>
+        <li>Nom, prénom, email, mot de passe (avec confirmation).</li>
+        <li>Date de naissance (type date).</li>
+        <li>Genre (boutons radio).</li>
+        <li>Pays (liste déroulante).</li>
+        <li>Centre d'intérêt (cases à cocher).</li>
+        <li>Acceptation des conditions (case à cocher obligatoire).</li>
+      </ul>
+
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <div class="code-demo-render">
+            <form onsubmit="event.preventDefault(); alert('Formulaire soumis ! (démo)');">
+              <label for="nom">Nom :</label>
+              <input type="text" id="nom" name="nom" required>
+
+              <label for="prenom">Prénom :</label>
+              <input type="text" id="prenom" name="prenom" required>
+
+              <label for="email">Email :</label>
+              <input type="email" id="email" name="email" required>
+
+              <label for="password">Mot de passe :</label>
+              <input type="password" id="password" name="password" required>
+
+              <label for="confirm_password">Confirmer le mot de passe :</label>
+              <input type="password" id="confirm_password" name="confirm_password" required>
+
+              <label for="naissance">Date de naissance :</label>
+              <input type="date" id="naissance" name="naissance">
+
+              <p>Genre :</p>
+              <label><input type="radio" name="genre" value="f"> Femme</label>
+              <label><input type="radio" name="genre" value="h"> Homme</label>
+              <label><input type="radio" name="genre" value="a"> Autre</label>
+
+              <label for="pays">Pays :</label>
+              <select id="pays" name="pays">
+                <option value="">-- Choisir --</option>
+                <option value="ma">Maroc</option>
+                <option value="fr">France</option>
+                <option value="es">Espagne</option>
+              </select>
+
+              <p>Centres d'intérêt :</p>
+              <label><input type="checkbox" name="interet1"> Sport</label>
+              <label><input type="checkbox" name="interet2"> Musique</label>
+              <label><input type="checkbox" name="interet3"> Lecture</label>
+
+              <label><input type="checkbox" name="conditions" required> J'accepte les conditions d'utilisation.</label>
+
+              <button type="submit">S'inscrire</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <h3>Exercice 3 · Formulaire de paiement</h3>
+      <p>Créez un formulaire de paiement avec :</p>
+      <ul>
+        <li>Numéro de carte bancaire (pattern 16 chiffres).</li>
+        <li>Date d'expiration (type month).</li>
+        <li>Cryptogramme (3 chiffres).</li>
+        <li>Montant (number, min 1, max 10000).</li>
+        <li>Bouton payer.</li>
+      </ul>
+
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <div class="code-demo-render">
+            <form onsubmit="event.preventDefault(); alert('Formulaire soumis ! (démo)');">
+              <label for="carte">Numéro de carte :</label>
+              <input type="text" id="carte" name="carte" required pattern="[0-9]{16}" title="16 chiffres">
+
+              <label for="expiration">Date d'expiration :</label>
+              <input type="month" id="expiration" name="expiration" required>
+
+              <label for="crypto">Cryptogramme :</label>
+              <input type="text" id="crypto" name="crypto" required pattern="[0-9]{3}" title="3 chiffres">
+
+              <label for="montant">Montant :</label>
+              <input type="number" id="montant" name="montant" min="1" max="10000" required>
+
+              <button type="submit">Payer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <h3>Exercice 4 · Formulaire de recherche</h3>
+      <p>Créez un formulaire de recherche avec :</p>
+      <ul>
+        <li>Champ de recherche (type search).</li>
+        <li>Liste déroulante de catégories.</li>
+        <li>Curseur de prix maximum (type range).</li>
+        <li>Bouton rechercher.</li>
+      </ul>
+
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">👁️ Rendu</span>
+        </div>
+        <div class="code-demo-body">
+          <div class="code-demo-render">
+            <form onsubmit="event.preventDefault(); alert('Formulaire soumis ! (démo)');">
+              <label for="recherche">Recherche :</label>
+              <input type="search" id="recherche" name="recherche" placeholder="Rechercher...">
+
+              <label for="categorie">Catégorie :</label>
+              <select id="categorie" name="categorie">
+                <option value="">-- Choisir --</option>
+                <option value="livres">Livres</option>
+                <option value="electronique">Électronique</option>
+                <option value="vetements">Vêtements</option>
+              </select>
+
+              <label for="prix">Prix maximum :</label>
+              <input type="range" id="prix" name="prix" min="0" max="1000" step="10">
+
+              <button type="submit">Rechercher</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <h3>Exercice 5 · Corriger un formulaire</h3>
+      <p>Voici un code HTML contenant <strong>6 erreurs</strong> d'accessibilité et de validation. Corrigez-les :</p>
+      <pre class="code-block language-html"><code class="language-html">&lt;form&gt;
+&lt;input type="text" placeholder="Nom"&gt;
+&lt;input type="email" placeholder="Email"&gt;
+&lt;input type="password" placeholder="Mot de passe"&gt;
+&lt;input type="checkbox"&gt; J'accepte les conditions
+&lt;input type="submit" value="Envoyer"&gt;
+&lt;/form&gt;</code></pre>
+
+      <div class="code-demo">
+        <div class="code-demo-header">
+          <span class="label">👁️ Solution attendue</span>
+        </div>
+        <div class="code-demo-body">
+          <div class="code-demo-render">
+            <form onsubmit="event.preventDefault(); alert('Formulaire soumis ! (démo)');">
+              <label for="nom">Nom :</label>
+              <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+
+              <label for="email">Email :</label>
+              <input type="email" id="email" name="email" placeholder="Votre email" required>
+
+              <label for="password">Mot de passe :</label>
+              <input type="password" id="password" name="password" placeholder="Votre mot de passe" required>
+
+              <label><input type="checkbox" name="conditions" required> J'accepte les conditions d'utilisation.</label>
+
+              <button type="submit">Envoyer</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION 7 · BONNES PRATIQUES & PIÈGES À ÉVITER
+         ============================================================ -->
+    <div class="section" id="section7">
+      <h2>7. Bonnes pratiques & pièges à éviter</h2>
+
+      <h3>7.1 Les 10 bonnes pratiques d'un formulaire HTML5</h3>
+      <table>
+        <thead>
+          <tr><th>#</th><th>Bonne pratique</th><th>Pourquoi ?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Toujours associer un <code>&lt;label&gt;</code> à chaque champ</td><td>Accessibilité (lecteurs d'écran)</td></tr>
+          <tr><td>2</td><td>Utiliser le bon <code>type</code> d'<code>&lt;input&gt;</code></td><td>Clavier adapté sur mobile</td></tr>
+          <tr><td>3</td><td>Grouper les champs apparentés avec <code>&lt;fieldset&gt;</code></td><td>Lisibilité et logique</td></tr>
+          <tr><td>4</td><td>Préférer <code>method="post"</code> pour les données sensibles</td><td>Sécurité (URL invisible)</td></tr>
+          <tr><td>5</td><td>Utiliser <code>required</code> plutôt qu'un astérisque visuel</td><td>Validation native automatique</td></tr>
+          <tr><td>6</td><td>Fournir un <code>placeholder</code> en complément (jamais en remplacement) du label</td><td>Ergonomie</td></tr>
+          <tr><td>7</td><td>Ajouter <code>enctype="multipart/form-data"</code> pour les fichiers</td><td>Obligatoire sinon envoi échoue</td></tr>
+          <tr><td>8</td><td>Limiter la longueur avec <code>minlength</code> et <code>maxlength</code></td><td>Prévention des abus</td></tr>
+          <tr><td>9</td><td>Utiliser <code>autocomplete</code> pour les champs standards</td><td>Gain de temps utilisateur</td></tr>
+          <tr><td>10</td><td>Valider côté client <em>et</em> côté serveur</td><td>La validation HTML5 est contournable</td></tr>
+        </tbody>
+      </table>
+
+      <h3>7.2 Pièges fréquents</h3>
+
+      <div class="warn-box">
+        <strong>⚠️ Piège 1 — Placeholder utilisé comme label</strong><br>
+        <code>&lt;input placeholder="Nom"&gt;</code> <strong>❌</strong> le texte disparaît à la saisie.<br>
+        <code>&lt;label for="n"&gt;Nom&lt;/label&gt;&lt;input id="n" placeholder="Votre nom"&gt;</code> <strong>✅</strong>
+      </div>
+
+      <div class="warn-box">
+        <strong>⚠️ Piège 2 — Boutons radio sans <code>name</code> commun</strong><br>
+        Si les boutons radio n'ont pas le même <code>name</code>, ils ne forment pas un groupe : on peut en cocher plusieurs.
+      </div>
+
+      <div class="warn-box">
+        <strong>⚠️ Piège 3 — Oublier <code>enctype</code> pour les fichiers</strong><br>
+        Sans <code>enctype="multipart/form-data"</code>, le fichier n'est jamais transmis.
+      </div>
+
+      <div class="warn-box">
+        <strong>⚠️ Piège 4 — Confondre <code>id</code> et <code>name</code></strong><br>
+        <code>id</code> sert au <code>label</code> (association visuelle), <code>name</code> sert au serveur (clé de la donnée envoyée).
+      </div>
+
+      <div class="info-box">
+        <strong>💡 Astuce pro :</strong> ouvrez toujours la console du navigateur (F12) pour observer
+        les données envoyées dans l'onglet <em>Network</em> lors de la soumission d'un formulaire.
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SECTION 8 · GLOSSAIRE DES ATTRIBUTS
+         ============================================================ -->
+    <div class="section" id="section8">
+      <h2>8. Glossaire des attributs de formulaire</h2>
+      <p>Référence rapide de tous les attributs vus dans ce chapitre.</p>
+
+      <table>
+        <thead>
+          <tr><th>Attribut</th><th>S'applique à</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>action</code></td><td><code>&lt;form&gt;</code></td><td>URL de destination</td></tr>
+          <tr><td><code>method</code></td><td><code>&lt;form&gt;</code></td><td>GET ou POST</td></tr>
+          <tr><td><code>enctype</code></td><td><code>&lt;form&gt;</code></td><td>Type d'encodage</td></tr>
+          <tr><td><code>name</code></td><td>tous</td><td>Nom de la donnée côté serveur</td></tr>
+          <tr><td><code>id</code></td><td>tous</td><td>Identifiant unique (associé au <code>for</code> du label)</td></tr>
+          <tr><td><code>type</code></td><td><code>&lt;input&gt;</code></td><td>text, email, password, number, date, file…</td></tr>
+          <tr><td><code>value</code></td><td>tous</td><td>Valeur par défaut</td></tr>
+          <tr><td><code>placeholder</code></td><td>input, textarea</td><td>Texte indicatif</td></tr>
+          <tr><td><code>required</code></td><td>tous</td><td>Champ obligatoire</td></tr>
+          <tr><td><code>pattern</code></td><td>input</td><td>Regex de validation</td></tr>
+          <tr><td><code>min</code>/<code>max</code></td><td>input number, date</td><td>Bornes</td></tr>
+          <tr><td><code>minlength</code>/<code>maxlength</code></td><td>input text, textarea</td><td>Longueur texte</td></tr>
+          <tr><td><code>step</code></td><td>number, range</td><td>Pas d'incrémentation</td></tr>
+          <tr><td><code>accept</code></td><td>input file</td><td>Types de fichiers acceptés</td></tr>
+          <tr><td><code>autocomplete</code></td><td>input</td><td>Suggestions navigateur</td></tr>
+          <tr><td><code>autofocus</code></td><td>input</td><td>Focus automatique</td></tr>
+          <tr><td><code>disabled</code></td><td>tous</td><td>Désactivé (non envoyé)</td></tr>
+          <tr><td><code>readonly</code></td><td>input, textarea</td><td>Lecture seule (envoyé)</td></tr>
+          <tr><td><code>multiple</code></td><td>file, select</td><td>Sélection multiple</td></tr>
+          <tr><td><code>rows</code>/<code>cols</code></td><td>textarea</td><td>Dimensions</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ============================================================
+         SECTION 9 · RESSOURCES COMPLÉMENTAIRES
+         ============================================================ -->
+    <div class="section" id="section9">
+      <h2>9. Ressources complémentaires</h2>
+
+      <h3>9.1 Documentation officielle</h3>
+      <ul>
+        <li><a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/form" target="_blank">MDN · &lt;form&gt;</a></li>
+        <li><a href="https://developer.mozilla.org/fr/docs/Web/HTML/Element/input" target="_blank">MDN · &lt;input&gt; et ses types</a></li>
+        <li><a href="https://html.spec.whatwg.org/multipage/forms.html" target="_blank">WHATWG · HTML Living Standard · Forms</a></li>
+        <li><a href="https://validator.w3.org/" target="_blank">Validateur W3C</a></li>
+      </ul>
+
+      <h3>9.2 Outils recommandés</h3>
+      <ul>
+        <li><strong>Regex101</strong> — tester les expressions régulières : <a href="https://regex101.com/" target="_blank">regex101.com</a></li>
+        <li><strong>Can I use</strong> — compatibilité navigateurs : <a href="https://caniuse.com/" target="_blank">caniuse.com</a></li>
+        <li><strong>WAVE</strong> — vérifier l'accessibilité : <a href="https://wave.webaim.org/" target="_blank">wave.webaim.org</a></li>
+        <li><strong>Formspree / Netlify Forms</strong> — backend sans serveur pour tester un formulaire</li>
+      </ul>
+
+      <h3>9.3 Pour aller plus loin</h3>
+      <ul>
+        <li>La validation côté serveur (PHP, Node.js, Python) : indispensable en production.</li>
+        <li>Les Web Components pour créer ses propres champs personnalisés.</li>
+        <li>La bibliothèque <code>Constraint Validation API</code> en JavaScript pour des messages personnalisés.</li>
+      </ul>
+    </div>
+
+    <!-- ============================================================
+         SECTION 10 · AUTO-ÉVALUATION
+         ============================================================ -->
+    <div class="section" id="section10">
+      <h2>10. Auto-évaluation</h2>
+      <p>Cochez les compétences que vous maîtrisez. Si une case reste vide, relisez la section correspondante.</p>
+
+      <table>
+        <thead>
+          <tr><th>Compétence</th><th>Section</th><th>Acquis ?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Je sais écrire une balise <code>&lt;form&gt;</code> avec ses attributs</td><td>1</td><td>☐</td></tr>
+          <tr><td>Je connais la différence entre GET et POST</td><td>1</td><td>☐</td></tr>
+          <tr><td>Je sais utiliser les types text, email, password, number, date, file</td><td>2</td><td>☐</td></tr>
+          <tr><td>Je sais créer une liste déroulante et des boutons radio</td><td>3</td><td>☐</td></tr>
+          <tr><td>Je sais utiliser required, pattern, min, max, placeholder</td><td>4</td><td>☐</td></tr>
+          <tr><td>Je sais associer un label à un champ</td><td>5</td><td>☐</td></tr>
+          <tr><td>Je sais structurer un formulaire avec fieldset et legend</td><td>5</td><td>☐</td></tr>
+          <tr><td>Je sais créer un formulaire valide W3C complet</td><td>Projet</td><td>☐</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ============================================================
+         QCM · 10 QUESTIONS
+         ============================================================ -->
+    <div class="section" id="qcm">
+      <h2>📝 QCM · 10 questions</h2>
+      <p>
+        Testez vos connaissances sur l'ensemble du chapitre. Chaque question comporte
+        <strong>une seule bonne réponse</strong>. La correction complète se trouve en bas
+        de cette section.
+      </p>
+
+      <div class="info-box">
+        <strong>🎯 Consigne :</strong> répondez aux 10 questions sans regarder la correction.
+        Puis vérifiez vos réponses et notez votre score sur 10.
+      </div>
+
+      <div class="qcm-item">
+        <p class="qcm-question"><strong>Q1.</strong> Quelle balise crée un formulaire HTML ?</p>
+        <ul class="qcm-options">
+          <li>A. <code>&lt;input&gt;</code></li>
+          <li>B. <code>&lt;form&gt;</code></li>
+          <li>C. <code>&lt;fieldset&gt;</code></li>
+          <li>D. <code>&lt;label&gt;</code></li>
+        </ul>
+      </div>
+
+      <div class="qcm-item">
+        <p class="qcm-question"><strong>Q2.</strong> Quel attribut définit la méthode d'envoi des données ?</p>
+        <ul class="qcm-options">
+          <li>A. <code>action</code></li>
+          <li>B. <code>method</code></li>
+          <li>C. <code>enctype</code></li>
+          <li>D. <code>target</code></li>
+        </ul>
+      </div>
+
+      <div class="qcm-item">
+        <p class="qcm-question"><strong>Q3.</strong> Quel type d'<code>&lt;input&gt;</code> affiche un sélecteur de date ?</p>
+        <ul class="qcm-options">
+          <li>A. <code>type="text"</code></li>
+          <li>B. <code>type="date"</code></li>
+          <li>C. <code>type="calendar"</code></li>
+          <li>D. <code>type="time"</code></li>
+        </ul>
+      </div>
+
+      <div class="qcm-item">
+        <p class="qcm-question"><strong>Q4.</strong> Quel attribut rend un champ obligatoire ?</p>
+        <ul class="qcm-options">
+          <li>A. <code>obligatory</code></li>
+          <li>B. <code>required</code></li>
+          <li>C. <code>mandatory</code></li>
+          <li>D. <code>needed</code></li>
+        </ul>
+      </div>
+
+      <div class="qcm-item">
+        <p class="qcm-question"><strong>Q5.</strong> Quelle balise crée une liste déroulante ?</p>
+        <ul class="qcm-options">
+          <li>A. <code>&lt;dropdown&gt;</code></li>
+          <li>B. <code>&lt;select&gt;</code></li>
+          <li>C. <code>&lt;list&gt;</code></li>
+          <li>D. <code>&lt;option&gt;</code></li>
+        </ul>
+      </div>
+
+      <div class="qcm-item">
+        <p class="qcm-question"><strong>Q6.</strong> Quelle est la différence entre radio et checkbox ?</p>
+        <ul class="qcm-options">
+          <li>A. Aucune, ils sont identiques</li>
+          <li>B. Radio = un seul choix, checkbox = plusieurs choix</li>
+          <li>C. Checkbox = un seul choix, radio = plusieurs choix</li>
+          <li>D. Radio s'utilise seulement sur les images</li>
+        </ul>
+      </div>
+
+      <div class="qcm-item">
+        <p class="qcm-question"><strong>Q7.</strong> Quel attribut associe un label à un champ ?</p>
+        <ul class="qcm-options">
+          <li>A. <code>name</code></li>
+          <li>B. <code>id</code> sur le champ et <code>for</code> sur le label</li>
+          <li>C. <code>link</code></li>
+          <li>D. <code>bind</code></li>
+        </ul>
+      </div>
+
+      <div class="qcm-item">
+        <p class="qcm-question"><strong>Q8.</strong> Quelle balise regroupe des champs apparentés ?</p>
+        <ul class="qcm-options">
+          <li>A. <code>&lt;group&gt;</code></li>
+          <li>B. <code>&lt;fieldset&gt;</code></li>
+          <li>C. <code>&lt;section&gt;</code></li>
+          <li>D. <code>&lt;div&gt;</code></li>
+        </ul>
+      </div>
+
+      <div class="qcm-item">
+        <p class="qcm-question"><strong>Q9.</strong> Quel attribut définit une expression régulière de validation ?</p>
+        <ul class="qcm-options">
+          <li>A. <code>regex</code></li>
+          <li>B. <code>pattern</code></li>
+          <li>C. <code>validate</code></li>
+          <li>D. <code>match</code></li>
+        </ul>
+      </div>
+
+      <div class="qcm-item">
+        <p class="qcm-question"><strong>Q10.</strong> Quel attribut affiche un texte indicatif dans un champ ?</p>
+        <ul class="qcm-options">
+          <li>A. <code>value</code></li>
+          <li>B. <code>placeholder</code></li>
+          <li>C. <code>hint</code></li>
+          <li>D. <code>text</code></li>
+        </ul>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button class="btn-solution" onclick="toggleCorrection(this)" style="padding: 0.7rem 2rem; font-size: 0.95rem;">
+          👁️ Afficher la correction complète
+        </button>
+      </div>
+
+      <div id="qcm-correction" class="solution-content" style="margin-top: 1.5rem;">
+        <strong>✅ Correction :</strong><br><br>
+        <strong>Q1.</strong> <strong>B</strong> — <code>&lt;form&gt;</code><br>
+        <strong>Q2.</strong> <strong>B</strong> — <code>method</code><br>
+        <strong>Q3.</strong> <strong>B</strong> — <code>type="date"</code><br>
+        <strong>Q4.</strong> <strong>B</strong> — <code>required</code><br>
+        <strong>Q5.</strong> <strong>B</strong> — <code>&lt;select&gt;</code><br>
+        <strong>Q6.</strong> <strong>B</strong> — Radio = un seul choix, checkbox = plusieurs choix<br>
+        <strong>Q7.</strong> <strong>B</strong> — <code>id</code> et <code>for</code><br>
+        <strong>Q8.</strong> <strong>B</strong> — <code>&lt;fieldset&gt;</code><br>
+        <strong>Q9.</strong> <strong>B</strong> — <code>pattern</code><br>
+        <strong>Q10.</strong> <strong>B</strong> — <code>placeholder</code>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         QUIZ INTERACTIF SÉQUENTIEL
+         ============================================================ -->
+    <div class="section" id="quiz">
+      <h2>🎮 Quiz interactif</h2>
+      <p>
+        Répondez aux <strong>10 questions</strong> une par une.
+        Après chaque réponse, vous recevrez un <strong>feedback immédiat</strong>
+        avec une <strong>explication pédagogique</strong>.
+        Votre score final s'affiche à la fin.
+      </p>
+
+      <div id="quiz-app">
+        <div class="quiz-progress"><div class="quiz-progress-bar" id="quiz-bar"></div></div>
+        <div class="quiz-progress-text" id="quiz-progress-text">Question 1 / 10</div>
+        <div id="quiz-card-container"></div>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button class="btn-solution" onclick="restartQuiz()"
+                style="padding: 0.7rem 2rem; font-size: 0.95rem; background:#6c757d; border-color:#5a6268;">
+          🔄 Recommencer le quiz
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         PROJET FINAL · FORMULAIRE D'INSCRIPTION
+         ============================================================ -->
+    <div class="section" id="projet">
+      <h2>🏗️ Projet final · Formulaire d'inscription complet</h2>
+
+      <p>
+        Ce projet mobilise <strong>toutes les notions du chapitre</strong> : structure HTML5,
+        champs de saisie variés, validation, accessibilité et bonnes pratiques W3C.
+        Il s'agit de créer un <strong>formulaire d'inscription à une formation</strong>,
+        complet et valide.
+      </p>
+
+      <div class="info-box">
+        <strong>🎯 Objectif :</strong> produire un formulaire HTML <strong>valide W3C</strong>,
+        accessible, avec validation native et tous les types de champs essentiels.
+      </div>
+
+      <h3>📋 Cahier des charges</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Élément</th>
+            <th>Exigence</th>
+            <th>Notions mobilisées</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Formulaire</strong></td><td>Action vers traitement.php, méthode POST</td><td>form, action, method</td></tr>
+          <tr><td><strong>Informations personnelles</strong></td><td>Nom, prénom, email, téléphone, date de naissance</td><td>fieldset, legend, input, label</td></tr>
+          <tr><td><strong>Compte</strong></td><td>Mot de passe + confirmation (pattern)</td><td>input type="password", pattern, required</td></tr>
+          <tr><td><strong>Formation</strong></td><td>Liste déroulante des filières</td><td>select, option</td></tr>
+          <tr><td><strong>Niveau</strong></td><td>Boutons radio (Bac, Bac+2, Bac+3, Bac+5)</td><td>input type="radio"</td></tr>
+          <tr><td><strong>Centres d'intérêt</strong></td><td>Cases à cocher (au moins 4)</td><td>input type="checkbox"</td></tr>
+          <tr><td><strong>Motivation</strong></td><td>Zone de texte (min 20 caractères)</td><td>textarea, minlength</td></tr>
+          <tr><td><strong>CV</strong></td><td>Upload de fichier (PDF uniquement)</td><td>input type="file", accept</td></tr>
+          <tr><td><strong>Conditions</strong></td><td>Case à cocher obligatoire</td><td>input type="checkbox", required</td></tr>
+          <tr><td><strong>Boutons</strong></td><td>Envoyer + Réinitialiser</td><td>input type="submit", input type="reset"</td></tr>
+        </tbody>
+      </table>
+
+      <h3>✅ Étapes recommandées</h3>
+      <ol>
+        <li><strong>Structure HTML5</strong> : créez le squelette avec <code>&lt;!DOCTYPE html&gt;</code>, <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code>.</li>
+        <li><strong>Formulaire</strong> : ajoutez <code>&lt;form action="traitement.php" method="post"&gt;</code>.</li>
+        <li><strong>Fieldsets</strong> : organisez les champs en groupes avec <code>&lt;fieldset&gt;</code> et <code>&lt;legend&gt;</code>.</li>
+        <li><strong>Champs personnels</strong> : nom, prénom, email, téléphone, date de naissance.</li>
+        <li><strong>Compte</strong> : mot de passe + confirmation avec <code>pattern</code>.</li>
+        <li><strong>Formation</strong> : liste déroulante des filières.</li>
+        <li><strong>Niveau</strong> : boutons radio (même <code>name</code>).</li>
+        <li><strong>Centres d'intérêt</strong> : cases à cocher.</li>
+        <li><strong>Motivation</strong> : zone de texte avec <code>minlength="20"</code>.</li>
+        <li><strong>CV</strong> : upload de fichier avec <code>accept=".pdf"</code> et <code>enctype="multipart/form-data"</code>.</li>
+        <li><strong>Conditions</strong> : case à cocher obligatoire.</li>
+        <li><strong>Boutons</strong> : submit et reset.</li>
+        <li><strong>Validation</strong> : testez sur <a href="https://validator.w3.org/" target="_blank">validator.w3.org</a>.</li>
+      </ol>
+
+      <h3>📐 Maquette indicative</h3>
+
+      <div class="code-demo stacked">
+        <div class="code-demo-section">
+          <div class="code-demo-header">
+            <span class="label">👁️ Aperçu du rendu attendu</span>
+          </div>
+          <div class="code-demo-render" style="padding: 0; background: #f6faff;">
+            <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.1); padding: 25px;">
+              <h2 style="color: #1e3a5f; margin-bottom: 15px;">Inscription à la formation</h2>
+              <fieldset style="border: 1px solid #b8cfe5; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                <legend style="font-weight: bold; color: #1e3a5f; padding: 0 8px;">Informations personnelles</legend>
+                <label style="display:block; font-weight:600; color:#1e3a5f; margin-top:8px;">Nom :</label>
+                <input type="text" placeholder="Votre nom" style="width:100%; padding:8px; border:1px solid #b8cfe5; border-radius:6px;">
+                <label style="display:block; font-weight:600; color:#1e3a5f; margin-top:8px;">Email :</label>
+                <input type="email" placeholder="vous@exemple.com" style="width:100%; padding:8px; border:1px solid #b8cfe5; border-radius:6px;">
+              </fieldset>
+              <fieldset style="border: 1px solid #b8cfe5; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                <legend style="font-weight: bold; color: #1e3a5f; padding: 0 8px;">Formation</legend>
+                <label style="display:block; font-weight:600; color:#1e3a5f;">Filière :</label>
+                <select style="width:100%; padding:8px; border:1px solid #b8cfe5; border-radius:6px;">
+                  <option>Développement Digital</option>
+                  <option>Infrastructure Digitale</option>
+                  <option>Design Graphique</option>
+                </select>
+                <p style="margin-top:10px; font-weight:600; color:#1e3a5f;">Niveau :</p>
+                <label style="display:block; margin:4px 0;"><input type="radio" name="niveau"> Bac</label>
+                <label style="display:block; margin:4px 0;"><input type="radio" name="niveau"> Bac+2</label>
+                <label style="display:block; margin:4px 0;"><input type="radio" name="niveau"> Bac+3</label>
+              </fieldset>
+              <button style="background:#1e3a5f; color:white; border:none; padding:10px 30px; border-radius:30px; font-weight:600; cursor:pointer;">Envoyer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3>📊 Grille d'évaluation (sur 20)</h3>
+
+      <table>
+        <thead>
+          <tr><th>Critère</th><th>Points</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Respect de la structure HTML5 (DOCTYPE, html, head, body)</td><td>2 pts</td></tr>
+          <tr><td>Balise &lt;form&gt; correcte (action, method, enctype)</td><td>3 pts</td></tr>
+          <tr><td>Utilisation de tous les types de champs demandés</td><td>5 pts</td></tr>
+          <tr><td>Association correcte des labels (for/id)</td><td>3 pts</td></tr>
+          <tr><td>Validation HTML5 (required, pattern, minlength)</td><td>3 pts</td></tr>
+          <tr><td>Structure avec fieldset et legend</td><td>2 pts</td></tr>
+          <tr><td>Accessibilité et bonnes pratiques W3C</td><td>2 pts</td></tr>
+        </tbody>
+      </table>
+
+      <div class="warn-box">
+        <strong>⚠️ Livrable attendu :</strong> un dossier compressé contenant
+        <code>inscription.html</code> et une capture d'écran du validateur W3C
+        confirmant la validité du code.
+      </div>
+    </div>
+
+    <!-- ============================================================
+         FIN DU CHAPITRE
+         ============================================================ -->
+    <div class="section" style="text-align: center; background: linear-gradient(135deg, #eef4fa, #dbe7f3); border-top-color: #1e3a5f;">
+      <h2 style="border-bottom: none; color: #1e3a5f; font-size: 1.8rem;">🎓 Fin du chapitre 4</h2>
+      <p style="color: #1e3a5f; font-size: 1.05rem; margin-bottom: 1rem;">
+        Vous maîtrisez maintenant <strong>les formulaires HTML5</strong> !
+        Vous pouvez créer des formulaires complets, accessibles et validés.
+      </p>
+      <div class="info-box" style="text-align: left; max-width: 600px; margin: 1.5rem auto;">
+        <strong>📚 Ce que vous avez appris :</strong><br>
+        ✅ L'anatomie d'un formulaire et ses attributs<br>
+        ✅ Les champs de saisie essentiels : text, email, password, number, date, file<br>
+        ✅ Les listes déroulantes, boutons radio, cases à cocher et zones de texte<br>
+        ✅ La validation HTML5 : required, pattern, min, max, placeholder<br>
+        ✅ La structure avec fieldset et legend<br>
+        ✅ L'accessibilité avec label et aria-*<br>
+        ✅ Les bonnes pratiques et pièges à éviter<br>
+        ✅ La création d'un formulaire d'inscription complet et valide
+      </div>
+      <p style="color: #4a6a8f; font-style: italic; margin-top: 1.5rem;">
+        👉 Prochaine étape : le <strong>Chapitre 5 · Mise en forme CSS</strong>
+      </p>
+      <p style="color: #4a6a8f; font-size: 0.85rem; margin-top: 1rem;">
+        <strong>Module M104</strong> · Développement Digital · ISMO OFPPT<br>
+        <strong>Formateur :</strong> KELLOUCH Mahdi
+      </p>
+    </div>
+
+    <!-- PIED DE PAGE -->
+    <footer>
+      <p>
+        <strong>OFPPT</strong> · ISMO<br>
+        Support pédagogique créé par <strong>KELLOUCH Mahdi</strong> · Année 2025 – 2027
+      </p>
+      <p style="margin-top: 0.5rem;">
+        Module M104 · Développement Digital · Chapitre 4
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <script>
+    /* ============================================================
+       ACTIVITÉS COLLAPSIBLES
+       ============================================================ */
+    function toggleCollab(btn) {
+      const box = btn.closest('.collab-box');
+      const content = box.querySelector('.collab-content');
+      content.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+
+    /* ============================================================
+       TIMER + RÉVÉLATION SOLUTION
+       ============================================================ */
+    function startTimer(btn, duration) {
+      const box = btn.closest('.collab-content');
+      const timerDisplay = box.querySelector('.timer-display');
+      const timerValue = box.querySelector('.timer-value');
+      const solution = box.querySelector('.solution-content');
+
+      let remaining = duration;
+      btn.disabled = true;
+      btn.textContent = '⏳ Temps en cours…';
+      timerDisplay.style.display = 'inline-flex';
+      timerDisplay.classList.add('counting');
+      timerDisplay.classList.remove('done');
+      timerValue.textContent = remaining;
+
+      const interval = setInterval(() => {
+        remaining--;
+        timerValue.textContent = remaining;
+        if (remaining <= 0) {
+          clearInterval(interval);
+          timerDisplay.classList.remove('counting');
+          timerDisplay.classList.add('done');
+          timerDisplay.innerHTML = '✅ Temps écoulé';
+          btn.textContent = '👁️ Afficher la solution';
+          btn.disabled = false;
+          btn.onclick = () => {
+            solution.classList.add('open');
+            btn.disabled = true;
+            btn.textContent = '✔ Solution affichée';
+          };
+        }
+      }, 1000);
+    }
+
+    /* ============================================================
+       TOUT DÉPLIER / TOUT REPLIER
+       ============================================================ */
+    function expandAll() {
+      document.querySelectorAll('.collab-box').forEach(box => {
+        box.querySelector('.collab-content').classList.add('open');
+        box.querySelector('.collab-toggle').classList.add('open');
+      });
+    }
+    function collapseAll() {
+      document.querySelectorAll('.collab-box').forEach(box => {
+        box.querySelector('.collab-content').classList.remove('open');
+        box.querySelector('.collab-toggle').classList.remove('open');
+      });
+    }
+
+    /* ============================================================
+       QCM · AFFICHER / MASQUER LA CORRECTION
+       ============================================================ */
+    function toggleCorrection(btn) {
+      const correction = document.getElementById('qcm-correction');
+      correction.classList.toggle('open');
+      if (correction.classList.contains('open')) {
+        btn.textContent = '🙈 Masquer la correction';
+      } else {
+        btn.textContent = '👁️ Afficher la correction complète';
+      }
+    }
+
+    /* ============================================================
+       QUIZ SÉQUENTIEL · QUESTIONS DIFFÉRENTES DU QCM
+       ============================================================ */
+    const quizSequentialData = [
+      {
+        question: "Quel attribut de &lt;form&gt; faut-il ajouter pour envoyer un fichier ?",
+        options: [
+          "method=\"get\"",
+          "enctype=\"multipart/form-data\"",
+          "target=\"_blank\"",
+          "novalidate"
+        ],
+        correct: 1,
+        explanation: "L'attribut enctype=\"multipart/form-data\" est obligatoire pour transmettre des fichiers. Sans lui, seul le nom du fichier est envoyé, pas son contenu."
+      },
+      {
+        question: "Que se passe-t-il si deux boutons radio partagent le même attribut name ?",
+        options: [
+          "Ils peuvent être cochés simultanément",
+          "Aucun effet, name n'a pas d'importance",
+          "Un seul peut être coché à la fois",
+          "Le navigateur refuse le formulaire"
+        ],
+        correct: 2,
+        explanation: "Les boutons radio d'un même groupe (même name) sont mutuellement exclusifs : en cocher un décoche automatiquement les autres. C'est ce qui les distingue des cases à cocher."
+      },
+      {
+        question: "Quelle est la différence entre disabled et readonly ?",
+        options: [
+          "disabled empêche l'envoi de la donnée, readonly l'autorise",
+          "readonly empêche l'envoi, disabled l'autorise",
+           "Aucune, ce sont des synonymes",
+          "Les deux empêchent l'envoi"
+        ],
+        correct: 0,
+        explanation: "Un champ disabled est grisé et sa valeur N'EST PAS envoyée au serveur. Un champ readonly est en lecture seule mais sa valeur EST envoyée. À ne pas confondre !"
+      },
+      {
+        question: "Quel attribut permet de proposer à l'utilisateur des valeurs déjà saisies précédemment ?",
+        options: [
+          "autocomplete",
+          "suggest",
+          "prefill",
+          "value"
+        ],
+        correct: 0,
+        explanation: "autocomplete permet au navigateur de suggérer des valeurs déjà saisies (email, nom, adresse…). On peut utiliser autocomplete=\"off\" pour désactiver ou des valeurs normalisées comme autocomplete=\"email\"."
+      },
+      {
+        question: "Quelle balise regroupe un ensemble de champs avec un titre ?",
+        options: [
+          "&lt;div&gt; et &lt;span&gt;",
+          "&lt;section&gt; et &lt;h3&gt;",
+          "&lt;group&gt; et &lt;title&gt;",
+          "&lt;fieldset&gt; et &lt;legend&gt;"          
+        ],
+        correct: 3,
+        explanation: "&lt;fieldset&gt; crée un cadre autour d'un groupe de champs et &lt;legend&gt; lui donne un titre. C'est la méthode standard HTML pour grouper logiquement des champs apparentés (ex : informations personnelles)."
+      },
+      {
+        question: "Quel type d'input ouvre un sélecteur de couleur ?",
+        options: [
+          "type=\"palette\"",
+          "type=\"picker\"",
+          "type=\"color\"",
+          "type=\"rgb\""
+        ],
+        correct: 2,
+        explanation: "type=\"color\" affiche un sélecteur de couleur natif du navigateur. La valeur est retournée au format hexadécimal (#RRGGBB). C'est un des nouveaux types HTML5."
+      },
+      {
+        question: "Que fait l'attribut novalidate sur un &lt;form&gt; ?",
+        options: [
+          "Il valide uniquement les champs required",
+          "Il désactive la validation HTML5 native",
+          "Il empêche l'envoi du formulaire",
+          "Il supprime les placeholders"
+        ],
+        correct: 1,
+        explanation: "novalidate désactive la validation HTML5 côté navigateur. Utile lorsqu'on veut gérer la validation entièrement en JavaScript pour un contrôle total de l'expérience utilisateur."
+      },
+      {
+        question: "Quel attribut limite le nombre de caractères saisis dans un &lt;textarea&gt; ?",
+        options: [
+          "maxlength",
+          "maxsize",
+          "limit",
+          "size"
+        ],
+        correct: 0,
+        explanation: "maxlength limite le nombre de caractères qu'un utilisateur peut saisir, aussi bien dans &lt;input type=\"text\"&gt; que dans &lt;textarea&gt;. minlength impose un minimum (utile pour les mots de passe)."
+      },
+      {
+        question: "Quel type d'input est le plus adapté pour un numéro de téléphone ?",
+        options: [
+          "type=\"number\"",
+          "type=\"text\"",
+          "type=\"tel\"",
+          "type=\"phone\""
+        ],
+        correct: 2,
+        explanation: "type=\"tel\" est sémantiquement correct pour un numéro de téléphone : il déclenche le clavier numérique sur mobile sans imposer de validation stricte (car les formats varient selon les pays). On combine avec pattern pour valider."
+      },
+      {
+        question: "Quelle est la meilleure façon d'associer un &lt;label&gt; à un champ ?",
+        options: [
+          "Utiliser une classe CSS commune",
+          "Utiliser l'attribut name identique",
+          "Placer le label juste au-dessus du champ",
+          "Utiliser for sur le label et id sur le champ"
+        ],
+        correct: 3,
+        explanation: "L'association for/id est la méthode standard : &lt;label for=\"email\"&gt;Email&lt;/label&gt;&lt;input id=\"email\"&gt;. Le clic sur le label place automatiquement le focus dans le champ, ce qui améliore l'ergonomie et l'accessibilité (lecteurs d'écran)."
+      }
+    ];
+
+    let currentQuizIndex = 0;
+    let quizScore = 0;
+    let quizAnswers = [];
+
+    /* ------------------------------------------------------------
+       RENDU DE LA QUESTION COURANTE
+       ------------------------------------------------------------ */
+    function renderQuizQuestion() {
+      const container = document.getElementById('quiz-card-container');
+      const bar = document.getElementById('quiz-bar');
+      const progressText = document.getElementById('quiz-progress-text');
+      if (!container || !bar) return;
+
+      const total = quizSequentialData.length;
+      const progressPercent = (currentQuizIndex / total) * 100;
+      bar.style.width = progressPercent + '%';
+      progressText.textContent = `Question ${Math.min(currentQuizIndex + 1, total)} / ${total}`;
+
+      if (currentQuizIndex >= total) {
+        bar.style.width = '100%';
+        progressText.textContent = `Quiz terminé · ${total} / ${total}`;
+        renderQuizFinal();
+        return;
+      }
+
+      const q = quizSequentialData[currentQuizIndex];
+      let html = `
+        <div class="quiz-card">
+          <div class="quiz-question-title">Q${currentQuizIndex + 1}. ${q.question}</div>
+          <div class="quiz-options" id="quiz-options">
+      `;
+      q.options.forEach((opt, j) => {
+        html += `<button class="quiz-btn-option" data-index="${j}">${String.fromCharCode(65 + j)}. ${opt}</button>`;
+      });
+      html += `</div><div id="quiz-feedback-zone"></div></div>`;
+
+      container.innerHTML = html;
+
+      container.querySelectorAll('.quiz-btn-option').forEach(btn => {
+        btn.addEventListener('click', () => handleQuizAnswer(parseInt(btn.dataset.index)));
+      });
+    }
+
+    /* ------------------------------------------------------------
+       TRAITEMENT DE LA RÉPONSE
+       ------------------------------------------------------------ */
+    function handleQuizAnswer(selectedIndex) {
+      const q = quizSequentialData[currentQuizIndex];
+      const container = document.getElementById('quiz-card-container');
+      const options = container.querySelectorAll('.quiz-btn-option');
+      const feedbackZone = document.getElementById('quiz-feedback-zone');
+
+      options.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === q.correct) btn.classList.add('correct');
+        if (idx === selectedIndex && idx !== q.correct) btn.classList.add('incorrect');
+      });
+
+      const isCorrect = selectedIndex === q.correct;
+      if (isCorrect) quizScore++;
+
+      quizAnswers.push({
+        question: q.question,
+        correct: isCorrect,
+        chosen: q.options[selectedIndex],
+        expected: q.options[q.correct]
+      });
+
+      const feedbackClass = isCorrect ? 'correct' : 'incorrect';
+      const feedbackTitle = isCorrect
+        ? '✅ Bonne réponse !'
+        : `❌ Mauvaise réponse. La bonne réponse était : <strong>${q.options[q.correct]}</strong>`;
+
+      feedbackZone.innerHTML = `
+        <div class="quiz-feedback ${feedbackClass}">
+          <strong>${feedbackTitle}</strong>
+          <div class="explanation">💡 ${q.explanation}</div>
+        </div>
+        <div class="quiz-next-bar">
+          <button class="quiz-btn-next" onclick="nextQuizQuestion()">
+            ${currentQuizIndex === quizSequentialData.length - 1 ? '🏁 Voir mon score' : 'Question suivante →'}
+          </button>
+        </div>
+      `;
+    }
+
+    /* ------------------------------------------------------------
+       PASSER À LA QUESTION SUIVANTE
+       ------------------------------------------------------------ */
+    function nextQuizQuestion() {
+      currentQuizIndex++;
+      renderQuizQuestion();
+    }
+
+    /* ------------------------------------------------------------
+       ÉCRAN DE RÉSULTATS FINAUX
+       ------------------------------------------------------------ */
+    function renderQuizFinal() {
+      const total = quizSequentialData.length;
+      const pourcentage = Math.round((quizScore / total) * 100);
+
+      let emoji = '', message = '', bgColor = '';
+      if (pourcentage === 100) {
+        emoji = '🏆'; message = 'Score parfait ! Vous maîtrisez les formulaires HTML5.'; bgColor = '#e8f5ec';
+      } else if (pourcentage >= 80) {
+        emoji = '🌟'; message = 'Très bien ! Quelques détails à peaufiner.'; bgColor = '#e8f5ec';
+      } else if (pourcentage >= 60) {
+        emoji = '👍'; message = 'Bien ! Relisez les sections où vous avez échoué.'; bgColor = '#fff8e1';
+      } else if (pourcentage >= 40) {
+        emoji = '📚'; message = 'À revoir. Reprenez les sections 1 à 5.'; bgColor = '#fff8e1';
+      } else {
+        emoji = '💪'; message = 'Courage ! Relisez le chapitre depuis le début.'; bgColor = '#ffe5e5';
+      }
+
+      let recapHtml = '<div class="recap"><strong>📋 Récapitulatif :</strong>';
+      quizAnswers.forEach((a, i) => {
+        recapHtml += `
+          <div class="recap-item">
+            <span class="${a.correct ? 'ok' : 'ko'}">${a.correct ? '✅' : '❌'}</span>
+            <span><strong>Q${i + 1}.</strong> ${a.question}</span>
+          </div>
+        `;
+      });
+      recapHtml += '</div>';
+
+      document.getElementById('quiz-card-container').innerHTML = `
+        <div class="quiz-final" style="background:${bgColor};">
+          <div class="emoji">${emoji}</div>
+          <div class="score">${quizScore} / ${total}</div>
+          <div class="message">${message}</div>
+          <div style="font-size:0.9rem; color:#4a6a8f;">Score : ${pourcentage}%</div>
+          ${recapHtml}
+        </div>
+      `;
+    }
+
+    /* ------------------------------------------------------------
+       REDÉMARRER LE QUIZ
+       ------------------------------------------------------------ */
+    function restartQuiz() {
+      currentQuizIndex = 0;
+      quizScore = 0;
+      quizAnswers = [];
+      document.getElementById('quiz-bar').style.width = '0%';
+      renderQuizQuestion();
+      document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ------------------------------------------------------------
+       INITIALISATION
+       ------------------------------------------------------------ */
+    document.addEventListener('DOMContentLoaded', () => {
+      renderQuizQuestion();
+    });
+  </script>
+
+  <!-- Prism.js · Coloration syntaxique (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-clike.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+
+</body>
+</html>

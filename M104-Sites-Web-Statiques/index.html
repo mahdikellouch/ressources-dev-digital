@@ -3,301 +3,413 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>M104 · Développer des sites web statiques · OFPPT</title>
+  <title>M104 · Développer des sites web statiques · ISMO OFPPT</title>
   <style>
-
+    /* ============================================================
+       RESET & BASE — charte du Chapitre 4
+       ============================================================ */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: 'Segoe UI', Calibri, Roboto, system-ui, sans-serif;
-      background: #eaf3ec;
-      color: #143522;
+      background: #eef4fa;
+      color: #1a2d45;
       line-height: 1.6;
       padding: 2rem 1rem;
-      min-height: 100vh;
     }
     .container { max-width: 1100px; margin: 0 auto; }
 
+    /* ============================================================
+       EN-TÊTE
+       ============================================================ */
     .page-header {
       background: white;
-      border-radius: 20px;
-      padding: 2rem;
+      border-radius: 24px;
+      padding: 2.5rem;
       margin-bottom: 2rem;
-      border-left: 6px solid #2e8b57;
-      box-shadow: 0 6px 20px rgba(20, 50, 30, 0.08);
+      border-left: 8px solid #2c5282;
+      box-shadow: 0 10px 30px rgba(30, 58, 95, 0.08);
     }
     .badge {
       display: inline-block;
-      background: #e6f5eb;
-      color: #1d5e36;
-      padding: 0.3rem 1rem;
+      background: #dbe7f3;
+      color: #1e3a5f;
+      padding: 0.3rem 1.2rem;
       border-radius: 30px;
       font-size: 0.85rem;
       font-weight: 700;
-      margin-bottom: 0.8rem;
-      letter-spacing: 0.5px;
-    }
-    .page-header h1 {
-      font-size: 2rem;
-      color: #144a26;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.3px;
-      line-height: 1.2;
-    }
-    .page-header .sous-titre {
-      color: #3f6b4f;
-      font-style: italic;
-      font-size: 1rem;
-    }
-    .meta-info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-top: 0.8rem;
-      font-size: 0.85rem;
-    }
-    .meta-info span {
-      background: #f1faf4;
-      padding: 0.2rem 0.9rem;
-      border-radius: 20px;
-      color: #1a5e33;
-      font-weight: 500;
-    }
-
-    .section {
-      background: white;
-      border-radius: 20px;
-      padding: 1.8rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 6px 20px rgba(20, 50, 30, 0.06);
-      border-top: 3px solid #d4ecd9;
-    }
-    .section h2 {
-      font-size: 1.4rem;
-      color: #1d5e36;
-      margin-bottom: 0.3rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid #d4ecd9;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .section .section-desc {
-      font-size: 0.9rem;
-      color: #3f6b4f;
-      font-style: italic;
+      letter-spacing: 1px;
       margin-bottom: 1rem;
     }
-    .section ul {
-      list-style: none;
-      padding-left: 0;
+    .page-header h1 {
+      font-size: 2.4rem;
+      color: #1e3a5f;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
     }
+    .page-header .sous-titre {
+      font-size: 1.1rem;
+      color: #4a6a8f;
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+    .meta-info {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem;
+    }
+    .meta-info span {
+      background: #eef4fa;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      color: #1e3a5f;
+      font-weight: 500;
+      font-size: 0.85rem;
+    }
+
+    /* ============================================================
+       SECTIONS
+       ============================================================ */
+    .section {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 6px 20px rgba(30, 58, 95, 0.06);
+      border-top: 4px solid #dbe7f3;
+    }
+    .section h2 {
+      font-size: 1.6rem;
+      color: #1e3a5f;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #dbe7f3;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .section .section-desc {
+      font-size: 0.92rem;
+      color: #4a6a8f;
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+
+    /* ============================================================
+       LISTES DE FICHIERS
+       ============================================================ */
+    .section ul { list-style: none; padding-left: 0; }
     .section li {
-      padding: 0.7rem 0;
-      border-bottom: 1px solid #f1faf4;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eef4fa;
+      display: flex; align-items: center; gap: 0.6rem;
     }
     .section li:last-child { border-bottom: none; }
+
     .section a {
-      color: #1d6e3f;
+      color: #1e3a5f;
       text-decoration: none;
       font-weight: 600;
       flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: color 0.15s;
+      display: flex; align-items: center; gap: 0.55rem;
+      transition: color 0.15s, transform 0.15s;
     }
     .section a:hover {
-      color: #0f542f;
+      color: #2c5282;
       text-decoration: underline;
+      transform: translateX(4px);
     }
-    .section a::before {
-      content: "📄";
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
-    .section a.dossier::before { content: "📁"; }
-    .section a.pdf::before { content: "📕"; }
+    .section a::before { content: "📄"; font-size: 1rem; opacity: 0.85; }
     .section a.html::before { content: "🌐"; }
-    .section a.docx::before { content: "📘"; }
+    .section a.pdf::before  { content: "📕"; }
     .section a.pptx::before { content: "📊"; }
-    .section a.sql::before { content: "🗃️"; }
-    .section a.zip::before { content: "📦"; }
-    .section a.js::before { content: "⚡"; }
-    .section a.css::before { content: "🎨"; }
+    .section a.docx::before { content: "📘"; }
+    .section a.zip::before  { content: "📦"; }
+    .section a.quiz::before { content: "🎮"; }
+    .section a.qcm::before  { content: "📝"; }
 
     .file-size {
       font-size: 0.75rem;
-      color: #7aae8b;
+      color: #7a94b3;
       margin-left: auto;
       white-space: nowrap;
+      background: #eef4fa;
+      padding: 0.15rem 0.7rem;
+      border-radius: 20px;
     }
     .empty-section {
-      color: #7aae8b;
+      color: #9bb0c8;
       font-style: italic;
       font-size: 0.9rem;
       padding: 0.5rem 0;
     }
 
+    /* ============================================================
+       SOMMAIRE DU CHAPITRE 4 (raccourcis)
+       ============================================================ */
+    .chapter-toc {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .toc-item {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding: 0.8rem 1rem;
+      background: #f6faff;
+      border-left: 4px solid #2c5282;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #1e3a5f;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.15s;
+    }
+    .toc-item:hover {
+      background: #eef4fa;
+      transform: translateX(4px);
+      text-decoration: none;
+    }
+    .toc-item .num {
+      background: #1e3a5f;
+      color: white;
+      width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .toc-item .num.gold { background: #d97706; }
+
+    /* ============================================================
+       BOUTON RETOUR
+       ============================================================ */
     .back {
       display: inline-block;
       margin-top: 1rem;
-      color: #1d6e3f;
+      color: #1e3a5f;
       text-decoration: none;
       font-weight: 600;
-      padding: 0.5rem 1.2rem;
+      padding: 0.5rem 1.4rem;
       border-radius: 30px;
-      background: #f1faf4;
+      background: #eef4fa;
+      border: 1px solid #b8cfe5;
       transition: 0.15s;
     }
     .back:hover {
-      background: #d4ecd9;
+      background: #dbe7f3;
       transform: translateX(-3px);
     }
 
+    /* ============================================================
+       PIED DE PAGE
+       ============================================================ */
     footer {
       text-align: center;
       margin-top: 3rem;
       padding-top: 1.5rem;
-      border-top: 1px solid #cae0d0;
+      border-top: 1px solid #b8cfe5;
       font-size: 0.85rem;
-      color: #3f6b4f;
+      color: #4a6a8f;
     }
-    footer a { color: #1d5e36; text-decoration: none; font-weight: 600; }
+    footer a { color: #1e3a5f; text-decoration: none; font-weight: 600; }
     footer a:hover { text-decoration: underline; }
 
-    .modules-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .section { padding: 1.3rem; }
+      .page-header { padding: 1.5rem; }
+      .page-header h1 { font-size: 1.6rem; }
+      .section h2 { font-size: 1.3rem; }
     }
-    .module-card {
-      background: white;
-      border-radius: 20px;
-      padding: 1.8rem;
-      box-shadow: 0 6px 20px rgba(20, 50, 30, 0.08);
-      border-left: 5px solid #2e8b57;
-      transition: transform 0.2s, box-shadow 0.2s;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-    }
-    .module-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(20, 50, 30, 0.15);
-    }
-    .module-card .icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    .module-card .code {
-      display: inline-block;
-      background: #e6f5eb;
-      color: #1d5e36;
-      padding: 0.2rem 0.9rem;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      margin-bottom: 0.6rem;
-      width: fit-content;
-    }
-    .module-card h2 {
-      font-size: 1.3rem;
-      color: #144a26;
-      margin-bottom: 0.5rem;
-      line-height: 1.3;
-    }
-    .module-card p {
-      font-size: 0.92rem;
-      color: #3f6b4f;
-      line-height: 1.5;
-      flex: 1;
-      margin-bottom: 1rem;
-    }
-    .module-card .btn {
-      display: inline-block;
-      background: #1d6e3f;
-      color: white;
-      padding: 0.5rem 1.5rem;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      width: fit-content;
-    }
-
-    @media (max-width: 600px) {
-      .page-header h1 { font-size: 1.5rem; }
-      .section h2 { font-size: 1.15rem; }
-      .section { padding: 1.2rem; }
-    }
-
   </style>
 </head>
 <body>
   <div class="container">
 
+    <!-- ============================================================
+         EN-TÊTE DU MODULE
+         ============================================================ -->
     <div class="page-header">
-      <span class="badge">M104 · 110 h</span>
+      <span class="badge">MODULE M104 · 110 h</span>
       <h1>🌐 Développer des sites web statiques</h1>
       <p class="sous-titre">Créer des sites web modernes avec HTML5 et CSS3 : structure, mise en forme, responsive design.</p>
       <div class="meta-info">
         <span>📅 2025 – 2026</span>
-        <span>🏛️ ISMO</span>
+        <span>🏛️ ISMO · OFPPT</span>
         <span>👨‍🏫 KELLOUCH Mahdi</span>
         <span>🎓 Développement Digital</span>
       </div>
     </div>
 
+    <!-- ============================================================
+         CHAPITRE 4 · ACCÈS RAPIDE AU SOMMAIRE
+         ============================================================ -->
+    <div class="section">
+      <h2>📘 Chapitre 4 · Formulaires HTML5</h2>
+      <p class="section-desc">Accès direct au support complet du chapitre (théorie, activités, exercices, QCM, quiz et projet).</p>
+
+      <div class="chapter-toc">
+        <a class="toc-item" href="supports/Chapitre_4_formulaires.html#section1">
+          <span class="num">1</span> Anatomie d'un formulaire
+        </a>
+        <a class="toc-item" href="supports/Chapitre_4_formulaires.html#section2">
+          <span class="num">2</span> Champs de saisie essentiels
+        </a>
+        <a class="toc-item" href="supports/Chapitre_4_formulaires.html#section3">
+          <span class="num">3</span> Listes, boutons et zones de texte
+        </a>
+        <a class="toc-item" href="supports/Chapitre_4_formulaires.html#section4">
+          <span class="num">4</span> Validation HTML5
+        </a>
+        <a class="toc-item" href="supports/Chapitre_4_formulaires.html#section5">
+          <span class="num">5</span> Structure et accessibilité
+        </a>
+        <a class="toc-item" href="supports/Chapitre_4_formulaires.html#section6">
+          <span class="num">6</span> Exercices pratiques
+        </a>
+        <a class="toc-item" href="supports/Chapitre_4_formulaires.html#qcm">
+          <span class="num gold">📝</span> QCM · 10 questions
+        </a>
+        <a class="toc-item" href="supports/Chapitre_4_formulaires.html#quiz">
+          <span class="num gold">🎮</span> Quiz interactif
+        </a>
+        <a class="toc-item" href="supports/Chapitre_4_formulaires.html#projet">
+          <span class="num gold">🏗️</span> Projet final
+        </a>
+      </div>
+
+      <div style="text-align:center; margin-top:1.5rem;">
+        <a class="back" style="background:#1e3a5f; color:white; border:none; padding:0.7rem 2rem;" href="supports/Chapitre_4_formulaires.html">
+          📖 Ouvrir le support complet du chapitre 4
+        </a>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SUPPORTS DE COURS
+         ============================================================ -->
     <div class="section">
       <h2>📚 Supports de cours</h2>
       <p class="section-desc">Cours, présentations et fiches de révision</p>
-      <p class="empty-section">Aucun contenu pour le moment.</p>
+      <ul>
+        <li>
+          <a class="html" href="supports/Chapitre_4_formulaires.html">Chapitre 4 · Formulaires HTML5</a>
+          <span class="file-size">HTML</span>
+        </li>
+        <li>
+          <a class="pptx" href="supports/Chapitre_4_formulaires.pptx">Présentation · Chapitre 4</a>
+          <span class="file-size">PPTX</span>
+        </li>
+        <li>
+          <a class="pdf" href="supports/chapitre-4-fiche-revision.pdf">Fiche de révision · Chapitre 4</a>
+          <span class="file-size">PDF</span>
+        </li>
+      </ul>
     </div>
 
+    <!-- ============================================================
+         ACTIVITÉS COLLABORATIVES
+         ============================================================ -->
     <div class="section">
       <h2>🤝 Activités collaboratives</h2>
       <p class="section-desc">Activités à réaliser en groupe ou en binôme</p>
-      <p class="empty-section">Aucun contenu pour le moment.</p>
+      <ul>
+        <li><a href="supports/Chapitre_4_formulaires.html#section1_Activité1">Activité 1 · Créer la coquille d'un formulaire</a><span class="file-size">5 min</span></li>
+        <li><a href="supports/Chapitre_4_formulaires.html#section2_Activité2">Activité 2 · Choisir le bon type de champ</a><span class="file-size">5 min</span></li>
+        <li><a href="supports/Chapitre_4_formulaires.html#section3_Activité3">Activité 3 · Radio ou checkbox ?</a><span class="file-size">5 min</span></li>
+        <li><a href="supports/Chapitre_4_formulaires.html#section4_Activité4">Activité 4 · Ajouter la validation</a><span class="file-size">7 min</span></li>
+        <li><a href="supports/Chapitre_4_formulaires.html#section5_Activité5">Activité 5 · Améliorer l'accessibilité</a><span class="file-size">5 min</span></li>
+      </ul>
     </div>
 
+    <!-- ============================================================
+         EXERCICES
+         ============================================================ -->
     <div class="section">
       <h2>✏️ Exercices</h2>
       <p class="section-desc">Exercices pratiques à réaliser</p>
-      <p class="empty-section">Aucun contenu pour le moment.</p>
+      <ul>
+        <li><a href="supports/Chapitre_4_formulaires.html#section6">Exercice 1 · Formulaire de contact</a><span class="file-size">Débutant</span></li>
+        <li><a href="supports/Chapitre_4_formulaires.html#section6">Exercice 2 · Formulaire d'inscription</a><span class="file-size">Intermédiaire</span></li>
+        <li><a href="supports/Chapitre_4_formulaires.html#section6">Exercice 3 · Formulaire de paiement</a><span class="file-size">Avancé</span></li>
+        <li><a href="supports/Chapitre_4_formulaires.html#section6">Exercice 4 · Formulaire de recherche</a><span class="file-size">Intermédiaire</span></li>
+        <li><a href="supports/Chapitre_4_formulaires.html#section6">Exercice 5 · Corriger un formulaire</a><span class="file-size">Avancé</span></li>
+      </ul>
     </div>
 
+    <!-- ============================================================
+         PROJETS
+         ============================================================ -->
     <div class="section">
       <h2>🚀 Projets</h2>
       <p class="section-desc">Mini-projets et projets de synthèse</p>
-      <p class="empty-section">Aucun contenu pour le moment.</p>
+      <ul>
+        <li><a href="supports/Chapitre_4_formulaires.html#projet">Projet final · Formulaire d'inscription complet</a><span class="file-size">Noté /20</span></li>
+      </ul>
+    </div>
+
+    <!-- ============================================================
+         QCM & QUIZ · NOUVELLES SECTIONS
+         ============================================================ -->
+    <div class="section">
+      <h2>📝 QCM · 10 questions</h2>
+      <p class="section-desc">Testez vos connaissances avec la correction complète en fin de section</p>
+      <ul>
+        <li><a class="qcm" href="supports/Chapitre_4_formulaires.html#qcm">QCM complet · 10 questions avec correction</a><span class="file-size">Noté /10</span></li>
+      </ul>
+      <div class="info-box" style="background:#eef4fa; border-left:4px solid #2c5282; border-radius:10px; padding:1rem 1.3rem; margin-top:1rem; font-size:0.9rem;">
+        <strong>🎯 Consigne :</strong> répondez aux 10 questions sans regarder la correction,
+        puis vérifiez vos réponses et notez votre score sur 10.
+      </div>
     </div>
 
     <div class="section">
-      <h2>✅ Corrections</h2>
-      <p class="section-desc">Solutions des exercices (à consulter après avoir essayé)</p>
-      <p class="empty-section">Aucun contenu pour le moment.</p>
+      <h2>🎮 Quiz interactif</h2>
+      <p class="section-desc">Score calculé automatiquement · 10 questions à choix unique</p>
+      <ul>
+        <li><a class="quiz" href="supports/Chapitre_4_formulaires.html#quiz">Quiz interactif · Score automatique</a><span class="file-size">10 pts</span></li>
+      </ul>
+      <div class="info-box" style="background:#eef4fa; border-left:4px solid #2c5282; border-radius:10px; padding:1rem 1.3rem; margin-top:1rem; font-size:0.9rem;">
+        <strong>💡 Astuce :</strong> votre score s'affiche automatiquement à la fin.
+        Chaque bonne réponse vaut <strong>1 point</strong>.
+      </div>
     </div>
 
+    <!-- ============================================================
+         CORRECTIONS
+         ============================================================ -->
+    <div class="section">
+      <h2>✅ Corrections</h2>
+      <p class="section-desc">Solutions des exercices (à consulter après avoir essayé)</p>
+      <ul>
+        <li><a class="pdf" href="corrections/chapitre-4-corrige.pdf">Corrigé complet · Chapitre 4</a><span class="file-size">PDF</span></li>
+        <li><a class="zip" href="corrections/chapitre-4-code-source.zip">Code source · Formulaire d'inscription</a><span class="file-size">ZIP</span></li>
+      </ul>
+    </div>
+
+    <!-- ============================================================
+         ÉVALUATIONS
+         ============================================================ -->
     <div class="section">
       <h2>📝 Évaluations</h2>
       <p class="section-desc">Contrôles continus, EFM et corrigés</p>
       <p class="empty-section">Aucun contenu pour le moment.</p>
     </div>
+
     <a href="../" class="back">← Retour à l'accueil</a>
   </div>
 
+  <!-- ============================================================
+       PIED DE PAGE
+       ============================================================ -->
   <footer>
     <p>
       <strong>OFPPT</strong> · ISMO<br>
-      Créé par <strong>KELLOUCH Mahdi</strong> · Formateur en Développement Digital<br>
-      Année de formation 2025 – 2026
+      Support pédagogique créé par <strong>KELLOUCH Mahdi</strong> · Année 2025 – 2026
     </p>
     <p style="margin-top: 0.5rem;">
-      <a href="https://github.com/ismO-ofppt/ressources-dev-digital">📂 Code source sur GitHub</a>
+      Module M104 · Développement Digital · Chapitre 4
     </p>
   </footer>
 </body>
